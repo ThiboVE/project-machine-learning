@@ -1,0 +1,25 @@
+{
+  "name": "code-devcontainer",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "settings": {
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+
+  "workspaceFolder": "/workspace/code",
+  "mounts": [
+    "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached"
+  ],
+
+  "extensions": [
+    "ms-python.python",
+    "ms-toolsai.jupyter",
+    "ms-python.vscode-pylance"
+  ],
+
+  "postCreateCommand": "pip install --upgrade pip",
+  "remoteUser": "root"
+}
