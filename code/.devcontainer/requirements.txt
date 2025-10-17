@@ -4,3 +4,5 @@ pandas
 ipykernel
 scikit-learn
 torch
+rdkit
+torch-geometric
