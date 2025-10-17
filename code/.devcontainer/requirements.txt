@@ -4,3 +4,4 @@ pandas
 ipykernel
 scikit-learn
 torch
+rdkit
