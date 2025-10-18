@@ -1,0 +1,6 @@
+✅ Normalize the targets (HOMO-LUMO gap values) before training (mean/std normalization).
+✅ Split data carefully — use a random or scaffold split to avoid data leakage.
+✅ Scale descriptors if using linear models.
+✅ Evaluate with RMSE or MAE (mean absolute error).
+✅ Watch for correlation between HOMO, LUMO, and gap — they’re related but not identical.
+✅ Visualize distributions — helps understand outliers and chemical space coverage.

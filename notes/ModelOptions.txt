@@ -1,0 +1,9 @@
+Option1: Graph based systems
+        -> Use the built in graph features (x, edge-index) from QM9
+        -> GCN, GIN, MPNN
+        -> Don't need the SMILES representation for this
+Option2: Descriptoe-based models (simpler to start with)
+        -> Extract SMILES strings from the QM9 data systems
+        -> Use RDKit to compute molecular descriptors or fingerprints
+        -> These can be fed into a simple ML model (Random Forest, XGBoost, etc.)
+        -> Leads to good baseline results with easier models
