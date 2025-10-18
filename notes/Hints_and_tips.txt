@@ -4,3 +4,55 @@
 ✅ Evaluate with RMSE or MAE (mean absolute error).
 ✅ Watch for correlation between HOMO, LUMO, and gap — they’re related but not identical.
 ✅ Visualize distributions — helps understand outliers and chemical space coverage.
+
+DataSet feautres:
+--molecule.smiles
+ => get the SMILES representation of the molecule
+--molecule.x
+ => has for each atom a array of 11 features
+    ->0-4 atom type: (H,C,N,O,F): so C would be [0,1,0,0,0]
+    ->5 is the atomnumber
+    ->6-9 ???
+    ->10 like amount of hydrogen bounds
+
+--molecule.y
+ => contains the information like the HOMO and LUMO and gap 
+    ->  0: mu
+        1: alpha
+        2: HOMO
+        3: LUMO
+        4: gap (eV)
+        5: r2
+        6: zpve
+        7: u0
+        8: u298
+        9: h298
+        10: g298
+        11: cv
+        12: u0_atom
+        13: u298_atom
+        14: h298_atom
+        15: g298_atom
+        16: A
+        17: B
+        18: C
+    
+--molecule.z
+ => has the atom numbers in an array
+
+--molecule.pos
+ => the positions of all the atoms in an tensor with 3 columns
+
+--molecule.idx
+ => get the index of the atom in the dataset
+
+--molecule.edge_index
+ => This feature tells us which bonds there are between the atoms. It is a tensor in which there are two arrays, the bonds can be seen as links between the elements with the same index in both arrays. Each bond is presented twice. Example O2 would be presented as [[0,1], [1,0]]. 
+
+-- molecule.edge_attr
+ => in edge_index we got which atoms are bonded, here we get which kind of bond it is. So the same index is followex as in edge_index. 
+    ->  [1, 0, 0, 0]    single bond
+        [0, 1, 0, 0]    double bond   
+        [0, 0, 1, 0]    triple bond   
+        [0, 0, 0, 1]    aromatic bond 
+
