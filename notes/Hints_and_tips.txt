@@ -5,14 +5,14 @@
 ✅ Watch for correlation between HOMO, LUMO, and gap — they’re related but not identical.
 ✅ Visualize distributions — helps understand outliers and chemical space coverage.
 
-DataSet feautres:
+DataSet features:
 --molecule.smiles
  => get the SMILES representation of the molecule
 --molecule.x
  => has for each atom a array of 11 features
     ->0-4 atom type: (H,C,N,O,F): so C would be [0,1,0,0,0]
     ->5 is the atomnumber
-    ->6-9 ???
+    ->6-9 ??? no idea, it seems always to be zeros
     ->10 like amount of hydrogen bounds
 
 --molecule.y

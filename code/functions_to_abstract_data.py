@@ -23,19 +23,20 @@ def extract_qm9_data(dataset, n_samples=None):
         
         # Some QM9 versions store SMILES differently
         smiles = getattr(mol, "smiles", None)
-        
-        # Each molecule has a y tensor with 12 quantum properties
-        # indices vary slightly by dataset version, but typically:
-        # 7 = HOMO, 8 = LUMO, 9 = gap
+      
         y = mol.y.squeeze().tolist()
         
         row = {
             "index": i,
             "smiles": smiles,
             "num_atoms": mol.x.shape[0],
-            "HOMO": y[7],
-            "LUMO": y[8],
-            "gap": y[9],
+            "HOMO": y[2],
+            "LUMO": y[3],
+            "gap": y[4],
+            "atoms":mol.z,
+            "pos": mol.pos,
+            "edge_idx": mol.edge_index,
+            "edge_attr": mol.edge_attr
         }
         rows.append(row)
         
