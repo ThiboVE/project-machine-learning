@@ -56,8 +56,8 @@ def extract_qm9_data(dataset, n_samples=None):
         }
         rows.append(row)
         
-        # Optional: print progress every 1000 molecules
-        if (i + 1) % 1000 == 0:
-            print(f"Processed {i + 1}/{total} molecules...")
+        # # Optional: print progress every 1000 molecules
+        # if (i + 1) % 1000 == 0:
+        #     print(f"Processed {i + 1}/{total} molecules...")
     
     return pd.DataFrame(rows)
