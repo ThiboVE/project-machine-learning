@@ -20,6 +20,6 @@
     "ms-python.vscode-pylance"
   ],
 
-  "postCreateCommand": "pip install --upgrade pip",
+  "postCreateCommand": "pip install --upgrade pip && apt-get update && apt-get install -y libxrender1 libxext6 libsm6",
   "remoteUser": "root"
 }
