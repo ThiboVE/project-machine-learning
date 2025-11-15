@@ -7,3 +7,4 @@ torch
 rdkit
 torch-geometric
 lightgbm
+seaborn
