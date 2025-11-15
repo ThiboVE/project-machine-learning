@@ -6,4 +6,5 @@ scikit-learn
 torch
 rdkit
 torch-geometric
+lightgbm
 seaborn
