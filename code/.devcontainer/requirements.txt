@@ -1,8 +1,10 @@
-numpy 
-matplotlib 
-pandas 
-ipykernel 
-scikit-learn 
-torch 
-rdkit 
+numpy
+matplotlib
+pandas
+ipykernel
+scikit-learn
+torch
+rdkit
 torch-geometric
+lightgbm
+seaborn
