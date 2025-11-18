@@ -57,12 +57,28 @@ class Graph:
 
         # Iterate over atoms and add to node matrix
         for atom in atoms:
-            # Get atom index and atomic number
+            features = []
+            # Get atom index
             atom_index = atom.GetIdx()
+            # Add various features
+            for _ in range(10):
+                features.append(0)
             atom_no = atom.GetAtomicNum()
+            features[atom_no] = 1
+            
+            features.append(atom.GetFormalCharge())
+            features.append(int(atom.GetIsAromatic()))
+            features.append(int(atom.IsInRing()))
+            hyb = atom.GetHybridization()
+            hyb_onehot = [
+                int(hyb == Chem.rdchem.HybridizationType.SP),
+                int(hyb == Chem.rdchem.HybridizationType.SP2),
+                int(hyb == Chem.rdchem.HybridizationType.SP3),
+            ]
+            features.extend(hyb_onehot)
 
             # Assign to node matrix
-            node_mat[atom_index, atom_no] = 1
+            node_mat[atom_index, :len(features)] = np.array(features, dtype=float)
 
         # Get adjacency matrix using RDKit
         adj_mat = rdmolops.GetAdjacencyMatrix(self.mol)
