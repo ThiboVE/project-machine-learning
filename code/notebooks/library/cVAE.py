@@ -4,7 +4,7 @@ import torch.nn as nn
 import random
 import torch
 
-from notebooks.library.GCN import ConvolutionLayer, PoolingLayer
+from library.GCN import ConvolutionLayer, PoolingLayer
 
 class cVAE(nn.Module):
     def __init__(self, encoder, decoder, device,
@@ -64,7 +64,7 @@ class cVAE(nn.Module):
         outputs[:,0,2] = 1
 
         # Initialize hidden state (zeros)
-        hidden = torch.zeros(self.decoder.n_layers, batch_size, self.decoder.gru_size).to(device)
+        hidden = torch.zeros(self.decoder.n_layers, batch_size, self.decoder.hidden_size).to(device)
 
         for t in range(1, target_len):
             output, hidden = self.decoder(input_token, z, y, hidden)
@@ -201,7 +201,7 @@ class GRU_Decoder(nn.Module):
     def __init__(self, vocab_size, latent_dim, property_dim, hidden_size, n_layers, embedding_dim):
         super(GRU_Decoder, self).__init__()
         self.vocab_size = vocab_size # number of characters that can be found in a SMILES string
-        self.latent_dim = latent_dim # size of the latent latent space
+        self.latent_dim = latent_dim # size of the latent space
         self.property_dim = property_dim # number of properties that serve as conditions (shape of condition vector)
 
         self.hidden_size = hidden_size
