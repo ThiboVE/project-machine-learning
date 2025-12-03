@@ -98,6 +98,9 @@ class cVAE(nn.Module):
 
         return recon_x
     
+    def sample(self, latent_vector, c, start_codon, seq_length):
+        pass
+    
 
 class GCN_Encoder(nn.Module):
 
