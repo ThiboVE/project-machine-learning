@@ -64,7 +64,7 @@ class cVAE(nn.Module):
         outputs[:,0,2] = 1
 
         # Initialize hidden state (zeros)
-        hidden = torch.zeros(self.decoder.n_layers, batch_size, self.decoder.hidden_size).to(device)
+        hidden = torch.zeros(self.decoder.n_gru_layers, batch_size, self.decoder.hidden_size).to(device)
 
         for t in range(1, target_len):
             output, hidden = self.decoder(input_token, z, y, hidden)
@@ -201,24 +201,41 @@ class GCN_Encoder(nn.Module):
     
 
 class GRU_Decoder(nn.Module):
-    def __init__(self, vocab_size, latent_dim, property_dim, hidden_size, n_layers, embedding_dim):
+    def __init__(
+        self,
+        vocab_size,
+        embedding_dim,
+        latent_dim,
+        hidden_size,
+        n_gru_layers,
+        n_fc_layers
+        ):
+
         super(GRU_Decoder, self).__init__()
         self.vocab_size = vocab_size # number of characters that can be found in a SMILES string
         self.latent_dim = latent_dim # size of the latent space
-        self.property_dim = property_dim # number of properties that serve as conditions (shape of condition vector)
+        self.property_dim = 1 # number of properties that serve as conditions (shape of condition vector)
 
         self.hidden_size = hidden_size
-        self.n_layers = n_layers
+        self.n_gru_layers = n_gru_layers
+        self.n_fc_layers = n_fc_layers
         self.embedding_dim = embedding_dim
 
         # Embedding layer for input tokens
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
 
         # GRU input size: token embedding + latent vector + property
-        self.gru = nn.GRU(embedding_dim + latent_dim + property_dim, hidden_size, n_layers, batch_first=True)
+        self.gru = nn.GRU(embedding_dim + latent_dim + self.property_dim, hidden_size, n_gru_layers, batch_first=True)
+
+        fc_layers = []
+        for _ in range(n_fc_layers):
+            fc_layers.append(nn.Linear(hidden_size, hidden_size))
+            fc_layers.append(nn.ReLU())
+
+        self.fc_stack = nn.Sequential(*fc_layers)
 
         # Output layer: project GRU hidden state to vocab size
-        self.fc = nn.Linear(hidden_size, vocab_size)
+        self.fc_out = nn.Linear(hidden_size, vocab_size)
 
     def forward(self, input_token, z, y, hidden):
         """
@@ -234,9 +251,13 @@ class GRU_Decoder(nn.Module):
         decoder_input = torch.cat([token_embed, z, y], dim=1).unsqueeze(1)  # [batch, 1, embed+latent+property]
 
         # GRU forward
-        output, hidden = self.gru(decoder_input, hidden)  # output: [batch, 1, hidden_size]
+        gru_out, hidden = self.gru(decoder_input, hidden)  # output: [batch, 1, hidden_size]
+
+        h = gru_out.squeeze(1)
+
+        h = self.fc_stack(h)
 
         # Project to vocab
-        output = self.fc(output.squeeze(1))  # [batch, vocab_size]
+        output = self.fc_out(h.squeeze(1))  # [batch, vocab_size]
 
         return output, hidden
