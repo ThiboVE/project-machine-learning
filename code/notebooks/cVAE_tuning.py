@@ -24,14 +24,14 @@ PARAMS = {
         # High importance
         'learning_rate': {'type': 'float', 'low': 1e-4, 'high': 1e-1, 'log': True},
         'latent_dim': {'type': 'int', 'low': 8, 'high': 64},
-        'n_hidden': {'type': 'int', 'low': 16, 'high': 128},
+        'n_hidden': {'type': 'int', 'low': 16, 'high': 96},
         'gru_dim': {'type': 'int', 'low': 8, 'high': 64},
         # Medium
         'n_conv_layers': {'type': 'int', 'low': 1, 'high': 4},
         'n_hidden_layers': {'type': 'int', 'low': 1, 'high': 3},
         'n_gru_layers': {'type': 'int', 'low': 1, 'high': 3},
-        'n_fc_layers': {'type': 'int', 'low': 2, 'high': 4},
-        'embedding_dim': {'type': 'int', 'low': 4, 'high': 32},
+        'n_fc_layers': {'type': 'int', 'low': 2, 'high': 3},
+        'embedding_dim': {'type': 'int', 'low': 8, 'high': 24},
         # Low
         # 'batch_size': {'type': 'int', 'low': 100, 'high': 2000},
         'n_epochs': {'type': 'int', 'low': 3, 'high': 15},  # Low for inner, full for final
@@ -412,7 +412,7 @@ def inner_cv_objective(trial, outer_train_dataset):
         model, trial_params, lr = create_model(trial)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
         
-        inner_epochs = trial.suggest_int('n_epochs', 3, 5)
+        inner_epochs = trial_params['n_epochs']
         for epoch in range(inner_epochs):
             train_model(
                 epoch, model, train_loader, optimizer,
