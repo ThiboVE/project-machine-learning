@@ -7,8 +7,9 @@ from pathlib import Path
 import torch.nn as nn
 import pandas as pd
 import numpy as np
-import torch
 import optuna
+import torch
+import json
 
 # Fixed params
 FIXED_PARAMS = {
@@ -24,7 +25,7 @@ PARAMS = {
         # High importance
         'learning_rate': {'type': 'float', 'low': 1e-4, 'high': 1e-1, 'log': True},
         'latent_dim': {'type': 'int', 'low': 8, 'high': 64},
-        'n_hidden': {'type': 'int', 'low': 16, 'high': 96},
+        'n_hidden': {'type': 'int', 'low': 32, 'high': 96},
         'gru_dim': {'type': 'int', 'low': 8, 'high': 64},
         # Medium
         'n_conv_layers': {'type': 'int', 'low': 1, 'high': 4},
@@ -458,6 +459,17 @@ def run_tuning_per_fold(outer_train_dataset):
 
     return best_params
 
+def load_fold_file(fold: int):
+    main_path = Path.cwd().parents[0]
+    data_path = main_path / "data" / "cvae_folds"
+
+    fold_file = data_path / f'fold_{fold}_data.json'
+
+    with open(fold_file, 'r') as f:
+        fold_data = json.load(f)
+
+    return fold_data
+
 
 def main():
     # Load in the dataset
@@ -465,7 +477,6 @@ def main():
     data_path = main_path / "data" / "RDKit" / "rdkit_only_valid_smiles_qm9.pkl"
     dataset = GraphData(dataset_path=data_path, max_atoms=FIXED_PARAMS['max_atoms'], node_vec_len=FIXED_PARAMS['node_vec_len'])
 
-    gaps: list[float] = dataset.outputs
     smiles_list: list[str] = dataset.smiles
 
     vocab_list, _ = get_vocab(smiles_list)
@@ -477,47 +488,44 @@ def main():
 
     dataset_indices = np.arange(0, len(dataset), 1)
 
-    outer_binned_gaps = make_stratified_bins(gaps)
+    fold_data = load_fold_file(0)
 
-    n_outer_folds = 2
-    outer_cv = StratifiedKFold(n_splits=n_outer_folds, shuffle=True, random_state=42)
+    outer_train_idx = fold_data['train_indices']
+    outer_test_idx = fold_data['test_indices']
 
-    for fold, (outer_train_idx, outer_test_idx) in enumerate(outer_cv.split(dataset_indices, outer_binned_gaps)):
-        print(f"\n=== OUTER FOLD {fold+1}/{n_outer_folds} ===")
+    outer_train_indices = np.array(dataset_indices)[outer_train_idx].tolist()
+    outer_test_indices = np.array(dataset_indices)[outer_test_idx].tolist()
+    outer_train_dataset = Subset(dataset, outer_train_indices)
 
-        outer_train_indices = np.array(dataset_indices)[outer_train_idx].tolist()
-        outer_test_indices = np.array(dataset_indices)[outer_test_idx].tolist()
-        outer_train_dataset = Subset(dataset, outer_train_indices)
+    best_params = run_tuning_per_fold(outer_train_dataset)
 
-        best_params = run_tuning_per_fold(outer_train_dataset)
+    # Final train on full outer_train
+    print("  Final Training on Outer Train...")
+    batch_size = best_params['batch_size']
+    n_epochs = best_params['n_epochs']
 
-        # Final train on full outer_train
-        print("  Final Training on Outer Train...")
-        batch_size = best_params['batch_size']
-        n_epochs = best_params['n_epochs']
-        train_loader = get_dataloader(dataset, outer_train_indices, batch_size)
-        test_loader = get_dataloader(dataset, outer_test_indices, batch_size)
-        
-        model, _, lr = create_model(params=best_params)
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-        
-        for epoch in range(n_epochs):
-            train_model(
-                epoch, model, train_loader, optimizer,
-                lambda m, l, t, b: loss_function(m, l, t, b, beta=best_params['beta']),
-                FIXED_PARAMS['use_GPU'], FIXED_PARAMS['max_atoms'], FIXED_PARAMS['node_vec_len']
-            )
-        
-        # Outer eval
-        print("  Evaluating on Outer Test...")
-        test_loss, test_acc = test_model(
-            model, test_loader,
+    train_loader = get_dataloader(dataset, outer_train_indices, batch_size)
+    test_loader = get_dataloader(dataset, outer_test_indices, batch_size)
+    
+    model, _, lr = create_model(params=best_params)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    
+    for epoch in range(n_epochs):
+        train_model(
+            epoch, model, train_loader, optimizer,
             lambda m, l, t, b: loss_function(m, l, t, b, beta=best_params['beta']),
             FIXED_PARAMS['use_GPU'], FIXED_PARAMS['max_atoms'], FIXED_PARAMS['node_vec_len']
         )
-        
-        print(f"  Outer Test Loss: {test_loss:.4f}, Acc: {test_acc:.4f}")
-        print(test_loss, test_acc, best_params)
+    
+    print("  Evaluating on Outer Test...")
+    test_loss, test_acc = test_model(
+        model, test_loader,
+        lambda m, l, t, b: loss_function(m, l, t, b, beta=best_params['beta']),
+        FIXED_PARAMS['use_GPU'], FIXED_PARAMS['max_atoms'], FIXED_PARAMS['node_vec_len']
+    )
+    
+    print(f"  Outer Test Loss: {test_loss:.4f}, Acc: {test_acc:.4f}")
+    print(test_loss, test_acc, best_params)
 
 if __name__ == "__main__":
     main()
