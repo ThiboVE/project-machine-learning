@@ -1,4 +1,4 @@
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, KFold
 from library.GCN import GraphData
 from pathlib import Path
 import numpy as np
@@ -27,6 +27,35 @@ def get_vocab(smiles_list):
 def make_stratified_bins(y, n_bins=10):
     return pd.qcut(y, q=n_bins, labels=False, duplicates="drop")
 
+def stratified_partition(dataset_indices, gaps, n_outer_folds):
+    outer_binned_gaps = make_stratified_bins(gaps)
+
+    outer_cv = StratifiedKFold(n_splits=n_outer_folds, shuffle=True, random_state=SEED)
+
+    return outer_cv.split(dataset_indices, outer_binned_gaps)
+
+def random_partition(dataset_indices, n_outer_folds):
+    outer_cv = KFold(n_splits=n_outer_folds, shuffle=True, random_state=SEED)
+
+    return outer_cv.split(dataset_indices)
+
+
+def save_folds(outer_cv_split, output_dir, vocab_size, fold_type):
+    for fold, (train_idx, test_idx) in enumerate(outer_cv_split):
+        fold_data = {
+            'fold_id': fold,
+            'train_indices': train_idx.tolist(),  # Global indices for Subset
+            'test_indices': test_idx.tolist(),
+            'n_samples_train': len(train_idx),
+            'n_samples_test': len(test_idx),
+            'vocab_size': vocab_size  # For consistency
+        }
+        fold_file = output_dir / f'fold_{fold}_{fold_type}_data.json'
+        with open(fold_file, 'w') as f:
+            json.dump(fold_data, f)
+        print(f"Saved fold {fold} to {fold_file}")
+
+
 def main():
     # Load dataset
     main_path = Path.cwd().parents[0]
@@ -47,19 +76,11 @@ def main():
     output_dir = Path('../data/cvae_folds')
     output_dir.mkdir(exist_ok=True)
 
-    for fold, (train_idx, test_idx) in enumerate(outer_cv.split(dataset_indices, outer_binned_gaps)):
-        fold_data = {
-            'fold_id': fold,
-            'train_indices': train_idx.tolist(),  # Global indices for Subset
-            'test_indices': test_idx.tolist(),
-            'n_samples_train': len(train_idx),
-            'n_samples_test': len(test_idx),
-            'vocab_size': vocab_size  # For consistency
-        }
-        fold_file = output_dir / f'fold_{fold}_data.json'
-        with open(fold_file, 'w') as f:
-            json.dump(fold_data, f)
-        print(f"Saved fold {fold} to {fold_file}")
+    binned_split = stratified_partition(dataset_indices, gaps, n_outer_folds)
+    random_split = random_partition(dataset_indices, n_outer_folds)
+
+    save_folds(binned_split, output_dir, vocab_size, 'stratified')
+    save_folds(random_split, output_dir, vocab_size, 'random')
 
 if __name__ == "__main__":
     main()

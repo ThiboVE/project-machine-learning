@@ -459,11 +459,11 @@ def run_tuning_per_fold(outer_train_dataset):
 
     return best_params
 
-def load_fold_file(fold: int):
+def load_fold_file(fold: int, fold_type: str):
     main_path = Path.cwd().parents[0]
     data_path = main_path / "data" / "cvae_folds"
 
-    fold_file = data_path / f'fold_{fold}_data.json'
+    fold_file = data_path / f'fold_{fold}_{fold_type}_data.json'
 
     with open(fold_file, 'r') as f:
         fold_data = json.load(f)
@@ -488,7 +488,7 @@ def main():
 
     dataset_indices = np.arange(0, len(dataset), 1)
 
-    fold_data = load_fold_file(0)
+    fold_data = load_fold_file(0, 'random')
 
     outer_train_idx = fold_data['train_indices']
     outer_test_idx = fold_data['test_indices']
