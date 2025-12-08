@@ -6,6 +6,7 @@
 import numpy as np
 import torch
 from library.GCN import *
+from library.general_functions import *
 from pathlib import Path
 from torch.utils.data import DataLoader,SubsetRandomSampler
 from sklearn.model_selection import StratifiedKFold
@@ -38,7 +39,7 @@ param_grid = {
 }
 
 params_list = [x for x in get_param_combinations(param_grid)]
-params = params_list[array_id]
+params = params_list[params_idx]
 
 
 
@@ -52,12 +53,12 @@ max_atoms = 30 # fixed value
 node_vec_len = 16 # fixed value
 n_epochs = 30
 
-data_path = "/data/gent/488/vsc48887/results/rdkit_only_valid_smiles_qm9.pkl"
+data_path = "/data/gent/vo/000/gvo00004/vsc48887/machine_learning/results/rdkit_only_valid_smiles_qm9.pkl"
 dataset = GraphData(dataset_path=data_path, max_atoms=max_atoms, 
                         node_vec_len=node_vec_len)
 dataset_indices = np.arange(0, len(dataset), 1)
 
-y = np.array([dataset[i][1] for i in range(len(dataset))])
+y = np.array([float(dataset[i][1]) for i in range(len(dataset))])
 
 num_bins = 10
 gap_bins_outer = pd.qcut(y, q=num_bins, labels=False)
@@ -76,7 +77,7 @@ outer_fold_splits = [x for x in temp]
 train_val_idx = outer_fold_splits[outer_fold_idx][0]
 # test_idx = outer_fold_splits[outer_fold_idx][1]
 
-inner_fold_mae = []
+inner_folds_mae = []
 
 y_train_val = gap_bins_outer[train_val_idx]
 
@@ -114,7 +115,7 @@ for inner_fold, (inner_train_idx, inner_val_idx) in enumerate(inner_cv.split(tra
         model.cuda()
 
     # Standardizer from training fold only
-    outputs = [dataset[i][1] for i in train_idx]
+    outputs = [float(dataset[i][1]) for i in train_idx]
     standardizer = Standardizer(torch.Tensor(outputs))
 
     optimizer = torch.optim.Adam(model.parameters(), lr=params["learning_rate"])
@@ -132,13 +133,13 @@ for inner_fold, (inner_train_idx, inner_val_idx) in enumerate(inner_cv.split(tra
         model, val_loader, loss_fn, standardizer,
         use_GPU, max_atoms, node_vec_len
     )
-    inner_fold_mae.append(val_mae)
+    inner_folds_mae.append(val_mae)
     
 
 
 
 # Define output directory and ensure it exists
-output_dir = f'/data/gent/488/vsc48887/results/GCN_model'
+output_dir = f'/data/gent/vo/000/gvo00004/vsc48887/machine_learning/results/GCN_model_inner'
 os.makedirs(output_dir, exist_ok=True)
 
 # Define output filename
@@ -153,8 +154,8 @@ output_data = {
     "n_conv_layers": params["n_conv_layers"],
     "n_hidden_layers": params["n_hidden_layers"],
     "learning_rate": params['learning_rate'],
-    'inner_fold_mea_list': inner_fold_mae,
-    'params_mean_mae': np.mean(inner_fold_mae)
+    'inner_fold_mea_list': inner_folds_mae,
+    'params_mean_mae': np.mean(inner_folds_mae)
 }
 
 # Save to file as JSON

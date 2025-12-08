@@ -8,10 +8,10 @@
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
-cd $VSC_DATA
+cd $VSC_DATA_VO_USER
 
 module load Python/3.12.3
 
-source gcn_env/bin/activate
+source venvs/gcn_env/bin/activate
 
-python Python/GCN_inner_folds_performance.py $PBS_ARRAYID
+python machine_learning/Python/GCN_inner_folds_performance.py $PBS_ARRAYID
