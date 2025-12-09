@@ -24,8 +24,8 @@ df = json_folder_to_dataframe(input_dir,single_dict=True)
 
 df_outer_fold = df[df['outer_fold_idx']==outer_fold_idx]
 
-params_mean_mea = list(df_outer_fold['params_mean_mea'])
-params_lowest_mean_idx = params_mean_mea.index(min(params_mean_mea))
+params_mean_mae = list(df_outer_fold['params_mean_mae'])
+params_lowest_mean_idx = params_mean_mae.index(min(params_mean_mae))
 
 best_batch_size = list(df_outer_fold['batch_size'])[params_lowest_mean_idx]
 best_hidden_nodes = list(df_outer_fold['hidden_nodes'])[params_lowest_mean_idx]
@@ -36,7 +36,7 @@ best_learning_rate = list(df_outer_fold['learning_rate'])[params_lowest_mean_idx
 # Inputs
 max_atoms = 30 # fixed value
 node_vec_len = 16 # fixed value
-n_epochs = 30
+n_epochs = 50
 use_GPU = False
 
 # Get dataset and outer fold indices (make sure seeds align with the inner folds code)
@@ -97,11 +97,16 @@ standardizer = Standardizer(torch.Tensor(outputs))
 optimizer = torch.optim.Adam(model.parameters(), lr=best_learning_rate)
 loss_fn = torch.nn.L1Loss()
 
+train_losses = []
+train_maes = []
+
 for epoch in range(n_epochs):
-    train_model(
+    train_loss, train_mae = train_model(
         epoch, model, full_train_loader, optimizer, loss_fn,
         standardizer, use_GPU, max_atoms, node_vec_len
     )
+    train_losses.append(train_loss)
+    train_maes.append(train_mae)
 
 # Test the outer fold
 test_loss, test_mae = test_model(
@@ -126,7 +131,9 @@ output_data = {
     "n_hidden_layers": best_n_hidden_layers,
     "learning_rate": best_learning_rate,
     'test_loss': test_loss,
-    'test_mae': test_mae
+    'test_mae': test_mae,
+    'train_losses': train_losses,
+    'train_maes': train_maes
 }
 
 # Save to file as JSON

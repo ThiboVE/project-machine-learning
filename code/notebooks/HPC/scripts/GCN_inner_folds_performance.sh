@@ -2,8 +2,8 @@
 
 #SBATCH --ntasks=1 --cpus-per-task=1
 #SBATCH --mem-per-cpu=10GB
-#SBATCH --time 6:00:00
-#SBATCH --array=0-1214
+#SBATCH --time 10:00:00
+#SBATCH --array=0-404
 #SBATCH --mail-user=yarno.dejaeger@ugent.be
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END

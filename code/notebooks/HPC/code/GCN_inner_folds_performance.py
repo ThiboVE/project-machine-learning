@@ -1,7 +1,7 @@
 # This code saves the performance (mean error) of all inner folds, for a specific set of hyperparameters
 # Each job on the HPC will submit a different hyperparameter set
 
-# Max number of jobs = len(params_combinations) * num_outer_folds - 1 = 243 * 5 - 1 = 1214
+# Max number of jobs = len(params_combinations) * num_outer_folds - 1 = 81 * 5 - 1 = 404
 
 import numpy as np
 import torch
@@ -17,8 +17,8 @@ import json
 job_id = int(os.environ.get("SLURM_JOB_ID"))
 array_id = int(os.environ.get("PBS_ARRAYID"))
 
-outer_fold_idx = array_id//243
-params_idx = array_id%243
+outer_fold_idx = array_id//81
+params_idx = array_id%81
 
 def get_param_combinations(param_grid):
     keys = param_grid.keys()
@@ -31,11 +31,11 @@ outer_results = []     # Test MAE per outer fold
 best_hyperparams = []  # Best params per fold
 
 param_grid = {
-    "batch_size": [256, 512, 1024],
-    "hidden_nodes": [16, 32, 64],
-    "n_conv_layers": [1, 2, 3],
-    "n_hidden_layers": [1, 2, 3],
-    "learning_rate": [0.001, 0.005, 0.01]
+    "batch_size": [128, 256, 384],
+    "hidden_nodes": [64,96,128],
+    "n_conv_layers": [3, 4, 5],
+    "n_hidden_layers": [2],
+    "learning_rate": [0.003, 0.005, 0.007]
 }
 
 params_list = [x for x in get_param_combinations(param_grid)]
@@ -51,7 +51,7 @@ use_GPU = False
 # Inputs
 max_atoms = 30 # fixed value
 node_vec_len = 16 # fixed value
-n_epochs = 30
+n_epochs = 50
 
 data_path = "/data/gent/vo/000/gvo00004/vsc48887/machine_learning/results/rdkit_only_valid_smiles_qm9.pkl"
 dataset = GraphData(dataset_path=data_path, max_atoms=max_atoms, 
