@@ -1,14 +1,15 @@
 # Fdb version 4
-["bibtex report_ML"] 1765036694 "report_ML.aux" "report_ML.bbl" "report_ML" 1765036703 0
-  "./References.bib" 1765036026 291 a7509bbb36cfcbde4b30361b6c0f3705 ""
+["bibtex report_ML"] 1765288384 "report_ML.aux" "report_ML.bbl" "report_ML" 1765288390 0
+  "./References.bib" 1765285096 4204 e76e2a05a7a90c0da317774db244e739 ""
   "C:/Users/matti/miktex/bibtex/bst/achemso/achemso.bst" 1738227013 30297 9d03984808ea2868ccba06e93339b5fe ""
-  "report_ML.aux" 1765036701 4202 7497d43a846e8dd182e5a3aa6478452b "pdflatex"
+  "report_ML.aux" 1765288389 5274 9f6b58c8546a1b17fe0ee2c1f153ca26 "pdflatex"
   (generated)
   "report_ML.bbl"
   "report_ML.blg"
   (rewritten before read)
-["pdflatex"] 1765036695 "c:/Users/matti/OneDrive/Bureaublad/project-machine-learning/report/report_ML.tex" "report_ML.pdf" "report_ML" 1765036703 0
-  "C:/Users/matti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1752247962 159065 35bae3f492ffb71aa2eb81fcc37d56be ""
+["pdflatex"] 1765288384 "c:/Users/matti/OneDrive/Bureaublad/project-machine-learning/report/report_ML.tex" "report_ML.pdf" "report_ML" 1765288390 0
+  "../pics/bandgap_distribution_dataset.png" 1765288303 378432 350e70e99d692f87406374c459bb0239 ""
+  "C:/Users/matti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1765285361 159065 35bae3f492ffb71aa2eb81fcc37d56be ""
   "C:/Users/matti/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1095.pk" 1700914571 12668 310dafe277987ac9ee9b0ff46d6d3f4f ""
   "C:/Users/matti/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1698329756 24164445 1bcf8c1fbd826bd13ddb4e1651505fa0 ""
   "C:/Users/matti/miktex/fonts/tfm/jknappen/ec/tcrm1095.tfm" 993062508 1460 8005ce585ff351dff78998923504da5e ""
@@ -28,6 +29,7 @@
   "C:/Users/matti/miktex/fonts/tfm/public/cm/cmsy10.tfm" 1136765053 1124 6c73e740cf17375f03eec0ee63599741 ""
   "C:/Users/matti/miktex/fonts/tfm/public/cm/cmsy6.tfm" 1136765053 1116 933a60c408fc0a863a92debe84b2d294 ""
   "C:/Users/matti/miktex/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
+  "C:/Users/matti/miktex/fonts/tfm/public/cm/cmti10.tfm" 1136765053 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
   "C:/Users/matti/miktex/fonts/tfm/public/cm/cmtt10.tfm" 1136765053 768 1321e9409b4137d6fb428ac9dc956269 ""
   "C:/Users/matti/miktex/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1247596666 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "C:/Users/matti/miktex/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
@@ -36,6 +38,7 @@
   "C:/Users/matti/miktex/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1247596667 32726 39f0f9e62e84beb801509898a605dbd5 ""
   "C:/Users/matti/miktex/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "C:/Users/matti/miktex/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1247596667 32626 5abc8bb2f28aa647d4c70f8ea38cc0d3 ""
+  "C:/Users/matti/miktex/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1247596667 37944 359e864bd06cde3b1cf57bb20757fb06 ""
   "C:/Users/matti/miktex/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1247596667 31099 342ef5a582aacbd3346f3cf4579679fa ""
   "C:/Users/matti/miktex/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "C:/Users/matti/miktex/tex/generic/atbegshi/atbegshi.sty" 1575571100 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
@@ -272,10 +275,10 @@
   "C:/Users/matti/miktex/tex/latex/wrapfig/wrapfig.sty" 1044403200 26220 3701aebf80ccdef248c0c20dd062fea9 ""
   "C:/Users/matti/miktex/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
   "C:/Users/matti/miktex/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/matti/OneDrive/Bureaublad/project-machine-learning/report/report_ML.tex" 1765036684 10415 54d6048c7663e2ef6f6a22561dbbcfef ""
-  "report_ML.aux" 1765036701 4202 7497d43a846e8dd182e5a3aa6478452b "pdflatex"
-  "report_ML.bbl" 1765036695 1459 0ad119cb782a996e4cc2b8330984b154 "bibtex report_ML"
-  "report_ML.tex" 1765036684 10415 54d6048c7663e2ef6f6a22561dbbcfef ""
+  "c:/Users/matti/OneDrive/Bureaublad/project-machine-learning/report/report_ML.tex" 1765288377 10953 6f543ec559fc8f5e8de75e53e988e3df ""
+  "report_ML.aux" 1765288389 5274 9f6b58c8546a1b17fe0ee2c1f153ca26 "pdflatex"
+  "report_ML.bbl" 1765288384 3257 011a7e21f952132c9fe0d6eb321ffd64 "bibtex report_ML"
+  "report_ML.tex" 1765288377 10953 6f543ec559fc8f5e8de75e53e988e3df ""
   (generated)
   "report_ML.aux"
   "report_ML.log"
