@@ -320,3 +320,20 @@ def get_vocab(smiles_list):
     vocab_list = special_tokens + charset
 
     return vocab_list, len(vocab_list)
+
+
+def get_dataloader(dataset_obj: GraphData, indices: Iterable, batch_size: int):
+    subset = Subset(dataset_obj, indices)  # Creates the restricted view
+    return DataLoader(
+        subset,  # PyTorch shuffles subset's local indices
+        batch_size=batch_size,
+        shuffle=True,  # Random order within the subset
+        collate_fn=collate_graph_dataset
+    )
+
+
+def make_stratified_bins(y, n_bins=10):
+    """
+    Creates quantile bins for stratified k-fold in regression.
+    """
+    return pd.qcut(y, q=n_bins, labels=False, duplicates="drop")
