@@ -1,10 +1,9 @@
-from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
+from library.GCN import ConvolutionLayer, PoolingLayer
 import torch.nn.functional as F
 import torch.nn as nn
+import numpy as np
 import random
 import torch
-
-from library.GCN import ConvolutionLayer, PoolingLayer
 
 class cVAE(nn.Module):
     def __init__(self, encoder, decoder, device,
@@ -98,9 +97,47 @@ class cVAE(nn.Module):
 
         return recon_x
     
-    def sample(self, latent_vector, c, start_codon, seq_length):
-        pass
-    
+    @torch.no_grad()
+    def sample(self, z, y, seq_length=100):
+        """
+        Generate a SMILES sequence from a latent vector z and property y.
+        z: [batch, latent_dim]
+        y: [batch, 1]
+        """
+
+        batch_size = z.size(0)
+        device = z.device
+
+        # Start with <STR> token = index 2
+        input_token = torch.full((batch_size,), 2, dtype=torch.long, device=device)
+
+        # Initialize hidden state to zeros
+        hidden = torch.zeros(self.decoder.n_gru_layers,
+                            batch_size,
+                            self.decoder.hidden_size,
+                            device=device)
+
+        outputs = []
+
+        for t in range(seq_length):
+            # One decoding step
+            logits, hidden = self.decoder(input_token, z, y, hidden)
+
+            # Convert to probabilities
+            probs = F.softmax(logits, dim=-1)
+
+            # Sample next token
+            next_token = torch.multinomial(probs, num_samples=1).squeeze(1)
+
+            outputs.append(next_token)
+
+            # Feed token back to decoder
+            input_token = next_token
+
+        # Concatenate tokens (batch, seq_length)
+        outputs = torch.stack(outputs, dim=1)
+
+        return outputs
 
 class GCN_Encoder(nn.Module):
 

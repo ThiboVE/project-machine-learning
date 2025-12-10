@@ -135,7 +135,7 @@ def train_model(
         avg_loss += loss.item()
 
         # returns (batch_avg, per_smiles_vector)
-        batch_avg, per_smiles_acc = smiles_level_accuracy(model_prediction_distribution, padded_smiles)
+        batch_avg, per_smiles_acc = smiles_level_accuracy(model_prediction_distribution, padded_smiles, 0)
         epoch_acc_sum += per_smiles_acc.sum().item()   # sum of accuracies for this batch
         epoch_smiles_count += per_smiles_acc.size(0)   # number of molecules in batch
 
@@ -237,7 +237,7 @@ def test_model(
         test_loss += loss.item()
 
         # returns (batch_avg, per_smiles_vector)
-        batch_avg, per_smiles_acc = smiles_level_accuracy(model_prediction_distribution, padded_smiles)
+        batch_avg, per_smiles_acc = smiles_level_accuracy(model_prediction_distribution, padded_smiles, 0)
         epoch_acc_sum += per_smiles_acc.sum().item()   # sum of accuracies for this batch
         epoch_smiles_count += per_smiles_acc.size(0)   # number of molecules in batch
         
