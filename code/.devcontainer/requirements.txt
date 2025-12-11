@@ -8,3 +8,4 @@ rdkit
 torch-geometric
 lightgbm
 seaborn
+optuna
