@@ -421,6 +421,7 @@ def train_model(
 
     # Calculate avg loss and MAE
     avg_loss = avg_loss / count
+    avg_loss = avg_loss * (standardizer.std**2) # sigma ** 2 for MSE loss
     avg_mae = avg_mae / count
 
     # Print stats
@@ -519,6 +520,7 @@ def test_model(
 
     # Calculate avg loss and MAE
     test_loss = test_loss / count
+    test_loss = test_loss * (standardizer.std**2) # sigma ** 2 for MSE loss
     test_mae = test_mae / count
 
     # Return loss and MAE
