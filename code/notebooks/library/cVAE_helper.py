@@ -279,7 +279,7 @@ def create_model(params, fixed_params, device):
         n_hidden=n_hidden_layers,
         n_outputs=1,
         p_dropout=p_dropout
-    )
+    ).to(device)
     
     decoder = GRU_Decoder(
         vocab_size=fixed_params['vocab_size'],
