@@ -91,7 +91,7 @@ model = ChemGCN(
 if use_GPU:
     model.cuda()
 
-outputs = [float(dataset[i][1]) for i in train_val_idx]
+outputs = [float(dataset[i][1]) for i in range(len(dataset))]
 standardizer = Standardizer(torch.Tensor(outputs))
 
 optimizer = torch.optim.Adam(model.parameters(), lr=best_learning_rate)

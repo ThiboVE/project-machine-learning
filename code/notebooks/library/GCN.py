@@ -5,7 +5,7 @@ import torch
 import pandas as pd
 from torch.utils.data import Dataset
 import torch.nn as nn
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_absolute_error,r2_score
 
 
 class Graph:
@@ -470,12 +470,21 @@ def test_model(
         Test loss
     test_mae : float
         Test MAE
+    test_r2: float
+        Test R^2
+    all_targets: list
+        List of target gaps of the test set
+    all_predictions: list
+        List of predicted gaps of the test set
     """
 
     # Create variables to store losses and error
     test_loss = 0
     test_mae = 0
     count = 0
+    
+    all_targets = []
+    all_predictions = []
 
     # Switch model to train mode
     model.eval()
@@ -514,6 +523,10 @@ def test_model(
         prediction = standardizer.restore(nn_prediction.detach().cpu())
         mae = mean_absolute_error(output, prediction)
         test_mae += mae
+        
+        # store for R² + plotting
+        all_targets.extend(output.numpy().tolist())
+        all_predictions.extend(prediction.numpy().tolist())
 
         # Increase count
         count += 1
@@ -523,5 +536,7 @@ def test_model(
     test_loss = test_loss * (standardizer.std**2) # sigma ** 2 for MSE loss
     test_mae = test_mae / count
 
-    # Return loss and MAE
-    return test_loss, test_mae
+    # compute R²
+    test_r2 = r2_score(all_targets, all_predictions)
+
+    return test_loss, test_mae, test_r2, all_targets, all_predictions

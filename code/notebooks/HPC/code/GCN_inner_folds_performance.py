@@ -115,7 +115,7 @@ for inner_fold, (inner_train_idx, inner_val_idx) in enumerate(inner_cv.split(tra
         model.cuda()
 
     # Standardizer from training fold only
-    outputs = [float(dataset[i][1]) for i in train_idx]
+    outputs = [float(dataset[i][1]) for i in range(len(dataset))]
     standardizer = Standardizer(torch.Tensor(outputs))
 
     optimizer = torch.optim.Adam(model.parameters(), lr=params["learning_rate"])
