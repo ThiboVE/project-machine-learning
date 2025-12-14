@@ -539,4 +539,4 @@ def test_model(
     # compute R²
     test_r2 = r2_score(all_targets, all_predictions)
 
-    return test_loss, test_mae, test_r2, all_targets, all_predictions
+    return float(test_loss), test_mae, test_r2, all_targets, all_predictions
