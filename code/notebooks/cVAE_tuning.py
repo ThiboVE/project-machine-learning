@@ -23,7 +23,7 @@ import json
 FIXED_PARAMS = {
     'max_atoms': 30,
     'node_vec_len': 16,
-    'use_GPU': True,  # Set to True if CUDA available
+    'use_GPU': False,  # Set to True if CUDA available
     'vocab_size': 24,
     'batch_size': 1000,
     'p_dropout': 0.1,
@@ -48,7 +48,7 @@ PARAMS = {
         'teacher_forcing_ratio': {'type': 'float', 'low': 0.1, 'high': 0.9},
         'beta': {'type': 'float', 'low': 0.1, 'high': 10, 'log': True},
     },
-    'n_trials': 10,  # Adjust: 20-50 for prototyping
+    'n_trials': 15,  # Adjust: 20-50 for prototyping
     'direction': 'minimize',
 }
 
@@ -65,6 +65,7 @@ INIT_PARAMS = {
             "teacher_forcing_ratio": 0.8759278817295955,
             "beta": 4.622589001020832
 }
+
 
 # Auto-detect device
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -150,7 +151,7 @@ def create_model(trial=None, init_params=None, fixed_params=None):
 
 # ---------------------------------------------------------------
 
-def inner_cv_objective(trial, outer_train_dataset, n_inner_folds=10):
+def inner_cv_objective(trial, outer_train_dataset, n_inner_folds=5):
     """10 inner folds on outer_train_indices for one trial."""
     inner_cv = StratifiedKFold(n_splits=n_inner_folds, shuffle=True, random_state=INNER_SEED)
 
@@ -281,7 +282,7 @@ def setup_logging(DATA_PATH):
         format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
         handlers=[
             logging.FileHandler(log_filename, mode="w"),
-            logging.StreamHandler()  # Remove if only file logging is desired
+            logging.StreamHandler()
         ]
     )
 
@@ -332,15 +333,16 @@ def main():
         outer_train_dataset = Subset(dataset, outer_train_indices)
 
         best_params = run_tuning_per_fold(outer_train_dataset)
+        save_fold_result(fold, 0, 0, 0, 0,  best_params)
 
         # Final train on full outer_train
         logger.info("  Final Training on Outer Train...")
-        batch_size = best_params['batch_size']
+        batch_size = FIXED_PARAMS['batch_size']
         n_epochs = FIXED_PARAMS['n_epochs']
         train_loader = get_dataloader(dataset, outer_train_indices, batch_size)
         test_loader = get_dataloader(dataset, outer_test_indices, batch_size)
         
-        model, _, lr = create_model(params=best_params)
+        model, _, lr = create_model(init_params=best_params)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
         
         train_losses, train_accs = [], []
