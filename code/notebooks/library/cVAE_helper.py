@@ -1,5 +1,5 @@
 from torch.utils.data import DataLoader,SubsetRandomSampler, Subset
-from library.cVAE import *
+from library.cVAE import GCN_Encoder, GRU_Decoder, cVAE
 from sklearn.model_selection import StratifiedKFold
 from library.GCN import GraphData, collate_graph_dataset
 from typing import Iterable
@@ -134,7 +134,7 @@ def VAE_train_model(
         avg_loss += loss.item()
 
         # returns (batch_avg, per_smiles_vector)
-        batch_avg, per_smiles_acc = smiles_level_accuracy(model_prediction_distribution, padded_smiles)
+        batch_avg, per_smiles_acc = smiles_level_accuracy(model_prediction_distribution, padded_smiles, 0)
         epoch_acc_sum += per_smiles_acc.sum().item()   # sum of accuracies for this batch
         epoch_smiles_count += per_smiles_acc.size(0)   # number of molecules in batch
 
@@ -236,7 +236,7 @@ def VAE_test_model(
         test_loss += loss.item()
 
         # returns (batch_avg, per_smiles_vector)
-        batch_avg, per_smiles_acc = smiles_level_accuracy(model_prediction_distribution, padded_smiles)
+        batch_avg, per_smiles_acc = smiles_level_accuracy(model_prediction_distribution, padded_smiles, 0)
         epoch_acc_sum += per_smiles_acc.sum().item()   # sum of accuracies for this batch
         epoch_smiles_count += per_smiles_acc.size(0)   # number of molecules in batch
         
@@ -278,7 +278,7 @@ def create_model(params, fixed_params, device):
         n_hidden=n_hidden_layers,
         n_outputs=1,
         p_dropout=p_dropout
-    )
+    ).to(device)
     
     decoder = GRU_Decoder(
         vocab_size=fixed_params['vocab_size'],
@@ -319,3 +319,20 @@ def get_vocab(smiles_list):
     vocab_list = special_tokens + charset
 
     return vocab_list, len(vocab_list)
+
+
+def get_dataloader(dataset_obj: GraphData, indices: Iterable, batch_size: int):
+    subset = Subset(dataset_obj, indices)  # Creates the restricted view
+    return DataLoader(
+        subset,  # PyTorch shuffles subset's local indices
+        batch_size=batch_size,
+        shuffle=True,  # Random order within the subset
+        collate_fn=collate_graph_dataset
+    )
+
+
+def make_stratified_bins(y, n_bins=10):
+    """
+    Creates quantile bins for stratified k-fold in regression.
+    """
+    return pd.qcut(y, q=n_bins, labels=False, duplicates="drop")
