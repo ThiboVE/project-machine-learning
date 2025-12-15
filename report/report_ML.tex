@@ -1,0 +1,146 @@
+\documentclass[letterpaper, 11pt]{article}
+\usepackage[version=4]{mhchem} %To write nice chemical equations
+\usepackage{placeins}%
+\usepackage{mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.5cm]{geometry} %Makes the margin smaller
+\usepackage[labelfont=bf, skip=5pt, font=small]{caption} %Needed for nice caption of tables and figures
+\usepackage[labelfont=bf, skip=5pt, font=small]{subcaption} %Needed for nice subcaption of tables and figures
+\usepackage[export]{adjustbox} %Needed for proper figure adjustment
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{hyperref} %To put hyperlinks in the document
+\usepackage{pgfplots} %To import pgf files/pictures
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{bookmark}
+\usepackage{booktabs}
+\usepackage{pgf}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{wrapfig}
+\usepackage[numbers, super, sort&compress]{natbib}
+\usepackage[capitalise]{cleveref}
+\usepackage[table,xcdraw]{xcolor} % Voor kleurgebruik in tabelle
+\usepackage{siunitx}
+\usepackage{url}
+\usepackage{pdfpages}
+\usepackage{braket}
+\usepackage[most]{tcolorbox}
+\usepackage{lipsum} % For sample text
+
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+\crefname{subfigure}{Figure}{Figures}
+\Crefname{subfigure}{Figure}{Figures}
+\crefname{section}{Section}{Sections}
+\Crefname{section}{Section}{Sections}
+\crefname{equation}{Equation}{Equations}
+\Crefname{equation}{Equation}{Equations}
+\crefname{table}{Table}{Tables}
+
+\setlength{\parindent}{0em} %Causes there not to be indentations when creating a new paragraph.
+
+\pgfplotsset{compat=1.15}
+
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={play},
+    pdfpagemode=FullScreen,
+    citecolor=blue,
+    }
+\bibliographystyle{achemso} 
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+
+    \vspace*{1.5cm}
+
+    {\LARGE\bfseries
+    Machine Learning for HOMO--LUMO Gap Prediction and
+    Inverse Molecular Design \\[1.5cm]
+    }
+
+    {\Large
+    \textbf{Authors:}\\
+    Thibo Van Eeckhoorn, Yarno De Jaeger and Mattice Criel\\[0.5cm]
+    }
+
+    {\large
+      Ghent University \\[0.5cm]
+    }
+
+    {\large
+    Academic Year: 2025--2026\\[1.5cm]
+    }
+
+
+\end{titlepage}
+
+\section{Introduction}
+\textcolor{blue}{Still need to add the references}
+An important property of chemical systems, including organic molecules, is their HOMO-LUMO gap which is the energy difference between the highest occupied molecular orbital (HOMO) and lowest unoccupied molecular orbital (LUMO). This is a fundamental descriptor of the electronic structure of a molecule. It governs key properties such as reactivity, optical absorption and charge transport characteristics. As a consequence, accurate determination of the HOMO-LUMO gap is essential for molecular design in chemistry, materials science, and molecular engineering.
+\newline 
+
+Experimentally, the HOMO-LUMO gap can be approximated through optical spectroscopy or voltammetry.\cite{Sworakowski2018} In UV-Vis absorption spectroscopy, electron excitation from the ground state (associated with the HOMO) to excited states (related to the LUMO) produces an absorption onset, or optical band edge, whose energy corresponds to the optical gap.\cite{COSTA201651} Similarly, photoluminescence spectroscopy captures the energy released during radiative relaxation. However, experimental measurements require synthesized, purified materials and are not suitable for large-scale exploration of hypothetical chemical structures. An alternative way to get the HOMO-LUMO gap is with computational chemistry, such as Hartree-Fock and Density functional theory (DFT). Despite their accuracy, these quantum chemical methods are computationally expensive and scale poorly with molecular size and dataset volume. These factors are the motivation to search for faster predictive approaches to get insight in the electronic properties of molecules.  
+\newline 
+
+Machine learning (ML) provides a strategy to overcome these computational limitations.\cite{Hasan2025} After training, ML models can predict electronic properties with negligible computational cost compared to traditional quantum chemistry. Recent work has demonstrated that methods such as gradient-boosted decision trees, kernel regressors, and graph neural networks (GNNs) achieve mean absolute errors well below 0.2 eV in HOMO-LUMO gap prediction tasks. Crucially, large-scale quantum-chemical datasets like QM9, which contains orbital energies for over 130,000 small organic molecules, enable the development and benchmarking of ML models with the data volume required for robust learning.
+\newline
+
+Beyond property prediction, ML also enables generative molecular design. Traditional experimental workflows require iterative synthesis and characterization to identify molecules with desired electronic properties. ML-based generative models, however, make it possible to explore hypothetical chemical structures, optimize properties in silico, and drastically reduce the number of costly experiments. This accelerates molecular discovery pipelines, supports safer design exploration, and opens chemical regions that would be impractical to investigate experimentally.
+\newline
+
+In this study, we pursue a two-fold objective. First, we build predictive models for HOMO-LUMO gap estimation using both Light Gradient Boostin Model (LightGBM), a high-performance gradient boosting framework and a graph neural network (GNN) that learns molecular representations directly from graph topology. Second, we integrate the predictive GNN into a conditional variational autoencoder (CVAE) to generate novel molecular structures with user-specified target HOMO-LUMO gaps. This combined framework enables both accurate property prediction and inverse molecular design, supporting accelerated discovery workflows in molecular design.
+
+\section{Methodology}
+\subsection{Dataset}
+For all models in this study, we used the QM9 dataset,\cite{PyG_QM9} a widely adopted quantum chemistry dataset comprising 130,831 small organic molecules with associated properties, including the HOMO--LUMO gap. Only molecules with valid SMILES representations were retained, leaving 129,012 molecules, can be seen in \cref{fig:gap_distribution}. SMILES (Simplified Molecular Input Line Entry System) is a text-based notation that encodes chemical structures as ASCII strings, enabling efficient computational processing; for example, benzene is represented as \texttt{C1=CC=CC=C1}. While SMILES strings can be interpreted by computers, they are not directly suitable as input for most machine learning models, which require numerical representations. Consequently, preprocessing is necessary to transform molecular structures into informative, fixed-length numerical features suitable for model training.
+\begin{figure}[H] % H forces the figure to stay “here”
+    \centering
+    \includegraphics[width=0.6\textwidth]{../pics/bandgap_distribution_dataset.png} % Replace with your file name (without .pdf/.png/.jpg if pdflatex)
+    \caption{Illustration of the bandgapdistribution in the QM9 dataset where only yhe valid molecules are kept. The vertical dashed lines indicates the minimum and maximum bandgap values in the dataset.}
+    \label{fig:gap_distribution}
+\end{figure}
+\subsection{Molecular Representations and Preprocessing}
+In this study, we focus on two different models for HOMO-LUMO gap prediction: LightGBM, a classical machine learning model and GNNs, a deep learning model, which require different types of molecular representations. Therefore, two types of molecular representations were generated from the SMILES strings.
+
+\subsubsection{Descriptor-based features for LightGBM}
+Using RDKit, a set of 217 molecular descriptors was generated for each molecule from the SMILES representation.\cite{rdkit} These descriptors capture various aspects of molecular structure and properties, including molecular size, shape, electronic characteristics, surface area, and the presence of functional groups. Together, they provide a fixed-length numerical representation of each molecule suitable for machine learning models such as LightGBM.
+    
+\subsubsection{Graph-based representation for GNNs:}  
+For graph neural networks, molecules were represented as undirected graphs where atoms are nodes and bonds are edges. Node features included atom types, degree, hybridization, aromaticity, and formal charge. Edge features included bond type and conjugation status. This representation allows the GNN to learn structural features directly from molecular graphs without relying on precomputed descriptors. \textcolor{red}{This part is maybe writen better by Yarno because you made GNNs}
+
+
+\subsection{Data Splitting}
+To ensure unbiased evaluation, the dataset was split into training, validation, and test sets. For LightGBM, nested cross-validation was used:
+
+\begin{itemize}
+    \item \textbf{Outer loop:} 5-fold cross-validation to estimate generalization performance
+    \item \textbf{Inner loop:} 10-fold cross-validation for hyperparameter tuning using Optuna
+\end{itemize}
+
+The splits were stratified with 30 bins to preserve the distribution of HOMO-LUMO gaps across the different folds for better results. 
+
+\subsection{LightGBM}
+
+LightGBM is a gradient-boosted decision tree algorithm optimized for speed and high-dimensional data. It grows trees in a leaf-wise rather than level-wise manner, allowing it to capture complex, non-linear relationships more efficiently than many traditional boosting methods. This makes it well-suited for tabular molecular descriptor data, as it is robust to feature scaling, multicollinearity, and missing values.
+\newline
+
+Hyperparameter optimization for the LightGBM model was carried out using Optuna.
+The search space included parameters controlling model complexity and regularization:
+the number of leaves (num\_leaves, 16--256), the learning rate (learning\_rate, $1\times10^{-3}$--0.1, log-scaled), feature subsampling (feature\_fraction, 0.7--1.0), sample bagging (bagging\_fraction, 0.7--1.0; bagging\_freq, 1--5), and the minimum number of samples per leaf (min\_data\_in\_leaf, 10--100). Other LightGBM settings, such as the boosting type (gbdt) and objective function (regression\_l1), were kept fixed throughout. Optuna selected the optimal hyperparameter configuration by minimizing the mean absolute error (MAE) obtained from the inner loop of the nested cross-validation, using a total of 50 trials.
+\newline
+
+After nested cross-validation, the best-performing hyperparameters were selected (either by averaging over outer folds or by majority vote). The final LightGBM model was then trained on the entire dataset to produce predictions for comparison with the GNN model.
+
+\bibliography{References}
+\end{document}
