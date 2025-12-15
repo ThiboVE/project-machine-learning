@@ -1,0 +1,11 @@
+{
+    "outer_fold_idx": 3,
+    "n_epochs": 30,
+    "batch_size": 256,
+    "hidden_nodes": 64,
+    "n_conv_layers": 3,
+    "n_hidden_layers": 2,
+    "learning_rate": 0.005,
+    "test_loss": 0.17203911696330154,
+    "test_mae": 0.22023061316202183
+}

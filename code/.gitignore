@@ -1,4 +1,5 @@
 *.pyc
 
-data/
+data/QM9/
+data/RDKit/
 **__pycache__**
