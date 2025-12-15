@@ -1,0 +1,90 @@
+\providecommand{\latin}[1]{#1}
+\makeatletter
+\providecommand{\doi}
+  {\begingroup\let\do\@makeother\dospecials
+  \catcode`\{=1 \catcode`\}=2 \doi@aux}
+\providecommand{\doi@aux}[1]{\endgroup\texttt{#1}}
+\makeatother
+\providecommand*\mcitethebibliography{\thebibliography}
+\csname @ifundefined\endcsname{endmcitethebibliography}
+  {\let\endmcitethebibliography\endthebibliography}{}
+\begin{mcitethebibliography}{7}
+\providecommand*\natexlab[1]{#1}
+\providecommand*\mciteSetBstSublistMode[1]{}
+\providecommand*\mciteSetBstMaxWidthForm[2]{}
+\providecommand*\mciteBstWouldAddEndPuncttrue
+  {\def\EndOfBibitem{\unskip.}}
+\providecommand*\mciteBstWouldAddEndPunctfalse
+  {\let\EndOfBibitem\relax}
+\providecommand*\mciteSetBstMidEndSepPunct[3]{}
+\providecommand*\mciteSetBstSublistLabelBeginEnd[3]{}
+\providecommand*\EndOfBibitem{}
+\mciteSetBstSublistMode{f}
+\mciteSetBstMaxWidthForm{subitem}{(\alph{mcitesubitemcount})}
+\mciteSetBstSublistLabelBeginEnd
+  {\mcitemaxwidthsubitemform\space}
+  {\relax}
+  {\relax}
+
+\bibitem[Sworakowski(2018)]{Sworakowski2018}
+Sworakowski,~J. How Accurate Are Energies of HOMO and LUMO Levels in
+  Small-Molecule Organic Semiconductors Determined from Cyclic Voltammetry or
+  Optical Spectroscopy? \emph{Synth. Met.} \textbf{2018}, \emph{235},
+  125--130\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem[Costa \latin{et~al.}(2016)Costa, Taveira, Lima, Mendes, and
+  Santos]{COSTA201651}
+Costa,~J.~C.; Taveira,~R.~J.; Lima,~C.~F.; Mendes,~A.; Santos,~L.~M. Optical
+  band gaps of organic semiconductor materials. \emph{Optical Materials}
+  \textbf{2016}, \emph{58}, 51--60\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem[Hasan \latin{et~al.}(2025)Hasan, Tarkhaneh, Bungay, Poirier, and
+  Islam]{Hasan2025}
+Hasan,~M.~M.; Tarkhaneh,~O.; Bungay,~S.~D.; Poirier,~R.~A.; Islam,~S.~M.
+  Predicting HOMO-LUMO Gaps Using Hartree-Fock Calculated Data and Machine
+  Learning Models. \emph{J. Chem. Inf. Model.} \textbf{2025}, \emph{65},
+  9497--9515, Epub 2025 Sep 10, PMID: 40929702\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem[Team(2024)]{PyG_QM9}
+Team,~P. torch\_geometric.datasets.QM9 — PyTorch Geometric Documentation.
+  \url{https://pytorch-geometric.readthedocs.io/en/2.6.1/generated/torch_geometric.datasets.QM9.html},
+  2024; Accessed: 2025-12-09\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem[{RDKit: Open-Source Cheminformatics}(2025)]{rdkit}
+{RDKit: Open-Source Cheminformatics}, RDKit Documentation and Python Tutorials.
+  \url{https://www.rdkit.org/docs/GettingStartedInPython.html}, 2025; Accessed
+  December 6, 2025\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem[{RDKit Developers}(2025)]{rdkit_chem_docs}
+{RDKit Developers}, rdkit.Chem Module Documentation. 2025;
+  \url{https://www.rdkit.org/docs/source/rdkit.Chem.html}, Accessed:
+  2025-12-15\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem[Deshmukh(2023)]{deshmukh2023building}
+Deshmukh,~G. Building a Graph Convolutional Network for Molecular Property
+  Prediction. 2023;
+  \url{https://medium.com/data-science/building-a-graph-convolutional-network-for-molecular-property-prediction-978b0ae10ec4},
+  Accessed: 2025-12-15\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\end{mcitethebibliography}

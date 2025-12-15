@@ -5,7 +5,7 @@ import torch
 import pandas as pd
 from torch.utils.data import Dataset
 import torch.nn as nn
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_absolute_error,r2_score
 
 
 class Graph:
@@ -57,12 +57,28 @@ class Graph:
 
         # Iterate over atoms and add to node matrix
         for atom in atoms:
-            # Get atom index and atomic number
+            features = []
+            # Get atom index
             atom_index = atom.GetIdx()
+            # Add various features
+            for _ in range(10):
+                features.append(0)
             atom_no = atom.GetAtomicNum()
+            features[atom_no] = 1
+            
+            features.append(atom.GetFormalCharge())
+            features.append(int(atom.GetIsAromatic()))
+            features.append(int(atom.IsInRing()))
+            hyb = atom.GetHybridization()
+            hyb_onehot = [
+                int(hyb == Chem.rdchem.HybridizationType.SP),
+                int(hyb == Chem.rdchem.HybridizationType.SP2),
+                int(hyb == Chem.rdchem.HybridizationType.SP3),
+            ]
+            features.extend(hyb_onehot)
 
             # Assign to node matrix
-            node_mat[atom_index, atom_no] = 1
+            node_mat[atom_index, :len(features)] = np.array(features, dtype=float)
 
         # Get adjacency matrix using RDKit
         adj_mat = rdmolops.GetAdjacencyMatrix(self.mol)
@@ -88,6 +104,7 @@ class Graph:
         # Save both matrices
         self.node_mat = node_mat
         self.adj_mat = adj_mat
+        
 
 class GraphData(Dataset):
     """
@@ -167,6 +184,7 @@ class ConvolutionLayer(nn.Module):
         self.conv_activation = nn.LeakyReLU()
 
     def forward(self, node_mat, adj_mat):
+        
         # Calculate number of neighbors
         n_neighbors = adj_mat.sum(dim=-1, keepdims=True)
         # Create identity tensor
@@ -177,8 +195,16 @@ class ConvolutionLayer(nn.Module):
         idx_mat = self.idx_mat.unsqueeze(0).expand(*adj_mat.shape)
         # Get inverse degree matrix
         inv_degree_mat = torch.mul(idx_mat, 1 / n_neighbors)
-
-        # Perform matrix multiplication: D^(-1)AN
+        
+        # # N' = D^-1/2 A D^-1/2 N
+        # deg = adj_mat.sum(dim=-1)
+        # deg_inv_sqrt = torch.pow(deg, -0.5)
+        # deg_inv_sqrt[deg_inv_sqrt == float('inf')] = 0
+        # D_inv_sqrt = deg_inv_sqrt.unsqueeze(-1) * deg_inv_sqrt.unsqueeze(-2)
+        # adj_norm = adj_mat * D_inv_sqrt
+        # node_fea = torch.bmm(adj_norm, node_mat)
+        
+        # Matrix multiplication: D^-1AN
         node_fea = torch.bmm(inv_degree_mat, adj_mat)
         node_fea = torch.bmm(node_fea, node_mat)
 
@@ -374,7 +400,7 @@ def train_model(
 
         # Calculate loss
         loss = loss_fn(nn_output, nn_prediction)
-        avg_loss += loss
+        avg_loss += loss.item()
 
         # Calculate MAE
         prediction = standardizer.restore(nn_prediction.detach().cpu())
@@ -395,6 +421,7 @@ def train_model(
 
     # Calculate avg loss and MAE
     avg_loss = avg_loss / count
+    avg_loss = avg_loss * (standardizer.std**2) # sigma ** 2 for MSE loss
     avg_mae = avg_mae / count
 
     # Print stats
@@ -443,12 +470,21 @@ def test_model(
         Test loss
     test_mae : float
         Test MAE
+    test_r2: float
+        Test R^2
+    all_targets: list
+        List of target gaps of the test set
+    all_predictions: list
+        List of predicted gaps of the test set
     """
 
     # Create variables to store losses and error
     test_loss = 0
     test_mae = 0
     count = 0
+    
+    all_targets = []
+    all_predictions = []
 
     # Switch model to train mode
     model.eval()
@@ -481,19 +517,26 @@ def test_model(
 
         # Calculate loss
         loss = loss_fn(nn_output, nn_prediction)
-        test_loss += loss
+        test_loss += loss.item()
 
         # Calculate MAE
         prediction = standardizer.restore(nn_prediction.detach().cpu())
         mae = mean_absolute_error(output, prediction)
         test_mae += mae
+        
+        # store for R² + plotting
+        all_targets.extend(output.numpy().tolist())
+        all_predictions.extend(prediction.numpy().tolist())
 
         # Increase count
         count += 1
 
     # Calculate avg loss and MAE
-    test_loss = test_loss.detach().cpu().numpy() / count
+    test_loss = test_loss / count
+    test_loss = test_loss * (standardizer.std**2) # sigma ** 2 for MSE loss
     test_mae = test_mae / count
 
-    # Return loss and MAE
-    return test_loss, test_mae
+    # compute R²
+    test_r2 = r2_score(all_targets, all_predictions)
+
+    return float(test_loss), test_mae, test_r2, all_targets, all_predictions

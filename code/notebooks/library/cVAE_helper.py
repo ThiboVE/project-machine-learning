@@ -7,7 +7,6 @@ from pathlib import Path
 import torch.nn as nn
 import pandas as pd
 import numpy as np
-import optuna
 import torch
 import json
 
@@ -82,7 +81,7 @@ def smiles_level_accuracy(logits, targets, pad_idx=None):
     return avg_acc.item(), per_smiles_acc
 
 
-def train_model(
+def VAE_train_model(
     epoch,
     model,
     training_dataloader,
@@ -164,7 +163,7 @@ def train_model(
     return avg_loss, epoch_smiles_accuracy
 
 
-def test_model(
+def VAE_test_model(
     model,
     test_dataloader,
     loss_fn,
@@ -262,10 +261,10 @@ def create_model(params, fixed_params, device):
     n_hidden = params['n_hidden']
     gru_dim = params['gru_dim']
     embedding_dim = params.get('embedding_dim', 8)  # Default if not tuned
-    n_conv_layers = params.get('n_conv_layers', 2)
+    n_conv_layers = params.get('n_conv_layers', 3)
     n_hidden_layers = params.get('n_hidden_layers', 2)
     n_gru_layers = params.get('n_gru_layers', 2)
-    n_fc_layers = params.get('n_fc_layers', 3)
+    n_fc_layers = params.get('n_fc_layers', 2)
     p_dropout = params.get('p_dropout', 0.1)
     teacher_forcing_ratio = params.get('teacher_forcing_ratio', 0.5)
     gcn_hidden_nodes = n_hidden + 1  # Derived
