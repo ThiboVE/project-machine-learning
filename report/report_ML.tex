@@ -100,16 +100,19 @@ Beyond property prediction, ML also enables generative molecular design. Traditi
 \newline
 
 In this study, we pursue a two-fold objective. First, we build predictive models for HOMO-LUMO gap estimation using both Light Gradient Boostin Model (LightGBM), a high-performance gradient boosting framework and a graph neural network (GNN) that learns molecular representations directly from graph topology. Second, we integrate the predictive GNN into a conditional variational autoencoder (CVAE) to generate novel molecular structures with user-specified target HOMO-LUMO gaps. This combined framework enables both accurate property prediction and inverse molecular design, supporting accelerated discovery workflows in molecular design.
-
+\section{Literature}
+\textcolor{blue}{In this part we need to discuss some literature that already have done things that correspond with the work that we did. This is like a starting point of outr projecti think?}
 \section{Methodology}
 \subsection{Dataset}
 For all models in this study, we used the QM9 dataset,\cite{PyG_QM9} a widely adopted quantum chemistry dataset comprising 130,831 small organic molecules with associated properties, including the HOMO--LUMO gap. Only molecules with valid SMILES representations were retained, leaving 129,012 molecules, can be seen in \cref{fig:gap_distribution}. SMILES (Simplified Molecular Input Line Entry System) is a text-based notation that encodes chemical structures as ASCII strings, enabling efficient computational processing; for example, benzene is represented as \texttt{C1=CC=CC=C1}. While SMILES strings can be interpreted by computers, they are not directly suitable as input for most machine learning models, which require numerical representations. Consequently, preprocessing is necessary to transform molecular structures into informative, fixed-length numerical features suitable for model training.
+
 \begin{figure}[H] % H forces the figure to stay “here”
     \centering
     \includegraphics[width=0.6\textwidth]{../pics/bandgap_distribution_dataset.png} % Replace with your file name (without .pdf/.png/.jpg if pdflatex)
     \caption{Illustration of the bandgapdistribution in the QM9 dataset where only yhe valid molecules are kept. The vertical dashed lines indicates the minimum and maximum bandgap values in the dataset.}
     \label{fig:gap_distribution}
 \end{figure}
+
 \subsection{Molecular Representations and Preprocessing}
 In this study, we focus on two different models for HOMO-LUMO gap prediction: LightGBM, a classical machine learning model and GNNs, a deep learning model, which require different types of molecular representations. Therefore, two types of molecular representations were generated from the SMILES strings.
 
@@ -121,18 +124,10 @@ For graph neural networks, molecules were represented as undirected graphs where
 
 
 \subsection{Data Splitting}
-To ensure unbiased evaluation, the dataset was split into training, validation, and test sets. For LightGBM, nested cross-validation was used:
-
-\begin{itemize}
-    \item \textbf{Outer loop:} 5-fold cross-validation to estimate generalization performance
-    \item \textbf{Inner loop:} 10-fold cross-validation for hyperparameter tuning using Optuna
-\end{itemize}
-
-The splits were stratified with 30 bins to preserve the distribution of HOMO-LUMO gaps across the different folds for better results. 
+To ensure unbiased evaluation, the dataset was split into training, validation, and test sets. For LightGBM, nested cross-validation was used where the outer loop estimated generalization performance with 5-fold cross-validation (CV) and the inner loop performed hyperparameter tuning using Optuna with 10-fold CV. The splits were stratified with 30 bins to preserve the distribution of HOMO-LUMO gaps across the different folds for better results. \textcolor{blue}{here we can maybe show the splits that were made}
 
 \subsection{LightGBM}
-
-LightGBM is a gradient-boosted decision tree algorithm optimized for speed and high-dimensional data. It grows trees in a leaf-wise rather than level-wise manner, allowing it to capture complex, non-linear relationships more efficiently than many traditional boosting methods. This makes it well-suited for tabular molecular descriptor data, as it is robust to feature scaling, multicollinearity, and missing values.
+For a first model to predict the HOMO-LUMO gap of small organic compounds we selected LightGBM as a classical machine learning method. LightGBM is a gradient-boosted decision tree algorithm optimized for speed and high-dimensional data. It grows trees in a leaf-wise rather than level-wise manner, allowing it to capture complex, non-linear relationships more efficiently than many traditional boosting methods. This makes it well-suited for tabular molecular descriptor data, as it is robust to feature scaling, multicollinearity, and missing values.
 \newline
 
 Hyperparameter optimization for the LightGBM model was carried out using Optuna.
