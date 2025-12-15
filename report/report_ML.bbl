@@ -8,7 +8,7 @@
 \providecommand*\mcitethebibliography{\thebibliography}
 \csname @ifundefined\endcsname{endmcitethebibliography}
   {\let\endmcitethebibliography\endthebibliography}{}
-\begin{mcitethebibliography}{5}
+\begin{mcitethebibliography}{7}
 \providecommand*\natexlab[1]{#1}
 \providecommand*\mciteSetBstSublistMode[1]{}
 \providecommand*\mciteSetBstMaxWidthForm[2]{}
@@ -63,9 +63,26 @@ Team,~P. torch\_geometric.datasets.QM9 — PyTorch Geometric Documentation.
 {\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
 \EndOfBibitem
 \bibitem[{RDKit: Open-Source Cheminformatics}(2025)]{rdkit}
-{RDKit: Open-Source Cheminformatics} RDKit Documentation and Python Tutorials.
+{RDKit: Open-Source Cheminformatics}, RDKit Documentation and Python Tutorials.
   \url{https://www.rdkit.org/docs/GettingStartedInPython.html}, 2025; Accessed
   December 6, 2025\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem[{RDKit Developers}(2025)]{rdkit_chem_docs}
+{RDKit Developers}, rdkit.Chem Module Documentation. 2025;
+  \url{https://www.rdkit.org/docs/source/rdkit.Chem.html}, Accessed:
+  2025-12-15\relax
+\mciteBstWouldAddEndPuncttrue
+\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
+{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
+\EndOfBibitem
+\bibitem[Deshmukh(2023)]{deshmukh2023building}
+Deshmukh,~G. Building a Graph Convolutional Network for Molecular Property
+  Prediction. 2023;
+  \url{https://medium.com/data-science/building-a-graph-convolutional-network-for-molecular-property-prediction-978b0ae10ec4},
+  Accessed: 2025-12-15\relax
 \mciteBstWouldAddEndPuncttrue
 \mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
 {\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
