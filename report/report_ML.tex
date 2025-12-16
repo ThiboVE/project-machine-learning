@@ -139,7 +139,7 @@ To ensure unbiased evaluation, the dataset was split into training, validation, 
     \item \textbf{Inner loop:} 10-fold cross-validation for hyperparameter tuning
 \end{itemize}
 
-The splits were stratified with 10 bins to preserve the distribution of HOMO-LUMO gaps across the different folds for better results. 
+The splits were stratified based on the distribution of the HOMO-LUMO gap values into 10 quantile bins to preserve this distribution across the different folds. 
 
 \subsection{LightGBM}
 \noindent
