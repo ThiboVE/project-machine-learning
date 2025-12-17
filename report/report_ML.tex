@@ -141,20 +141,29 @@ To ensure unbiased evaluation, the dataset was split into training, validation, 
 
 The splits were stratified based on the distribution of the HOMO-LUMO gap values into 10 quantile bins to preserve this distribution across the different folds. 
 
-\subsection{Evaluation metrics}
+\subsection{Evaluation metrics}\label{sec:evalmetrics}
 
-As both the LightGBM and GCN model predict HOMO-LUMO gaps, and both are eventually compared, the same evaluation metrics are used. Common evaluation metrics in HOMO-LUMO gap prediction are the mean absolute error (MAE), root mean squared error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gaps. Each metric is calculated as
+Since both the LightGBM and GCN models are used to predict HOMO-LUMO gaps and are directly compared, the same evaluation metrics are applied to both. Commonly used metrics for HOMO-LUMO gap prediction include the mean absolute error (MAE), root mean squared error (RMSE), and the coefficient of determination ($R^2$) between the predicted and true HOMO-LUMO gaps.
+
+The cVAE model performance is evaluated using the average character-level reconstruction accuracy ($\overline{CRA}$), the chemical validity of newly generated SMILES strings using RDKit, and the agreement between the target HOMO-LUMO gap and the GCN-predicted gap of the generated molecules, quantified using MAE. Each metric is calculated as
+
 \begin{equation}\label{eq:MAE}
   MAE = \frac{1}{N}\sum^{N}\vert y_{pred}-y_{true} \vert
 \end{equation}
+
 \begin{equation}\label{eq:RMSE}
   RMSE = \sqrt{\frac{1}{N}\sum^{N} (y_{pred}-y_{true})^{2}}
 \end{equation}
+
 \begin{equation}\label{eq:R2}
   R^2 = 1 - \frac{\sum^{N} (y_{true}-y_{pred})^{2}}{\sum^{N} (y_{true}-\bar{y})^{2}}
 \end{equation}
 
-\textcolor{red}{Thibo add the evaluation metric of cVAE}
+\begin{equation}\label{eq:CRA}
+  \overline{CRA} = \frac{1}{N} \sum_{n=1}^{N} \frac{1}{T_n} \sum_{t=1}^{T_n} \mathbf{1} (\hat{x}_{n,t} = x_{m,t})
+\end{equation}
+
+with $N$ the total number of test molecules and $T_n$ the number of characters per SMILES string.
 
 \subsection{LightGBM}
 \noindent
@@ -188,6 +197,20 @@ Starting from the node and edge matrix representations of a graph, the GCN model
 Hyperparameter optimization for the GCN model was performed using a simple grid search, as this allowed easy parallelization of hyperparameter tuning. The parameters and their possible values included in the grid search are: batch\_size (64, 128, 256, 384), hidden\_nodes (64, 96, 128), n\_conv\_layers (1-5), n\_hidden\_layers (1-3), learning\_rate (0.001, 0.003, 0.005, 0.007, 0.01). Other parameters such as the maximum dimensions of the node and edge matrix, and the number of epochs were kept constant. After nested cross-validation, the same best-performing hyperparameters were obtained for each outer fold: batch\_size = 256, hidden\_nodes = 128, n\_conv\_layers = 4, n\_conv\_layers = 2, learning\_rate = 0.003, the number of epochs was kept constant at 50.
 
 \subsection{cVAE}
+
+The conditional variational autoencoder (cVAE) is chosen for its probabilistic nature, which enables sampling of new molecules with higher validity than a standard autoencoder \parencite{kingma_2019}. Our implementation is partially inspired by \parencite{bombarelli_2018, lim_2018}, except for the encoder. The model consists of a graph-based GCN encoder, a continuous conditioned latent space, and a GRU sequence decoder \parencite{yuan_2020, cho_2014}, combining the richer information from graph representations with the simplicity of SMILES decoding.
+
+Training maximizes the conditional ELBO (equivalently, minimizes the negative ELBO), composed of a categorical cross-entropy reconstruction loss and a Kullback-Leibler divergence regularizing the latent space\parencite{beckham_2023}:
+
+\begin{equation}
+  \mathcal{L}_{cVAE} = - \mathbb{E} [\log \: p(x | z, y)] + \beta D_{KL} (q(z|x,y) \| \mathcal{N} (0, I))
+\end{equation}
+
+where $q(z|x,y)$ is the encoder's approximate posterior, mapping a molecule and its HOMO-LUMO gap to a latent distribution, and $p(x|z,y)$ is the decoder's likelihood, giving the probability of reconstructing a SMILES sequence from a latent vector and conditioning value.
+
+Hyperparameters are optimized using Bayesian optimization with a TPE sampler \parencite{watanabe_2023}, although only a limited search is feasible due to the large parameter space and time constraints. This also leads to the use of 5 instead of 10 inner folds for the cross-validation, which should not pose a problem considering the extensive size of the QM9 dataset.
+
+New molecules are generated either by sampling latent vectors from the prior or by perturbing latent vectors of dataset molecules, followed by decoding conditioned on target HOMO-LUMO gaps. Generated molecules were evaluated as described in \cref{sec:evalmetrics}. for chemical validity using RDKit and for consistency with the conditioning HOMO-LUMO gap predicted by the GCN model.
 
 \section{Results}
 % Here you describe the results you obtained. This is not just a big data dump where you put all the numbers into one big table. Try to point out patterns or striking things in your results. Think about how you can visualize the results so that a reader, who has not conducted your research themselves, can quickly understand what your results mean.
