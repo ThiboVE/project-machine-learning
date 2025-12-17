@@ -208,7 +208,7 @@ Training maximizes the conditional ELBO (equivalently, minimizes the negative EL
 
 where $q(z|x,y)$ is the encoder's approximate posterior, mapping a molecule and its HOMO-LUMO gap to a latent distribution, and $p(x|z,y)$ is the decoder's likelihood, giving the probability of reconstructing a SMILES sequence from a latent vector and conditioning value.
 
-Hyperparameters are optimized using Bayesian optimization with a TPE sampler \parencite{watanabe_2023}, although only a limited search is feasible due to the large parameter space and time constraints. This also leads to the use of 5 instead of 10 inner folds for the cross-validation, which should not pose a problem considering the extensive size of the QM9 dataset.
+Hyperparameters are optimized using Bayesian optimization with a TPE sampler \parencite{watanabe_2023}, although only a limited search is feasible due to the large parameter space and time constraints. For the same reason, five inner folds are used for cross-validation instead of ten, but given the large size of the QM9 dataset, this reduction is not expected to significantly affect the results. An overview of the selected optimal hyperparameters is provided in \cref{tab:cvae_params}.
 
 New molecules are generated either by sampling latent vectors from the prior or by perturbing latent vectors of dataset molecules, followed by decoding conditioned on target HOMO-LUMO gaps. Generated molecules were evaluated as described in \cref{sec:evalmetrics}. for chemical validity using RDKit and for consistency with the conditioning HOMO-LUMO gap predicted by the GCN model.
 
