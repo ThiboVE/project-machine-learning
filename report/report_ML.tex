@@ -247,15 +247,7 @@ Mean & 0.16 & 0.23 & 0.97 \\ \hline
 
 \subsection{cVAE}
 
-Across the five outer folds, the selected hyperparameters were largely consistent, three out of the five fold ended on the same set of parameters, while fold 2 and 5 managed to get a different set (\cref{tab:cvae_params}). Between the five sets, the major differences lie in the size 
-
-
-The final hyperparameter configurations for each outer fold are summarized in Table X.
-
-Overall the nested cross-validation strategy provided a robust estimate of the model performance and reduced the risk of overfitting to a single validation split. However the limited amount of hyperparameter tuning that was able to be done suggests that further gains may be achievable with a more extensive optimization strategy.
-
-The reconstruction accuracy of the model, using $\overline{CRA}$ (\cref{eq:CRA}), across the five outer folds are reported in \cite{tab:CRA}. The model achieved a mean reconstruction accuracy of 0.852, indicating it is capable of reconstructing specific molecules.
-
+The reconstruction accuracy of the cVAE model, using $\overline{CRA}$, across the five outer folds are reported in \cref{tab:CRA}. The model achieved a mean reconstruction accuracy of 0.852, indicating it is capable of reconstructing specific molecules. The significant deviation of fold three and five compared to the others is because of the better set of hyperparameters found in their respective tunings (\cref{tab:cvae_params}). The increased accuracy of folds 3 and 5 originates from the increased learning rate, larger GRU dimension size and the lower $\beta$ parameter.
 
 \begin{table}[H]
 \centering
@@ -273,10 +265,21 @@ Mean & 0.852 \\ \hline
 \end{tabular}
 \end{table}
 
-Beyond reconstruction, the more important metric of interest is the generative capability of the cVAE. The chemical validity of the generated molecules can be found in \cref{tab:} for both the random selected latent vectors and the perturbed latent vectors.
+Beyond reconstruction, the more important metric of interest is the generative capability of the cVAE. The chemical validity of the generated molecules, for both the random selected latent vectors and the perturbed latent vectors.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{img/avg_validity.png}
+  \caption{The average validity for both 10 randomly sampled latent vectors and 10 perturbed latent vectors.}
+  \label{fig:validity}
+\end{figure}
 
 \section{Discussion}
 % Provide an interpretation of your results. What do they mean in the context of your research question? What do you notice here compared to other papers you've read? Perhaps a particular method is not as superior to all the others after all as you originally expected, or maybe you had an idea for a technique that seemed good in theory but doesn't work as well in practice, or \dots
+
+
+% TVE: This is a sentence i will be using later
+% However, the limited amount of hyperparameter tuning that was able to be done (only 15 trials) suggests that further gains may be achievable with a more extensive optimization strategy.
 
 \subsection{LightGBM vs GCN}
 

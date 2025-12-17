@@ -105,7 +105,7 @@ class cVAE(nn.Module):
         y: [batch, 1]
         temperature: 
             - low T (T<1): conservative, high-probability tokens
-            - T=1: NOrmal behaviour
+            - T=1: Normal behaviour
             - high T (T>1): More random, diverse, riskier
         """
 
