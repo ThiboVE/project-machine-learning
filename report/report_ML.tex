@@ -196,7 +196,7 @@ Starting from the node and edge matrix representations of a graph, the GCN model
 \noindent
 Hyperparameter optimization for the GCN model was performed using a simple grid search, as this allowed easy parallelization of hyperparameter tuning. The parameters and their possible values included in the grid search are: batch\_size (64, 128, 256, 384), hidden\_nodes (64, 96, 128), n\_conv\_layers (1-5), n\_hidden\_layers (1-3), learning\_rate (0.001, 0.003, 0.005, 0.007, 0.01). Other parameters such as the maximum dimensions of the node and edge matrix, and the number of epochs were kept constant. After nested cross-validation, the same best-performing hyperparameters were obtained for each outer fold: batch\_size = 256, hidden\_nodes = 128, n\_conv\_layers = 4, n\_conv\_layers = 2, learning\_rate = 0.003, the number of epochs was kept constant at 50.
 
-\subsection{cVAE}
+\subsection{cVAE}\label{section:cvae_method}
 
 The conditional variational autoencoder (cVAE) is chosen for its probabilistic nature, which enables sampling of new molecules with higher validity than a standard autoencoder \parencite{kingma_2019}. Our implementation is partially inspired by \parencite{bombarelli_2018, lim_2018}, except for the encoder. The model consists of a graph-based GCN encoder, a continuous conditioned latent space, and a GRU sequence decoder \parencite{yuan_2020, cho_2014}, combining the richer information from graph representations with the simplicity of SMILES decoding.
 
@@ -210,7 +210,9 @@ where $q(z|x,y)$ is the encoder's approximate posterior, mapping a molecule and 
 
 Hyperparameters are optimized using Bayesian optimization with a TPE sampler \parencite{watanabe_2023}, although only a limited search is feasible, consisting of only 15 trials, due to the large parameter space and time constraints. For the same reason, five inner folds are used for cross-validation instead of ten, but given the large size of the QM9 dataset, this reduction is not expected to significantly affect the results. An overview of the selected optimal hyperparameters is provided in \cref{tab:cvae_params}.
 
-The best set of hyperparameters is then used to generate new molecules in two ways: by randomly sampling latent vectors from the latent space and by perturbing latent vectors of dataset molecules, which are both then decoded conditioned on target HOMO-LUMO gaps. Generated molecules were evaluated by sampling for both experimental pathways 10 different molecules and for each molecule doing a 1000 generations, for which the average chemical validity and MAE are calculated per molecule, as described in \cref{sec:evalmetrics}.
+The optimal set of hyperparameters is used to generate new molecules using two approaches: random sampling of latent vectors from the latent space and perturbation of latent vectors corresponding to molecules in the dataset by adding noise drawn from a normal distribution scaled by a factor of 0.5. In both cases, the latent vectors are decoded while conditioning on target HOMO-LUMO gaps.
+
+For each experimental pathway, ten molecules with distinct target HOMO-LUMO gaps are selected. For each molecule, 1,000 generations are performed, and the average chemical validity is computed, as described in \cref{sec:evalmetrics}. For the valid generations of each molecule, the mean absolute error (MAE) is calculated by comparing the HOMO-LUMO gap predicted by the GCN model with the corresponding target gap, yielding a per-molecule MAE.
 
 \section{Results}
 % Here you describe the results you obtained. This is not just a big data dump where you put all the numbers into one big table. Try to point out patterns or striking things in your results. Think about how you can visualize the results so that a reader, who has not conducted your research themselves, can quickly understand what your results mean.
@@ -220,7 +222,7 @@ The best set of hyperparameters is then used to generate new molecules in two wa
 Just as for the LightGBM model, the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap were determined for the GCN model. All evaluation metrics of the GCN model (\Cref{tab:GCN}) have slightly higher values than those of the LightGBM model (\Cref{tab:LightGBM}).
 
 \begin{table}[H]
-\caption{Mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO–LUMO gaps per outer fold. Mean values across all five folds are also reported.}
+\caption{Mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO-LUMO gaps per outer fold. Mean values across all five folds are also reported.}
 \label{tab:GCN}
 \centering
 \small
@@ -247,7 +249,7 @@ Mean & 0.16 & 0.23 & 0.97 \\ \hline
 
 \subsection{cVAE}
 
-The reconstruction accuracy of the cVAE model, using $\overline{CRA}$, across the five outer folds are reported in \cref{tab:CRA}. The model achieved a mean reconstruction accuracy of 0.852, indicating it is capable of reconstructing specific molecules. The significant deviation of fold three and five compared to the others is because of the better set of hyperparameters found in their respective tunings (\cref{tab:cvae_params}). The increased accuracy of folds 3 and 5 originates from the increased learning rate, larger GRU dimension size and the lower $\beta$ parameter.
+The reconstruction performance of the cVAE model, quantified by the average character-wise reconstruction accuracy $\overline{CRA}$, across the five outer cross-validation folds is reported in \cref{tab:CRA}. The model achieves an overall mean reconstruction accuracy of 0.852, indicating that it is generally capable of accurately reconstructing individual molecules. Notably, outer folds three and five exhibit substantially higher reconstruction accuracies than the remaining folds. This improvement can be attributed to more favorable hyperparameter configurations identified during their respective tuning procedures (\cref{tab:cvae_params}), in particular a higher learning rate, a larger GRU hidden dimension, and a lower $\beta$ parameter.
 
 \begin{table}[H]
 \centering
@@ -265,14 +267,52 @@ Mean & 0.852 \\ \hline
 \end{tabular}
 \end{table}
 
-Beyond reconstruction, the more important metric of interest is the generative capability of the cVAE. The chemical validity of the generated molecules, for both the random selected latent vectors and the perturbed latent vectors.
+Beyond reconstruction performance, the primary metric of interest is the generative capability of the cVAE. Using the best-performing trained model (outer fold 3), the chemical validity of molecules generated from both randomly sampled latent vectors and perturbed latent vectors is evaluated (\cref{fig:validity} and \cref{tab:cvae_samples}). Across the ten sampled target molecules in each experimental pathway, the average validity is low and comparable between the two sampling strategies, with no clear advantage observed for either method.
+
+For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. Despite similar validity levels for both sampling methods, the perturbed latent sampling consistently yields substantially lower MAE values than random latent sampling. Nevertheless, for both approaches, the MAE remains considerably larger than the errors reported for the standalone GCN regression model.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.5]{img/avg_validity.png}
-  \caption{The average validity for both 10 randomly sampled latent vectors and 10 perturbed latent vectors.}
-  \label{fig:validity}
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/avg_validity.png}
+    \caption{The average validity for both 10 randomly sampled latent vectors and 10 perturbed latent vectors with their respective 95\% confidence intervals.}
+    \label{fig:validity}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/cvae_maes.png}
+    \caption{The MAEs of the valid generated molecules for each of the 10 random and 10 perturbed samples.}
+    \label{fig:cvae_maes}
+  \end{subfigure}
+  \caption{A visual representation of the data from \cref{tab:cvae_samples}.}
 \end{figure}
+
+
+\begin{table}[H]
+\centering
+\caption{The validity and MAE of the random samples and perturbed samples, obtained as described in \cref{section:cvae_method}.}
+\label{tab:cvae_samples}
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{Random samples} & \multicolumn{2}{c}{Perturbed samples} \\ \midrule
+ & Validity & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} & Validity & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} \\ \midrule
+1 & 0.048 & 1.453 & 0.049 & 0.742 \\
+2 & 0.047 & 1.242 & 0.018 & 0.975 \\
+3 & 0.030 & 3.543 & 0.042 & 0.609 \\
+4 & 0.007 & 3.889 & 0.058 & 0.736 \\
+5 & 0.065 & 1.999 & 0.042 & 0.943 \\
+6 & 0.017 & 3.845 & 0.025 & 0.434 \\
+7 & 0.043 & 1.349 & 0.055 & 0.695 \\
+8 & 0.039 & 3.335 & 0.060 & 0.712 \\
+9 & 0.043 & 2.816 & 0.036 & 0.946 \\
+10 & 0.067 & 1.032 & 0.051 & 0.424 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Continuing with the perturbed latent space vectors, it is interesting to visualize some chemical structures to assess how well the cVAE can construct molecules with the same HOMO-LUMO gap and slightly different chemical structures. From assessing molecules 1, 5 and 10 from \cref{tab:cvae_samples}, ...
+
 
 \section{Discussion}
 % Provide an interpretation of your results. What do they mean in the context of your research question? What do you notice here compared to other papers you've read? Perhaps a particular method is not as superior to all the others after all as you originally expected, or maybe you had an idea for a technique that seemed good in theory but doesn't work as well in practice, or \dots
