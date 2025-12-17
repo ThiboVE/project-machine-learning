@@ -208,9 +208,9 @@ Training maximizes the conditional ELBO (equivalently, minimizes the negative EL
 
 where $q(z|x,y)$ is the encoder's approximate posterior, mapping a molecule and its HOMO-LUMO gap to a latent distribution, and $p(x|z,y)$ is the decoder's likelihood, giving the probability of reconstructing a SMILES sequence from a latent vector and conditioning value.
 
-Hyperparameters are optimized using Bayesian optimization with a TPE sampler \parencite{watanabe_2023}, although only a limited search is feasible due to the large parameter space and time constraints. For the same reason, five inner folds are used for cross-validation instead of ten, but given the large size of the QM9 dataset, this reduction is not expected to significantly affect the results. An overview of the selected optimal hyperparameters is provided in \cref{tab:cvae_params}.
+Hyperparameters are optimized using Bayesian optimization with a TPE sampler \parencite{watanabe_2023}, although only a limited search is feasible, consisting of only 15 trials, due to the large parameter space and time constraints. For the same reason, five inner folds are used for cross-validation instead of ten, but given the large size of the QM9 dataset, this reduction is not expected to significantly affect the results. An overview of the selected optimal hyperparameters is provided in \cref{tab:cvae_params}.
 
-New molecules are generated either by sampling latent vectors from the prior or by perturbing latent vectors of dataset molecules, followed by decoding conditioned on target HOMO-LUMO gaps. Generated molecules were evaluated as described in \cref{sec:evalmetrics}. for chemical validity using RDKit and for consistency with the conditioning HOMO-LUMO gap predicted by the GCN model.
+The best set of hyperparameters is then used to generate new molecules in two ways: by randomly sampling latent vectors from the latent space and by perturbing latent vectors of dataset molecules, which are both then decoded conditioned on target HOMO-LUMO gaps. Generated molecules were evaluated by sampling for both experimental pathways 10 different molecules and for each molecule doing a 1000 generations, for which the average chemical validity and MAE are calculated per molecule, as described in \cref{sec:evalmetrics}.
 
 \section{Results}
 % Here you describe the results you obtained. This is not just a big data dump where you put all the numbers into one big table. Try to point out patterns or striking things in your results. Think about how you can visualize the results so that a reader, who has not conducted your research themselves, can quickly understand what your results mean.
@@ -245,6 +245,36 @@ Mean & 0.16 & 0.23 & 0.97 \\ \hline
     \label{fig:GCN_R2}
 \end{figure}
 
+\subsection{cVAE}
+
+Across the five outer folds, the selected hyperparameters were largely consistent, three out of the five fold ended on the same set of parameters, while fold 2 and 5 managed to get a different set (\cref{tab:cvae_params}). Between the five sets, the major differences lie in the size 
+
+
+The final hyperparameter configurations for each outer fold are summarized in Table X.
+
+Overall the nested cross-validation strategy provided a robust estimate of the model performance and reduced the risk of overfitting to a single validation split. However the limited amount of hyperparameter tuning that was able to be done suggests that further gains may be achievable with a more extensive optimization strategy.
+
+The reconstruction accuracy of the model, using $\overline{CRA}$ (\cref{eq:CRA}), across the five outer folds are reported in \cite{tab:CRA}. The model achieved a mean reconstruction accuracy of 0.852, indicating it is capable of reconstructing specific molecules.
+
+
+\begin{table}[H]
+\centering
+\caption{The average character-wise reconstruction accuracy, as calculated by \cref{eq:CRA}, of the test set per outer fold of the cross-validation.}
+\label{tab:CRA}
+\begin{tabular}{cc}
+\hline
+ & $\overline{CRA}$ \\ \hline
+Outer fold 1 & 0.842 \\
+Outer fold 2 & 0.840 \\
+Outer fold 3 & 0.871 \\
+Outer fold 4 & 0.846 \\
+Outer fold 5 & 0.863 \\ \hline
+Mean & 0.852 \\ \hline
+\end{tabular}
+\end{table}
+
+Beyond reconstruction, the more important metric of interest is the generative capability of the cVAE. The chemical validity of the generated molecules can be found in \cref{tab:} for both the random selected latent vectors and the perturbed latent vectors.
+
 \section{Discussion}
 % Provide an interpretation of your results. What do they mean in the context of your research question? What do you notice here compared to other papers you've read? Perhaps a particular method is not as superior to all the others after all as you originally expected, or maybe you had an idea for a technique that seemed good in theory but doesn't work as well in practice, or \dots
 
@@ -262,6 +292,34 @@ Here I would split intro three paragraphs:
 
 \section{Disclaimers}
 % If you used ChatGPT or other LLMs to do your research and/or write your text, please mention that here. If you used such tools for your research itself, please also mention the prompts you used. Don't be afraid that we will give you a lower grade because you used an LLM. We won't.
+
+
+\appendix
+
+\section{Hyperparameters}
+
+\begin{table}[H]
+\centering
+\caption{The optimized hyperparameters for each outer fold achieved after running 15 trials in a Bayesian optimization algorithm using a TPE sampler. The number of epochs and batch size were fixed to narrow the searching space of the Bayesian algorithm.}
+\label{tab:cvae_params}
+\begin{tabular}{cccccc}
+\hline
+ & fold 1 & fold 2 & fold 3 & fold 4 & fold 5 \\ \hline
+learning rate & 0.00133 & 0.00133 & 0.00548 & 0.00133 & 0.00548 \\
+latent dimension & 62 & 62 & 50 & 62 & 50 \\
+$\#$hidden nodes & 79 & 79 & 66 & 79 & 66 \\
+GRU dimension & 42 & 42 & 64 & 42 & 64 \\
+$\#$convolution layers & 1 & 1 & 1 & 1 & 1 \\
+$\#$hidden layers & 1 & 1 & 2 & 1 & 2 \\
+$\#$GRU layers & 1 & 1 & 1 & 1 & 1 \\
+$\#$FC layers & 3 & 3 & 2 & 3 & 2 \\
+embedding dimension & 18 & 18 & 14 & 18 & 14 \\
+teacher forcing ratio & 0.876 & 0.876 & 0.888 & 0.876 & 0.888 \\
+$\beta$ & 4.62 & 4.62 & 1.88 & 4.62 & 1.88 \\
+batch size & 1000 & 1000 & 1000 & 1000 & 1000 \\
+$\#$epochs & 15 & 15 & 15 & 15 & 15 \\ \hline
+\end{tabular}
+\end{table}
 
 \printbibliography
 \end{document}
