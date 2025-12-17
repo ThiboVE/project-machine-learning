@@ -89,12 +89,18 @@
 
 % In the introduction, give a brief overview of the field your research is in and the problem you are trying to solve or the question you are trying to answer. Then briefly explain what you did and what your conclusions are. This can already be done in a little more detail than in the abstract, but the fully exact description of your methods is for the ``Methods'' section. You can think of this section as an explanation of your research to someone who has 5 to 10 minutes to spare. Below are two more paragraphs of text. As you can see, the first line of a new paragraph is automatically indented. You don't need to change anything here.
 
-Within the spectrum of discrete energy levels (molecular orbitals) in a molecule that can be filled with electrons, the HOMO-lUMO gap is the energy difference between the highest occupied molecular orbital (HOMO) and lowest unoccupied molecular orbital (LUMO). This is a fundamental descriptor of the electronic structure of a molecule and is strongly influenced by the specific molecular structure and its functional groups. The HOMO-LUMO gap governs key properties such as reactivity, optical absorption and charge transport characteristics and is directly related to the band-gap in conductivity, determining whether a material behaves as a conductor, insulator or semi-conductor\parencite{dwivedi_2025}. The HOMO-LUMO gap also influences the effiency of organic photovoltaics (solar cells based on organic molecules) and organic light-emitting devices (OLED-technology) \parencite{liu_2015}. As a consequence, accurate determination of the HOMO-LUMO gap and design of molecular materials with a specified HOMO-LUMO gap is essential for both materials science and molecular engineering.
-
+Within the spectrum of discrete energy levels (molecular orbitals) in a molecule that can be filled with electrons, the HOMO-lUMO gap is the energy difference between the highest occupied molecular orbital (HOMO) and lowest unoccupied molecular orbital (LUMO). This is a fundamental descriptor of the electronic structure of a molecule and is strongly influenced by the specific molecular structure and its functional groups. The HOMO-LUMO gap governs key properties such as reactivity, optical absorption and charge transport characteristics and is directly related to the band-gap in conductivity, determining whether a material behaves as a conductor, insulator or semi-conductor\parencite{dwivedi_2025}. The HOMO-LUMO gap also influences the efficiency of organic photovoltaics (solar cells based on organic molecules) and organic light-emitting devices (OLED-technology) \parencite{liu_2015}. As a consequence, accurate determination of the HOMO-LUMO gap and design of molecular materials with a specified HOMO-LUMO gap is essential for both materials science and molecular engineering.
+\newline
+\newline
+\noindent
 Determining the HOMO-LUMO gap, by approximation, is typically done in an experimental setting through optical spectroscopy or voltammetry\parencite{Sworakowski2018,COSTA201651}. However, experimental measurements require synthesized, purified materials making large-scale exploration of hypothetical chemical structures cost expensive and time consuming. As an alternative, methods in computational quantum chemistry, such as Hartree-Fock and Density functional theory (DFT) are used to simulate approximations. Despite their accuracy, these quantum chemical methods are computationally expensive and scale poorly with molecular size and dataset volume, also restricting the capacity of HOMO-LUMO gap exploration and molecular design. 
-
+\newline
+\newline
+\noindent
 Machine learning (ML) provides a strategy to overcome these computational limitations\parencite{Hasan2025}. After training, ML models can predict electronic properties with negligible computational cost compared to traditional quantum chemistry. Crucially, large-scale quantum-chemical datasets like QM9, contain extensive information about molecular structures and properties of organic molecules, enabling the development and benchmarking of ML models with the data volume required for robust learning. Beyond property prediction, ML also enables generative molecular design, making it possible to explore hypothetical chemical structures, optimize properties in silico, and drastically reduce the number of costly experiments. This accelerates molecular discovery pipelines, supports safer design exploration, and opens chemical regions that would be impractical to investigate experimentally. 
-
+\newline
+\newline
+\noindent
 In this study, we pursue a two-fold objective. First, we build predictive models for HOMO-LUMO gap estimation using both Light Gradient Boosting Model (LightGBM), a high-performance gradient boosting framework and a graph convolutional network (GCN) that learns molecular representations directly from graph topology. Second, we integrate the predictive GCN into a conditional variational autoencoder (cVAE) to generate novel molecular structures with user-specified target HOMO-LUMO gaps. This combined framework enables both accurate property prediction and inverse molecular design, supporting accelerated discovery workflows in molecular design and thereby potentially facilitating a more directed control of specific chemical reactions and increasing the relevance of organic based technology (like OPVs and OLED).
 
 NEED TO ADD A PART ABOUT OUR RESULTS
@@ -103,11 +109,21 @@ NEED TO ADD A PART ABOUT OUR RESULTS
 % In the related work section, you briefly describe which other papers have performed research on the same topic as you. Try to explain what the differences are between your research and theirs. You can cite papers like this: \parencite{chow:68}. If you use the citation
 % in the middle of a sentence, you can do it like this: \textcite{chow:68} showed that \dots
 
-In recent years, significant progress has been made in predicting HOMO-LUMO gaps using various ML techniques, such as deep learning, ensemble methods, and graph-based models.
+In recent years, significant progress has been made in predicting HOMO-LUMO gaps using various ML techniques, such as deep learning, ensemble methods, and graph-based models. 
 
-\dots
-
-In the context of generative models, variational autoencoders (VAEs) have emerged as a standard framework for de novo molecular design\parencite{walters_2021}. One of the more recent influencial works is done by \textcite{bombarelli_2018}, which adopted a variational autoencoder to optimize the molecular properties in a latent space and uses a Gaussian process to optimize a chemical structure with the desired properties. \textcite{lim_2018} later demonstrated a conditional VAE framework that enables property-controlled molecular generation and serves as a foundational inspiration for our work. Both studies highlight limitations arising from SMILES-based representations and suggest that graph-based encoders and decoders could better capture molecular structure and improve validity, motivating the graph-based generative approach adopted in our research.
+\textcolor{red}{why use LightGBM}
+\newline
+\newline
+\noindent
+Graph neural networks (GNNs) have emerged as a powerful tool to predict molecular properties from graph representations of molecular structures. As  there is still a lack of 3D graph-based and 3D grid-based methods for molecular property prediction\parencite{LI2022103373}, we will focus on a 2D graph-based model. One such model that is common for molecular property predicted, but also specifically for HOMO-LUMO prediction, is the graph convolutional network (GCN)\parencite{NEURIPS2023_cc83e973,choi2022scalabletraininggraphconvolutional,Therrien2025}.
+\newline
+\newline
+\noindent
+\textcite{NEURIPS2023_cc83e973} demonstrated that deep-learning models generally are unable to outperform non-deep ones for molecular property prediction. However, \textcite{NEURIPS2023_cc83e973} also report MAEs of the predicted HOMO-LUMO gap (using the QM9 dataset) that indicate graph-based deep-learning models as more accurate than traditional models. To more clearly assess whether graph-based deep-learning models outperform traditional models for HOMO–LUMO gap prediction, we chose to compare the performance of a LightGBM model with that of a graph convolutional network (GCN).
+\newline
+\newline
+\noindent
+In the context of generative models, variational autoencoders (VAEs) have emerged as a standard framework for de novo molecular design\parencite{walters_2021}. One of the more recent influential works is done by \textcite{bombarelli_2018}, which adopted a variational autoencoder to optimize the molecular properties in a latent space and uses a Gaussian process to optimize a chemical structure with the desired properties. \textcite{lim_2018} later demonstrated a conditional VAE framework that enables property-controlled molecular generation and serves as a foundational inspiration for our work. Both studies highlight limitations arising from SMILES-based representations and suggest that graph-based encoders and decoders could better capture molecular structure and improve validity, motivating the graph-based generative approach adopted in our research.
 
 TO BE CHANGED
 
@@ -194,7 +210,7 @@ Hyperparameter optimization for the GCN model was performed using a simple grid 
 
 \subsection{GCN}
 
-Just as for the LightGBM model, the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap were determined for the GCN model. All evaluation metrics of the GCN model (\Cref{tab:GCN}) have slightly higher values than those of the LightGBM model (\Cref{tab:LightGBM}).
+Just as for the LightGBM model, the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap were determined for the GCN model. All evaluation metrics of the GCN model (\Cref{tab:GCN}) have slightly higher values than those of the LightGBM model (\Cref{tab:LightGBM}). The consistent appearance of the same group of outliers across all outer folds (upper left half of each $R^2$ plot in \Cref{fig:GCN_R2}) indicates that the stratified outer cross-validation split was balanced.
 
 \begin{table}[H]
 \caption{Mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO–LUMO gaps per outer fold. Mean values across all five folds are also reported.}

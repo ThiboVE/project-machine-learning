@@ -2563,16 +2563,22 @@
     <bcf:citekey order="3">Sworakowski2018</bcf:citekey>
     <bcf:citekey order="3">COSTA201651</bcf:citekey>
     <bcf:citekey order="4">Hasan2025</bcf:citekey>
-    <bcf:citekey order="5">walters_2021</bcf:citekey>
-    <bcf:citekey order="6">bombarelli_2018</bcf:citekey>
-    <bcf:citekey order="7">lim_2018</bcf:citekey>
-    <bcf:citekey order="8">PyG_QM9</bcf:citekey>
-    <bcf:citekey order="9">rdkit</bcf:citekey>
-    <bcf:citekey order="10">rdkit_chem_docs</bcf:citekey>
-    <bcf:citekey order="11">deshmukh2023building</bcf:citekey>
-    <bcf:citekey order="12">deshmukh2023building</bcf:citekey>
-    <bcf:citekey order="13">deshmukh2023building</bcf:citekey>
-    <bcf:citekey order="14">deshmukh2023building</bcf:citekey>
+    <bcf:citekey order="5">LI2022103373</bcf:citekey>
+    <bcf:citekey order="6">NEURIPS2023_cc83e973</bcf:citekey>
+    <bcf:citekey order="6">choi2022scalabletraininggraphconvolutional</bcf:citekey>
+    <bcf:citekey order="6">Therrien2025</bcf:citekey>
+    <bcf:citekey order="7">NEURIPS2023_cc83e973</bcf:citekey>
+    <bcf:citekey order="8">NEURIPS2023_cc83e973</bcf:citekey>
+    <bcf:citekey order="9">walters_2021</bcf:citekey>
+    <bcf:citekey order="10">bombarelli_2018</bcf:citekey>
+    <bcf:citekey order="11">lim_2018</bcf:citekey>
+    <bcf:citekey order="12">PyG_QM9</bcf:citekey>
+    <bcf:citekey order="13">rdkit</bcf:citekey>
+    <bcf:citekey order="14">rdkit_chem_docs</bcf:citekey>
+    <bcf:citekey order="15">deshmukh2023building</bcf:citekey>
+    <bcf:citekey order="16">deshmukh2023building</bcf:citekey>
+    <bcf:citekey order="17">deshmukh2023building</bcf:citekey>
+    <bcf:citekey order="18">deshmukh2023building</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">
