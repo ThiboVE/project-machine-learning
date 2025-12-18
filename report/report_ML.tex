@@ -88,19 +88,21 @@
 
 % In the introduction, give a brief overview of the field your research is in and the problem you are trying to solve or the question you are trying to answer. Then briefly explain what you did and what your conclusions are. This can already be done in a little more detail than in the abstract, but the fully exact description of your methods is for the ``Methods'' section. You can think of this section as an explanation of your research to someone who has 5 to 10 minutes to spare. Below are two more paragraphs of text. As you can see, the first line of a new paragraph is automatically indented. You don't need to change anything here.
 
-Within the spectrum of discrete energy levels (molecular orbitals) in a molecule that can be filled with electrons, the HOMO-lUMO gap is the energy difference between the highest occupied molecular orbital (HOMO) and lowest unoccupied molecular orbital (LUMO). This is a fundamental descriptor of the electronic structure of a molecule and is strongly influenced by the specific molecular structure and its functional groups. The HOMO-LUMO gap governs key properties such as reactivity, optical absorption and charge transport characteristics and is directly related to the band-gap in conductivity, determining whether a material behaves as a conductor, insulator or semi-conductor\parencite{dwivedi_2025}. The HOMO-LUMO gap also influences the effiency of organic photovoltaics (solar cells based on organic molecules) and organic light-emitting devices (OLED-technology) \parencite{liu_2015}. As a consequence, accurate determination of the HOMO-LUMO gap and design of molecular materials with a specified HOMO-LUMO gap is essential for both materials science and molecular engineering.
+% Within the spectrum of discrete energy levels (molecular orbitals) in a molecule that can be filled with electrons, the HOMO-lUMO gap is the energy difference between the highest occupied molecular orbital (HOMO) and lowest unoccupied molecular orbital (LUMO). This is a fundamental descriptor of the electronic structure of a molecule and is strongly influenced by the specific molecular structure and its functional groups. The HOMO-LUMO gap governs key properties such as reactivity, optical absorption and charge transport characteristics and is directly related to the band-gap in conductivity, determining whether a material behaves as a conductor, insulator or semi-conductor\parencite{dwivedi_2025}. The HOMO-LUMO gap also influences the effiency of organic photovoltaics (solar cells based on organic molecules) and organic light-emitting devices (OLED-technology) \parencite{liu_2015}. As a consequence, accurate determination of the HOMO-LUMO gap and design of molecular materials with a specified HOMO-LUMO gap is essential for both materials science and molecular engineering.
+
+The HOMO-LUMO gap is the energy difference between the highest occupied and lowest unoccupied molecular orbitals and is a fundamental descriptor of a molecule's electronic structure. It strongly depends on molecular structure and functional groups and governs key properties such as chemical reactivity, optical absorption, charge transport, and conductivity, determining whether a material behaves as a conductor, semiconductor, or insulator \parencite{dwivedi_2025}. The HOMO-LUMO gap is also critical for the performance of organic photovoltaics (OPVs) and organic light-emitting devices (OLED) \parencite{liu_2015}, making its accurate prediction and targeted design central to molecular engineering and materials science.
 \newline
 \newline
 \noindent
-Determining the HOMO-LUMO gap, by approximation, is typically done in an experimental setting through optical spectroscopy or voltammetry\parencite{Sworakowski2018,COSTA201651}. However, experimental measurements require synthesized, purified materials making large-scale exploration of hypothetical chemical structures cost expensive and time consuming. As an alternative, methods in computational quantum chemistry, such as Hartree-Fock and Density functional theory (DFT) are used to simulate approximations. Despite their accuracy, these quantum chemical methods are computationally expensive and scale poorly with molecular size and dataset volume, also restricting the capacity of HOMO-LUMO gap exploration and molecular design. 
+Experimentally, HOMO-LUMO gaps are typically estimated using optical spectroscopy or voltammetry\parencite{Sworakowski2018,COSTA201651}. However, these measurements require synthesized, purified materials making large-scale exploration of hypothetical chemical structures costly and time consuming. Computational quantum chemistry methods such as Hartree-Fock and Density functional theory offer accurate alternatives but are computationally expensive and scale poorly with molecular size and dataset volume, limiting their applicability for large-scale molecular exploration.
 \newline
 \newline
 \noindent
-Machine learning (ML) provides a strategy to overcome these computational limitations\parencite{Hasan2025}. After training, ML models can predict electronic properties with negligible computational cost compared to traditional quantum chemistry. Crucially, large-scale quantum-chemical datasets like QM9, contain extensive information about molecular structures and properties of organic molecules, enabling the development and benchmarking of ML models with the data volume required for robust learning. Beyond property prediction, ML also enables generative molecular design, making it possible to explore hypothetical chemical structures, optimize properties in silico, and drastically reduce the number of costly experiments. This accelerates molecular discovery pipelines, supports safer design exploration, and opens chemical regions that would be impractical to investigate experimentally. 
+Machine learning provides an efficient alternative by enabling rapid prediction of electronic properties\parencite{Hasan2025}. Crucially, large-scale quantum-chemical datasets like QM9, contain extensive information about molecular structures and properties of organic molecules, enabling the development and benchmarking of ML models with the data volume required for robust learning. Beyond property prediction, ML also enables generative molecular design, allowing in silico exploration and optimization of hypothetical molecules, thereby reducing experimental cost and accelerating molecular discovery.
 \newline
 \newline
 \noindent
-In this study, we pursue a two-fold objective. First, we build predictive models for HOMO-LUMO gap estimation using both Light Gradient Boosting Model (LightGBM), a high-performance gradient boosting framework and a graph convolutional network (GCN) that learns molecular representations directly from graph topology. Second, we integrate the predictive GCN into a conditional variational autoencoder (cVAE) to generate novel molecular structures with user-specified target HOMO-LUMO gaps. This combined framework enables both accurate property prediction and inverse molecular design, supporting accelerated discovery workflows in molecular design and thereby potentially facilitating a more directed control of specific chemical reactions and increasing the relevance of organic based technology (like OPVs and OLED).
+In this study, we pursue two objectives. First, we build predictive models for HOMO-LUMO gap estimation using both Light Gradient Boosting Model (LightGBM), a high-performance gradient boosting framework and a graph convolutional network (GCN) that learns molecular representations directly from graph topology. Second, we integrate the GCN into a conditional variational autoencoder (cVAE) to generate novel molecular structures with user-specified target HOMO-LUMO gaps. This combined framework enables both accurate property prediction and inverse molecular design.
 
 \textcolor{purple}{NEED TO ADD A PART ABOUT OUR RESULTS}
 
@@ -160,9 +162,9 @@ The splits were stratified based on the distribution of the HOMO-LUMO gap values
 
 \subsection{Evaluation metrics}\label{sec:evalmetrics}
 
-Since both the LightGBM and GCN models are used to predict HOMO-LUMO gaps and are directly compared, the same evaluation metrics are applied to both. Commonly used metrics for HOMO-LUMO gap prediction include the mean absolute error (MAE), root mean squared error (RMSE), and the coefficient of determination ($R^2$) between the predicted and true HOMO-LUMO gaps.
+Since both the LightGBM and GCN models are used to predict HOMO-LUMO gaps and are directly compared, the same evaluation metrics are applied to both. Commonly used metrics for HOMO-LUMO gap prediction include the mean absolute error (MAE, \cref{eq:MAE}), root mean squared error (RMSE, \cref{eq:RMSE}), and the coefficient of determination ($R^2$, \cref{eq:R2}) between the predicted and true HOMO-LUMO gaps.
 
-The cVAE model performance is evaluated using the average character-level reconstruction accuracy ($\overline{CRA}$), the chemical validity of newly generated SMILES strings using RDKit, and the agreement between the target HOMO-LUMO gap and the GCN-predicted gap of the generated molecules, quantified using MAE. Each metric is calculated as
+The cVAE model performance is evaluated using the average character-level reconstruction accuracy ($\overline{CRA}$, \cref{eq:CRA}), the chemical validity of newly generated SMILES strings using RDKit (\cref{eq:validity}), and the agreement between the target HOMO-LUMO gap and the GCN-predicted gap of the generated molecules, quantified using MAE. Each metric is calculated as
 
 \begin{equation}\label{eq:MAE}
   MAE = \frac{1}{N}\sum^{N}\vert y_{pred}-y_{true} \vert
@@ -182,7 +184,7 @@ The cVAE model performance is evaluated using the average character-level recons
 
 with $N$ the total number of test molecules and $T_n$ the number of characters per SMILES string.
 
-\begin{equation}
+\begin{equation}\label{eq:validity}
   Validity = \frac{1}{n_{trials}} \sum_{i=1}^{n_{trials}} \mathbf{1} (isValid(\hat{x}_{i}))
 \end{equation}
 
@@ -343,19 +345,20 @@ Mean & 0.852 \\ \hline
 \end{table}
 
 Beyond reconstruction performance, the primary metric of interest is the generative capability of the cVAE. Using the best-performing trained model (outer fold 3), the chemical validity of molecules generated from both randomly sampled latent vectors and perturbed latent vectors is evaluated (\cref{fig:validity} and \cref{tab:cvae_samples}). Across the ten sampled target molecules in each experimental pathway, the average validity is low and comparable between the two sampling strategies, with no clear advantage observed for either method.
-
-For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. Despite similar validity levels for both sampling methods, the perturbed latent sampling consistently yields substantially lower MAE values than random latent sampling. Nevertheless, for both approaches, the MAE remains considerably larger than the errors reported for the standalone GCN regression model, ensuring a significant difference between the target and generated HOMO-LUMO gap.
+\newline
+\newline
+For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. Despite similar validity levels for both sampling methods, the perturbed latent sampling consistently yields substantially lower MAE values than random latent sampling. Nevertheless, for both approaches, the MAE remains considerably larger than the errors reported for the standalone GCN model, meaning there is a significant difference between the target and generated HOMO-LUMO gap.
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}{0.48\textwidth}
+  \begin{subfigure}{0.4\textwidth}
     \centering
     \includegraphics[width=\linewidth]{img/avg_validity.png}
     \caption{The average validity for both 10 randomly sampled latent vectors and 10 perturbed latent vectors with their respective 95\% confidence intervals.}
     \label{fig:validity}
   \end{subfigure}
   \hfill
-  \begin{subfigure}{0.48\textwidth}
+  \begin{subfigure}{0.4\textwidth}
     \centering
     \includegraphics[width=\linewidth]{img/cvae_maes.png}
     \caption{The MAEs of the valid generated molecules for each of the 10 random and 10 perturbed samples.}
@@ -364,7 +367,7 @@ For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO ga
   \caption{A visual representation of the data from \cref{tab:cvae_samples}.}
 \end{figure}
 
-To further explore the perturbed latent space vectors, we visualized the generated chemical structures to assess how effectively the cVAE can produce molecules with the same HOMO-LUMO gap while exhibiting slight structural variations. \Cref{fig:genmol1,fig:genmol5,fig:genmol10} present three starting molecules alongside four of their respective perturbed generated molecules. It is immediately evident that the model struggles to generate molecules closely resembling the original structures when sampling around them in the latent space. Although the model captures certain chemical motifs, such as the ring structures observed in \cref{fig:genmol10}, these patterns are not consistently preserved across the generated samples.
+To further explore the perturbed latent space vectors, we visualize the generated chemical structures to assess how effectively the cVAE can produce molecules with the same HOMO-LUMO gap while exhibiting slight structural variations. \Cref{fig:genmol1,fig:genmol5,fig:genmol10} present three starting molecules alongside four of their respective perturbed generated molecules.
 
 
 \section{Discussion}
@@ -385,14 +388,16 @@ Although prior work has shown that deep-learning models do not consistently outp
 
 \subsection{Molecular Generation with cVAE}
 
-The overall mean character-wise reconstruction accuracy ($\overline{CRA} = 0.852$) demonstrates that the model can recover the original molecular structures in most cases. While no reconstruction accuracies were found for cVAE models with the exact same dataset, \textcite{blaschke_2018} using a standard VAE consisting of a CNN encoder and GRU decoder found a similar reconstruction accuracy of 0.862 with teacher forcing and 0.963 without teacher forcing and \textcite{mollaysa_2024}, an alternative study, using a Transformer VAE obtained a reconstruction accuracy of 0.961. These results indicate that our cVAE model is generally capable of reconstructing molecular SMILES strings with a reasonable degree of accuracy, however, the limited amount of hyperparameter tuning that was able to be done (only 15 trials) suggests that further gains may be achievable with a more extensive optimization strategy. 
-
-Despite this reconstruction performance, the chemical validity of both the randomly sampled and perturbed generated molecules is low and comparable. This is somewhat surprising, as it has already been shown that latent vectors sampled around molecules from the dataset should results in more generated valid SMILES \parencite{lim_2018}. A likely contributing factor to the overall low validity is the high teacher forcing ratio employed during training (\cref{tab:cvae_params}). While teacher forcing stabilizes training and improves reconstruction by conditioning the decoder on ground-truth tokens, it limits the decoder's exposure to its own predictions, reducing robustness during molecular generation. Consequently, the model learns to reconstruct known sequences well but struggles to generate valid novel molecules when sampled freely.
-
-In addition, the generated molecules do not generally resemble their corresponding source molecules when sampling from perturbed latent vectors (\cref{fig:genmol1,fig:genmol5,fig:genmol10}). This contrasts with the results of \textcite{lim_2018} and \textcite{bombarelli_2018}, who reported smooth latent interpolations yielding structurally similar molecules. The lack of structural preservation observed here suggests that the learned latent space does not encode fine-grained molecular structure and a deeper analysis of the quality of the latent space is required to find the origin of this issue.
-
-Finally, the large mean absolute errors observed for the HOMO-LUMO gaps of generated molecules further indicate limited effectiveness of the conditional mechanism. Although perturbed latent sampling reduces the MAE compared to random sampling, the deviations remain substantially larger than those reported in literature \parencite{bombarelli_2018}. This suggests that the conditional encoding of our model is insufficient to reliably enforce accurate electronic properties in newly generated molecules, particularly in the presence of low chemical validity.
-
+The mean character-wise reconstruction accuracy ($\overline{CRA} = 0.852$, \cref{tab:CRA}) demonstrates that the model can recover the original molecular structures in most cases. While reconstruction accuracies for cVAEs on the exact same dataset are not available, \textcite{blaschke_2018} report 0.862 with teacher forcing (0.963 without) for a standard VAE, and \textcite{mollaysa_2024} achieved 0.961 with a Transformer VAE. These results show that our cVAE performs just below literature standard, however, our limited hyperparameter tuning suggests further improvements are possible.
+\newline
+\newline
+Despite this reconstruction performance, the chemical validity of both the randomly sampled and perturbed generated molecules is low and comparable (\cref{fig:validity}), which is surprising given prior work showing that local latent sampling often increases validity \parencite{lim_2018}. A likely contributing factor to the overall low validity is the high teacher forcing ratio employed during training (\cref{tab:cvae_params}), which improves reconstruction by conditioning the decoder on ground-truth tokens but reduces its robustness during free generation. Consequently, the model learns to reconstruct known sequences well but struggles to generate valid novel molecules when sampled freely.
+\newline
+\newline
+In addition, the model struggles to generate molecules closely resembling structures from the dataset (\cref{fig:genmol1,fig:genmol5,fig:genmol10}). Although the model captures certain chemical motifs, such as the ring structures observed in \cref{fig:genmol10}, these patterns are not consistently preserved across the generated samples. This contrasts \textcite{lim_2018} and \textcite{bombarelli_2018}, who reported structurally similar generated molecules. The lack of structural preservation observed here suggests that the learned latent space does not encode fine-grained molecular structure and a deeper analysis of the quality of the latent space is required to find the origin of this issue.
+\newline
+\newline
+Finally, the large mean absolute errors observed for the HOMO-LUMO gaps of generated molecules further indicate limited conditional control (\cref{tab:cvae_samples}). Although perturbed latent sampling reduces the MAE compared to random sampling, errors remain substantially larger than those reported in literature \parencite{bombarelli_2018}, highlighting that the conditional encoding is insufficient to reliably enforce target electronic properties, especially given low chemical validity.
 
 \section{\textcolor{purple}{Conclusion}}
 
