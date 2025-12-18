@@ -103,7 +103,8 @@ NEED TO ADD A PART ABOUT OUR RESULTS
 % In the related work section, you briefly describe which other papers have performed research on the same topic as you. Try to explain what the differences are between your research and theirs. You can cite papers like this: \parencite{chow:68}. If you use the citation
 % in the middle of a sentence, you can do it like this: \textcite{chow:68} showed that \dots
 
-In recent years, significant progress has been made in predicting HOMO-LUMO gaps using various ML techniques, such as deep learning, ensemble methods, and graph-based models.
+In recent years, significant progress has been made in predicting HOMO-LUMO gaps using various ML techniques, such as deep learning, ensemble methods, and graph-based models. Early descriptor-based regression models achieved MAEs in the range of about 0.10-0.25 eV using methods such as Random Forests or LightGBM on connectivity/descriptor features.
+
 
 \dots
 
@@ -118,7 +119,7 @@ TO BE CHANGED
 For all models in this study, we used the QM9 dataset\parencite{PyG_QM9}, a widely adopted quantum chemistry dataset comprising 130,831 small organic molecules with associated properties, including the HOMO--LUMO gap. Only molecules with valid SMILES representations were retained, leaving 129,012 molecules, can be seen in \cref{fig:gap_distribution}. SMILES (Simplified Molecular Input Line Entry System) is a text-based notation that encodes chemical structures as ASCII strings, enabling efficient computational processing; for example, benzene is represented as \texttt{C1=CC=CC=C1}. While SMILES strings can be interpreted by computers, they are not directly suitable as input for most machine learning models, which require numerical representations. Consequently, preprocessing is necessary to transform molecular structures into informative, fixed-length numerical features suitable for model training.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{img/bandgap_distribution_dataset.png}
+    \includegraphics[width=0.4\textwidth]{img/bandgap_distribution_dataset.png}
     \caption{Illustration of the bandgap distribution in the QM9 dataset where only the valid molecules are kept. The vertical dashed lines indicates the minimum and maximum bandgap values in the dataset.}
     \label{fig:gap_distribution}
 \end{figure}
@@ -216,7 +217,48 @@ For each experimental pathway, ten molecules with distinct target HOMO-LUMO gaps
 
 \section{Results}
 % Here you describe the results you obtained. This is not just a big data dump where you put all the numbers into one big table. Try to point out patterns or striking things in your results. Think about how you can visualize the results so that a reader, who has not conducted your research themselves, can quickly understand what your results mean.
+\subsection{LightGBM}
+\label{sec:lightgbm}
+For the performance of the model we first looked to the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap which are calculated for each outer cross-validation fold. These results are shown in \cref{tab:LightGBM} and \cref{fig:LightGBM_R2}. We see that the values for the different metrics does not change much with each fold which is in line whit the chosen stratified splits. The mean MAE of 0.1418 eV is in line with the 0.1-0.2 eV that can be found in literature. 
 
+Closer inspection of the plot suggests that the largest deviations occur for  a molecule with the  highest HOMO-LUMO gaps. This trend is expected given that extreme values are less frequently represented in the dataset, and gradient-boosted models may underperform slightly on sparse regions of the target distribution. Nonetheless, the scatter remains tightly clustered around the parity line for the bulk of the molecules, confirming robust generalization across the typical gap range.
+
+
+\begin{table}[H]
+\caption{LightGBM : mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO-LUMO gaps per outer fold. Mean values across all five folds are also reported.}
+\label{tab:LightGBM}
+\centering
+\small
+\setlength{\tabcolsep}{16pt}   % column padding
+\renewcommand{\arraystretch}{1.5} % row height
+\begin{tabular}{|l|c|c|c|}
+\hline
+ & MAE & RMSE & $R^2$ \\ \hline
+Outer Fold 1 & 0.1417 & 0.2160 & 0.9715\\ \hline
+Outer Fold 2 & 0.1408 & 0.2122 & 0.9727 \\ \hline
+Outer Fold 3 & 0.1411 & 0.2200 & 0.9705 \\ \hline
+Outer Fold 4 & 0.1430 & 0.2183 & 0.9709 \\ \hline
+Outer Fold 5 & 0.1423 & 0.2227 & 0.9696 \\ \hline
+Mean & 0.14 & 0.22 & 0.97 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/LightGBM_R2.png}
+    \caption{Predicted vs true HOMO-LUMO gap for all 5 outer folds together of the LigthGBM model.}
+    \label{fig:LightGBM_R2}
+\end{figure}
+
+The feature importance stability plot (\cref{fig:LightGBM_features})summarizes the mean and standard deviation of LightGBM feature importances across the five outer cross-validation folds for the top 20 descriptors. Points indicate the average importance of each descriptor, while error bars reflect variability across folds, providing insight into both feature relevance and robustness. Several descriptors consistently dominate the model, most notably MinAbsEStateIndex, BCUT2D$_{\text{MWLOW}}$, and BCUT2D$_{\text{MRHI}}$, which exhibit high mean importance with low variability. This indicates that these features are both highly informative and stable predictors of the HOMO--LUMO gap.
+
+Overall, feature importance shows a gradual decay, with approximately the top ten descriptors accounting for most of the predictive power. The low standard deviations observed for the most important features suggest that the model relies on a robust core of chemically meaningful descriptors that remain consistent across different training subsets.These results highlight the relevance of descriptors capturing electronic and topological properties, such as BCUT metrics and EState indices, for accurate HOMO-LUMO gap prediction, while lower-importance features appear to contribute only marginally to overall performance.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/LightGBM_features.png}
+    \caption{The top 20 most important features across the 5 outer folds where the error bar reflect variability across folds.}
+    \label{fig:LightGBM_features}
+\end{figure}
 \subsection{GCN}
 
 Just as for the LightGBM model, the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap were determined for the GCN model. All evaluation metrics of the GCN model (\Cref{tab:GCN}) have slightly higher values than those of the LightGBM model (\Cref{tab:LightGBM}).
