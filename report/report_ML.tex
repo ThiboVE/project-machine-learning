@@ -218,7 +218,7 @@ Starting from the node and edge matrix representations of a graph, the GCN model
 Hyperparameter optimization for the GCN model was performed using a simple grid search, as this allowed easy parallelization of hyperparameter tuning. The parameters and their possible values included in the grid search are: batch\_size (64, 128, 256, 384), hidden\_nodes (64, 96, 128), n\_conv\_layers (1-5), n\_hidden\_layers (1-3), learning\_rate (0.001, 0.003, 0.005, 0.007, 0.01). Other parameters such as the maximum dimensions of the node and edge matrix, and the number of epochs were kept constant. After nested cross-validation, the same best-performing hyperparameters were obtained for each outer fold: batch\_size = 256, hidden\_nodes = 128, n\_conv\_layers = 4, n\_conv\_layers = 2, learning\_rate = 0.003, the number of epochs was kept constant at 50.
 
 \subsection{cVAE}\label{section:cvae_method}
-
+\noindent
 The conditional variational autoencoder (cVAE) is chosen for its probabilistic nature, which enables sampling of new molecules with higher validity than a standard autoencoder \parencite{kingma_2019}. Our implementation is partially inspired by \parencite{bombarelli_2018, lim_2018}, except for the encoder. The model consists of a graph-based GCN encoder, a continuous conditioned latent space, and a GRU sequence decoder \parencite{yuan_2020, cho_2014}, combining the richer information from graph representations with the simplicity of SMILES decoding.
 \newline
 \newline
@@ -228,7 +228,7 @@ Training maximizes the conditional ELBO (equivalently, minimizes the negative EL
 \begin{equation}
   \mathcal{L}_{cVAE} = \mathbb{E} [\log \: p(x | z, y)] - \beta D_{KL} (q(z|x,y) \| \mathcal{N} (0, I))
 \end{equation}
-
+\noindent
 where $q(z|x,y)$ is the encoder's approximate posterior, mapping a molecule and its HOMO-LUMO gap to a latent distribution, and $p(x|z,y)$ is the decoder's likelihood, giving the probability of reconstructing a SMILES sequence from a latent vector and conditioning value.
 \newline
 \newline
@@ -264,7 +264,7 @@ Closer inspection of the plot suggests that the largest deviations occur for  a 
 \renewcommand{\arraystretch}{1.5} % row height
 \begin{tabular}{|l|c|c|c|}
 \hline
- & MAE & RMSE & $R^2$ \\ \hline
+ & MAE (eV) & RMSE (eV) & $R^2$ \\ \hline
 Outer Fold 1 & 0.1417 & 0.2160 & 0.9715\\ \hline
 Outer Fold 2 & 0.1408 & 0.2122 & 0.9727 \\ \hline
 Outer Fold 3 & 0.1411 & 0.2200 & 0.9705 \\ \hline
@@ -305,7 +305,7 @@ Just as for the LightGBM model, the mean absolute error (MAE), root mean square 
 \renewcommand{\arraystretch}{1.5} % row height
 \begin{tabular}{|l|c|c|c|}
 \hline
- & MAE & RMSE & $R^2$ \\ \hline
+ & MAE (eV) & RMSE (eV) & $R^2$ \\ \hline
 Outer Fold 1 & 0.1677 & 0.2403 & 0.9646 \\ \hline
 Outer Fold 2 & 0.1585 & 0.2280 & 0.9682 \\ \hline
 Outer Fold 3 & 0.1567 & 0.2255 & 0.9690 \\ \hline
@@ -371,16 +371,19 @@ To further explore the perturbed latent space vectors, we visualized the generat
 % Provide an interpretation of your results. What do they mean in the context of your research question? What do you notice here compared to other papers you've read? Perhaps a particular method is not as superior to all the others after all as you originally expected, or maybe you had an idea for a technique that seemed good in theory but doesn't work as well in practice, or \dots
 
 
-\subsection{LightGBM vs GCN}
+\subsection{LightGBM and GCN have similar performances}
 
-Here I would split intro three paragraphs:
-\begin{enumerate}
-  \item \textcolor{red}{Interpretation of LightGBM results and how it relates to literature}
-  \item Interpretation of GCN results and how it relates to literature
-  \item Results of LightGBM vs GCN and what this could mean for the decision between traditional vs deep learning HOMO-LUMO gap prediction
-\end{enumerate}
+\textcolor{red}{Interpretation of LightGBM results and how it relates to literature}
+\newline
+\newline
+\noindent
+The GCN model achieves a mean MAE of approximately 0.16 eV for HOMO–LUMO gap prediction, with a consistently high $R^2$ of about 0.97 across all cross-validation folds (\Cref{tab:GCN}), indicating a balanced split. This performance improves upon a very recent GCN result reported for the PCQM4Mv2 dataset, where a MAE of around 0.20 eV was observed\parencite{hu2021ogblsc}, and is competitive with other GCN based approaches reporting MAEs of 0.14 eV\parencite{choi2022scalabletraininggraphconvolutional} and 0.12 eV\parencite{Therrien2025}. Although the present model does not surpass the best-performing architectures in the literature, the relatively small performance gap suggests that a standard 2D GCN can capture most of the relevant structure–property relationships governing the HOMO–LUMO gap. Overall, these results reinforce the effectiveness of graph convolutional networks for molecular electronic property prediction while highlighting that further gains likely require more expressive models or additional structural information.
+\newline
+\newline
+\noindent
+Although prior work has shown that deep-learning models do not consistently outperform non-deep models for molecular property prediction\parencite{NEURIPS2023_cc83e973}, our results show that the GCN attains comparable accuracy to that of the LightGBM model. While the GCN model learns chemically meaningful structural relationships through a graph, the LightGBM model uses descriptors of the molecule to learn mappings between these features and the target property. Rather than clearly favoring one approach over the other, our findings suggest that deep-learning and traditional models address the the prediction of HOMO-LUMO gap from complementary perspectives while achieving similar overall performance. A more comprehensive comparison across a wider range of models and datasets, similar to the analysis in \textcite{NEURIPS2023_cc83e973} but focused specifically on HOMO–LUMO gap prediction, would help clarify the relative advantages of traditional versus deep-learning approaches for this specific task.
 
-\subsection{Molecular Generation}
+\subsection{Molecular Generation with cVAE}
 
 The overall mean character-wise reconstruction accuracy ($\overline{CRA} = 0.852$) demonstrates that the model can recover the original molecular structures in most cases. While no reconstruction accuracies were found for cVAE models with the exact same dataset, \textcite{blaschke_2018} using a standard VAE consisting of a CNN encoder and GRU decoder found a similar reconstruction accuracy of 0.862 with teacher forcing and 0.963 without teacher forcing and \textcite{mollaysa_2024}, an alternative study, using a Transformer VAE obtained a reconstruction accuracy of 0.961. These results indicate that our cVAE model is generally capable of reconstructing molecular SMILES strings with a reasonable degree of accuracy, however, the limited amount of hyperparameter tuning that was able to be done (only 15 trials) suggests that further gains may be achievable with a more extensive optimization strategy. 
 
