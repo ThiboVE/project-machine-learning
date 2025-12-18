@@ -52,6 +52,73 @@
       \verb https://beckham.nz/2023/04/27/conditional-vaes.html
       \endverb
     \endentry
+    \entry{blaschke_2018}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=e52e987849436cae55c3929da2203ba4}{%
+           family={Blaschke},
+           familyi={B\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=02d28c1cf3482d4e2af59f31a7ab3e88}{%
+           family={Olivecrona},
+           familyi={O\bibinitperiod},
+           given={Marcus},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=07fc5197917d83cd3df96202400b36bc}{%
+           family={Engkvist},
+           familyi={E\bibinitperiod},
+           given={Ola},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=47a4bbea95808ce55fc26d9535990987}{%
+           family={Bajorath},
+           familyi={B\bibinitperiod},
+           given={Jürgen},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=52c3e5a8c2ccdc7c6f2b529db69f6872}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Hongming},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{94fab34a9aa11fe0ab1f02c96bce1b4f}
+      \strng{fullhash}{07c72c035f87f860b3a9dc2d00f6141e}
+      \strng{bibnamehash}{07c72c035f87f860b3a9dc2d00f6141e}
+      \strng{authorbibnamehash}{07c72c035f87f860b3a9dc2d00f6141e}
+      \strng{authornamehash}{94fab34a9aa11fe0ab1f02c96bce1b4f}
+      \strng{authorfullhash}{07c72c035f87f860b3a9dc2d00f6141e}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Molecular Informatics}
+      \field{number}{1-2}
+      \field{title}{Application of Generative Autoencoder in De Novo Molecular Design}
+      \field{volume}{37}
+      \field{year}{2018}
+      \field{pages}{1700123}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1002/minf.201700123
+      \endverb
+      \verb{eprint}
+      \verb https://onlinelibrary.wiley.com/doi/pdf/10.1002/minf.201700123
+      \endverb
+      \verb{urlraw}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/minf.201700123
+      \endverb
+      \verb{url}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/minf.201700123
+      \endverb
+      \keyw{Autoencoder,chemoinformatics,de novo molecular design,deep learning,inverse QSAR}
+    \endentry
     \entry{cho_2014}{article}{}
       \name{author}{7}{}{%
         {{un=0,uniquepart=base,hash=3da7501a79d9346572c7fd6e41b615df}{%
@@ -501,6 +568,76 @@
       \verb https://arxiv.org/abs/1906.02691
       \endverb
     \endentry
+    \entry{kusner_2017}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=37d0d7a3ba0cb7a7253c7b690ce4e8c6}{%
+           family={Kusner},
+           familyi={K\bibinitperiod},
+           given={Matt\bibnamedelima J.},
+           giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f2db1dd6937563e0fc5ba60e8d411f9b}{%
+           family={Paige},
+           familyi={P\bibinitperiod},
+           given={Brooks},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=48ac403ef8899f30cccb37d29c0c96a7}{%
+           family={Hern{á}ndez-Lobato},
+           familyi={H\bibinithyphendelim L\bibinitperiod},
+           given={Jos{é}\bibnamedelima Miguel},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=4428b76e1301b2db58587fb18bb59a38}{%
+           family={Precup},
+           familyi={P\bibinitperiod},
+           given={Doina},
+           giveni={D\bibinitperiod}}}%
+        {{hash=a71fae003da84f44e31d26e868859945}{%
+           family={Teh},
+           familyi={T\bibinitperiod},
+           given={Yee\bibnamedelima Whye},
+           giveni={Y\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{5ed8ad78ef3e89e7f60ebcdfc729fd12}
+      \strng{fullhash}{46e8b54807aae44d50a9b7d60413b41c}
+      \strng{bibnamehash}{46e8b54807aae44d50a9b7d60413b41c}
+      \strng{authorbibnamehash}{46e8b54807aae44d50a9b7d60413b41c}
+      \strng{authornamehash}{5ed8ad78ef3e89e7f60ebcdfc729fd12}
+      \strng{authorfullhash}{46e8b54807aae44d50a9b7d60413b41c}
+      \strng{editorbibnamehash}{ee1b5a05452f2afba9cd287be3ce0338}
+      \strng{editornamehash}{ee1b5a05452f2afba9cd287be3ce0338}
+      \strng{editorfullhash}{ee1b5a05452f2afba9cd287be3ce0338}
+      \field{sortinit}{K}
+      \field{sortinithash}{d3edc18d54b9438a72c24c925bfb38f4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 34th International Conference on Machine Learning}
+      \field{month}{06--11 Aug}
+      \field{series}{Proceedings of Machine Learning Research}
+      \field{title}{Grammar Variational Autoencoder}
+      \field{volume}{70}
+      \field{year}{2017}
+      \field{pages}{1945\bibrangedash 1954}
+      \range{pages}{10}
+      \verb{file}
+      \verb http://proceedings.mlr.press/v70/kusner17a/kusner17a.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://proceedings.mlr.press/v70/kusner17a.html
+      \endverb
+      \verb{url}
+      \verb https://proceedings.mlr.press/v70/kusner17a.html
+      \endverb
+    \endentry
     \entry{lim_2018}{article}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=2eb70e5ec072f4b7475c8a6e0da9146f}{%
@@ -616,6 +753,43 @@
       \verb https://www.sciencedirect.com/science/article/pii/S1364032115008783
       \endverb
       \keyw{Bulk-heterojunction,Organic solar cells,Photovoltaic devices,Photovoltaic materials}
+    \endentry
+    \entry{mollaysa_2024}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2dc7baa9a7f93f3d96f8187448dbc7a4}{%
+           family={Mollaysa},
+           familyi={M\bibinitperiod},
+           given={Amina},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{cbe8dc20d6582d4fa02b77d6146dd26e}
+      \strng{fullhash}{cbe8dc20d6582d4fa02b77d6146dd26e}
+      \strng{bibnamehash}{cbe8dc20d6582d4fa02b77d6146dd26e}
+      \strng{authorbibnamehash}{cbe8dc20d6582d4fa02b77d6146dd26e}
+      \strng{authornamehash}{cbe8dc20d6582d4fa02b77d6146dd26e}
+      \strng{authorfullhash}{cbe8dc20d6582d4fa02b77d6146dd26e}
+      \field{sortinit}{M}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2402.11950}
+      \field{title}{Conditional Variational Autoencoders for Molecular Generation and Property Control}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2402.11950
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2402.11950
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2402.11950
+      \endverb
     \endentry
     \entry{rdkit_chem_docs}{online}{}
       \name{author}{1}{}{%
@@ -821,6 +995,59 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2304.11127
+      \endverb
+    \endentry
+    \entry{Yoshikai2024}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=cb0ef006da8d58a4417a04bc2a4e2029}{%
+           family={Yoshikai},
+           familyi={Y\bibinitperiod},
+           given={Yasuhiro},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ce7a65862a84abaa1f85cdf8ff031d1a}{%
+           family={Mizuno},
+           familyi={M\bibinitperiod},
+           given={Tadahaya},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e26ae423122e614e7afe0f5d2a70a333}{%
+           family={Nemoto},
+           familyi={N\bibinitperiod},
+           given={Shumpei},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=60d8169d0251bc659b6c535b7ca79582}{%
+           family={Kusuhara},
+           familyi={K\bibinitperiod},
+           given={Hiroyuki},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{98d80103d192f6a4d9b67d7eee6b2fb7}
+      \strng{fullhash}{e75c83a1601e3e4e283ad6e9a4c16da8}
+      \strng{bibnamehash}{e75c83a1601e3e4e283ad6e9a4c16da8}
+      \strng{authorbibnamehash}{e75c83a1601e3e4e283ad6e9a4c16da8}
+      \strng{authornamehash}{98d80103d192f6a4d9b67d7eee6b2fb7}
+      \strng{authorfullhash}{e75c83a1601e3e4e283ad6e9a4c16da8}
+      \field{sortinit}{Y}
+      \field{sortinithash}{6ae2ff5458ff901249c2745238c951b7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv}
+      \field{title}{A novel molecule generative model of VAE combined with Transformer for unseen structure generation}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2402.11950
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48550/arXiv.2402.11950
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48550/arXiv.2402.11950
       \endverb
     \endentry
     \entry{yuan_2020}{article}{}

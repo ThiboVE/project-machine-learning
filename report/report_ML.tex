@@ -107,9 +107,7 @@ In recent years, significant progress has been made in predicting HOMO-LUMO gaps
 
 \dots
 
-In the context of generative models, variational autoencoders (VAEs) have emerged as a standard framework for de novo molecular design\parencite{walters_2021}. One of the more recent influencial works is done by \textcite{bombarelli_2018}, which adopted a variational autoencoder to optimize the molecular properties in a latent space and uses a Gaussian process to optimize a chemical structure with the desired properties. \textcite{lim_2018} later demonstrated a conditional VAE framework that enables property-controlled molecular generation and serves as a foundational inspiration for our work. Both studies highlight limitations arising from SMILES-based representations and suggest that graph-based encoders and decoders could better capture molecular structure and improve validity, motivating the graph-based generative approach adopted in our research.
-
-TO BE CHANGED
+In the context of generative models, variational autoencoders (VAEs) have emerged as a standard framework for de novo molecular design\parencite{walters_2021}. One of the more recent influential works is done by \textcite{bombarelli_2018} applied VAEs to construct a continuous and differentiable latent space from SMILES representations of molecules, enabling gradient-based optimization of molecular properties using a Gaussian process. This approach has inspired numerous subsequent studies \parencite{blaschke_2018,Yoshikai2024,kusner_2017}. Notably, \textcite{lim_2018} introduced a conditional VAE framework for property-controlled molecular generation, demonstrating the advantages of incorporating molecular property information into the encoding process and manipulating it during decoding. However, many studies have highlighted limitations of SMILES-based representations, suggesting that graph-based encoders and decoders better capture molecular structure and improve the validity of generated molecules. These findings motivate the graph-based generative approach adopted in our work.
 
 \section{Methodology}
 % In this section, explain in detail what you did. Mention exactly what techniques you used, how you implemented everything, what experiments you performed, \dots This section should contain enough detail so that someone else can completely repeat your research.
@@ -118,7 +116,7 @@ TO BE CHANGED
 For all models in this study, we used the QM9 dataset\parencite{PyG_QM9}, a widely adopted quantum chemistry dataset comprising 130,831 small organic molecules with associated properties, including the HOMO--LUMO gap. Only molecules with valid SMILES representations were retained, leaving 129,012 molecules, can be seen in \cref{fig:gap_distribution}. SMILES (Simplified Molecular Input Line Entry System) is a text-based notation that encodes chemical structures as ASCII strings, enabling efficient computational processing; for example, benzene is represented as \texttt{C1=CC=CC=C1}. While SMILES strings can be interpreted by computers, they are not directly suitable as input for most machine learning models, which require numerical representations. Consequently, preprocessing is necessary to transform molecular structures into informative, fixed-length numerical features suitable for model training.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{img/bandgap_distribution_dataset.png}
+    \includegraphics[width=0.5\textwidth]{img/bandgap_distribution_dataset.png}
     \caption{Illustration of the bandgap distribution in the QM9 dataset where only the valid molecules are kept. The vertical dashed lines indicates the minimum and maximum bandgap values in the dataset.}
     \label{fig:gap_distribution}
 \end{figure}
@@ -198,12 +196,12 @@ Hyperparameter optimization for the GCN model was performed using a simple grid 
 
 \subsection{cVAE}\label{section:cvae_method}
 
-The conditional variational autoencoder (cVAE) is chosen for its probabilistic nature, which enables sampling of new molecules with higher validity than a standard autoencoder \parencite{kingma_2019}. Our implementation is partially inspired by \parencite{bombarelli_2018, lim_2018}, except for the encoder. The model consists of a graph-based GCN encoder, a continuous conditioned latent space, and a GRU sequence decoder \parencite{yuan_2020, cho_2014}, combining the richer information from graph representations with the simplicity of SMILES decoding.
+The conditional variational autoencoder (cVAE) is chosen for its probabilistic nature, which enables sampling of new molecules with higher validity than a standard autoencoder \parencite{kingma_2019}. Our implementation is partially inspired by \parencite{bombarelli_2018, lim_2018}, except for the encoder. The model consists of a graph-based GCN encoder, a continuous conditioned latent space, and a GRU sequence decoder, using teacher forcing, \parencite{yuan_2020, cho_2014}, combining the richer information from graph representations with the simplicity of SMILES decoding.
 
 Training maximizes the conditional ELBO (equivalently, minimizes the negative ELBO), composed of a categorical cross-entropy reconstruction loss and a Kullback-Leibler divergence regularizing the latent space\parencite{beckham_2023}:
 
 \begin{equation}
-  \mathcal{L}_{cVAE} = - \mathbb{E} [\log \: p(x | z, y)] + \beta D_{KL} (q(z|x,y) \| \mathcal{N} (0, I))
+  \mathcal{L}_{cVAE} = \mathbb{E} [\log \: p(x | z, y)] - \beta D_{KL} (q(z|x,y) \| \mathcal{N} (0, I))
 \end{equation}
 
 where $q(z|x,y)$ is the encoder's approximate posterior, mapping a molecule and its HOMO-LUMO gap to a latent distribution, and $p(x|z,y)$ is the decoder's likelihood, giving the probability of reconstructing a SMILES sequence from a latent vector and conditioning value.
@@ -255,13 +253,13 @@ The reconstruction performance of the cVAE model, quantified by the average char
 \centering
 \caption{The average character-wise reconstruction accuracy, as calculated by \cref{eq:CRA}, of the test set per outer fold of the cross-validation.}
 \label{tab:CRA}
-\begin{tabular}{cc}
+\begin{tabular}{|c|c|}
 \hline
  & $\overline{CRA}$ \\ \hline
-Outer fold 1 & 0.842 \\
-Outer fold 2 & 0.840 \\
-Outer fold 3 & 0.871 \\
-Outer fold 4 & 0.846 \\
+Outer fold 1 & 0.842 \\ \hline
+Outer fold 2 & 0.840 \\ \hline
+Outer fold 3 & 0.871 \\ \hline
+Outer fold 4 & 0.846 \\ \hline
 Outer fold 5 & 0.863 \\ \hline
 Mean & 0.852 \\ \hline
 \end{tabular}
@@ -269,7 +267,7 @@ Mean & 0.852 \\ \hline
 
 Beyond reconstruction performance, the primary metric of interest is the generative capability of the cVAE. Using the best-performing trained model (outer fold 3), the chemical validity of molecules generated from both randomly sampled latent vectors and perturbed latent vectors is evaluated (\cref{fig:validity} and \cref{tab:cvae_samples}). Across the ten sampled target molecules in each experimental pathway, the average validity is low and comparable between the two sampling strategies, with no clear advantage observed for either method.
 
-For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. Despite similar validity levels for both sampling methods, the perturbed latent sampling consistently yields substantially lower MAE values than random latent sampling. Nevertheless, for both approaches, the MAE remains considerably larger than the errors reported for the standalone GCN regression model.
+For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. Despite similar validity levels for both sampling methods, the perturbed latent sampling consistently yields substantially lower MAE values than random latent sampling. Nevertheless, for both approaches, the MAE remains considerably larger than the errors reported for the standalone GCN regression model, ensuring a significant difference between the target and generated HOMO-LUMO gap.
 
 \begin{figure}[H]
   \centering
@@ -289,37 +287,12 @@ For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO ga
   \caption{A visual representation of the data from \cref{tab:cvae_samples}.}
 \end{figure}
 
-
-\begin{table}[H]
-\centering
-\caption{The validity and MAE of the random samples and perturbed samples, obtained as described in \cref{section:cvae_method}.}
-\label{tab:cvae_samples}
-\begin{tabular}{@{}ccccc@{}}
-\toprule
- & \multicolumn{2}{c}{Random samples} & \multicolumn{2}{c}{Perturbed samples} \\ \midrule
- & Validity & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} & Validity & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} \\ \midrule
-1 & 0.048 & 1.453 & 0.049 & 0.742 \\
-2 & 0.047 & 1.242 & 0.018 & 0.975 \\
-3 & 0.030 & 3.543 & 0.042 & 0.609 \\
-4 & 0.007 & 3.889 & 0.058 & 0.736 \\
-5 & 0.065 & 1.999 & 0.042 & 0.943 \\
-6 & 0.017 & 3.845 & 0.025 & 0.434 \\
-7 & 0.043 & 1.349 & 0.055 & 0.695 \\
-8 & 0.039 & 3.335 & 0.060 & 0.712 \\
-9 & 0.043 & 2.816 & 0.036 & 0.946 \\
-10 & 0.067 & 1.032 & 0.051 & 0.424 \\ \bottomrule
-\end{tabular}
-\end{table}
-
-Continuing with the perturbed latent space vectors, it is interesting to visualize some chemical structures to assess how well the cVAE can construct molecules with the same HOMO-LUMO gap and slightly different chemical structures. From assessing molecules 1, 5 and 10 from \cref{tab:cvae_samples}, ...
+To further explore the perturbed latent space vectors, we visualized the generated chemical structures to assess how effectively the cVAE can produce molecules with the same HOMO-LUMO gap while exhibiting slight structural variations. \Cref{fig:genmol1,fig:genmol5,fig:genmol10} present three starting molecules alongside four of their respective perturbed generated molecules. It is immediately evident that the model struggles to generate molecules closely resembling the original structures when sampling around them in the latent space. Although the model captures certain chemical motifs, such as the ring structures observed in \cref{fig:genmol10}, these patterns are not consistently preserved across the generated samples.
 
 
 \section{Discussion}
 % Provide an interpretation of your results. What do they mean in the context of your research question? What do you notice here compared to other papers you've read? Perhaps a particular method is not as superior to all the others after all as you originally expected, or maybe you had an idea for a technique that seemed good in theory but doesn't work as well in practice, or \dots
 
-
-% TVE: This is a sentence i will be using later
-% However, the limited amount of hyperparameter tuning that was able to be done (only 15 trials) suggests that further gains may be achievable with a more extensive optimization strategy.
 
 \subsection{LightGBM vs GCN}
 
@@ -330,8 +303,24 @@ Here I would split intro three paragraphs:
   \item Results of LightGBM vs GCN and what this could mean for the decision between traditional vs deep learning HOMO-LUMO gap prediction
 \end{enumerate}
 
+
+\subsection{Molecular Generation}
+
+The overall mean character-wise reconstruction accuracy ($\overline{CRA} = 0.852$) demonstrates that the model can recover the original molecular structures in most cases. While no reconstruction accuracies were found for cVAE models with the exact same dataset, \textcite{blaschke_2018} using a standard VAE consisting of a CNN encoder and GRU decoder found a similar reconstruction accuracy of 0.862 with teacher forcing and 0.963 without teacher forcing and \textcite{mollaysa_2024}, an alternative study, using a Transformer VAE obtained a reconstruction accuracy of 0.961. These results indicate that our cVAE model is generally capable of reconstructing molecular SMILES strings with a reasonable degree of accuracy, however, the limited amount of hyperparameter tuning that was able to be done (only 15 trials) suggests that further gains may be achievable with a more extensive optimization strategy. 
+
+Despite this reconstruction performance, the chemical validity of both the randomly sampled and perturbed generated molecules is low and comparable. This is somewhat surprising, as it has already been shown that latent vectors sampled around molecules from the dataset should results in more generated valid SMILES \parencite{lim_2018}. 
+
+A likely contributing factor to the overall low validity is the high teacher forcing ratio employed during training (\cref{tab:cvae_params}). While teacher forcing stabilizes training and improves reconstruction by conditioning the decoder on ground-truth tokens, it limits the decoder's exposure to its own predictions, reducing robustness during molecular generation. Consequently, the model learns to reconstruct known sequences well but struggles to generate valid novel molecules when sampled freely.
+
+In addition, the generated molecules do not generally resemble their corresponding source molecules when sampling from perturbed latent vectors (\cref{fig:genmol1,fig:genmol5,fig:genmol10}). This contrasts with the results of \textcite{lim_2018} and \textcite{bombarelli_2018}, who reported smooth latent interpolations yielding structurally similar molecules. The lack of structural preservation observed here suggests that the learned latent space does not encode fine-grained molecular structure and a deeper analysis of the quality of the latent space is required to find the origin of this issue.
+
+Finally, the large mean absolute errors observed for the HOMO-LUMO gaps of generated molecules further indicate limited effectiveness of the conditional mechanism. Although perturbed latent sampling reduces the MAE compared to random sampling, the deviations remain substantially larger than those reported in literature \parencite{bombarelli_2018}. This suggests that the conditional encoding of our model is insufficient to reliably enforce accurate electronic properties in newly generated molecules, particularly in the presence of low chemical validity.
+
+
 \section{Conclusion}
 % Here, you summarize your research and the conclusions you draw from it. Also mention what shortcomings you see in your research. Perhaps there are still certain experiments you would have liked to have done, but didn't have time to do? Think about what steps someone could take to move your research forward.
+
+In this work, a conditional variational autoencoder was developed to generate molecular SMILES conditioned on the HOMO-LUMO gap. While the model achieved a reasonable reconstruction accuracy of 0.852, the generated molecules exhibited low chemical validity, limited structural similarity to source molecules and large deviations from the target HOMO-LUMO gaps. Future work should focus on performing a more extensive hyperparameter tuning,  
 
 \section{Disclaimers}
 % If you used ChatGPT or other LLMs to do your research and/or write your text, please mention that here. If you used such tools for your research itself, please also mention the prompts you used. Don't be afraid that we will give you a lower grade because you used an LLM. We won't.
@@ -339,30 +328,74 @@ Here I would split intro three paragraphs:
 
 \appendix
 
-\section{Hyperparameters}
+\section{cVAE Hyperparameters}
 
 \begin{table}[H]
 \centering
 \caption{The optimized cVAE hyperparameters for each outer fold achieved after running 15 trials in a Bayesian optimization algorithm using a TPE sampler. The number of epochs and batch size were fixed to narrow the searching space of the Bayesian algorithm.}
 \label{tab:cvae_params}
-\begin{tabular}{cccccc}
+\begin{tabular}{|c|c|c|c|c|c|}
 \hline
  & fold 1 & fold 2 & fold 3 & fold 4 & fold 5 \\ \hline
-learning rate & 0.00133 & 0.00133 & 0.00548 & 0.00133 & 0.00548 \\
-latent dimension & 62 & 62 & 50 & 62 & 50 \\
-$\#$hidden nodes & 79 & 79 & 66 & 79 & 66 \\
-GRU dimension & 42 & 42 & 64 & 42 & 64 \\
-$\#$convolution layers & 1 & 1 & 1 & 1 & 1 \\
-$\#$hidden layers & 1 & 1 & 2 & 1 & 2 \\
-$\#$GRU layers & 1 & 1 & 1 & 1 & 1 \\
-$\#$FC layers & 3 & 3 & 2 & 3 & 2 \\
-embedding dimension & 18 & 18 & 14 & 18 & 14 \\
-teacher forcing ratio & 0.876 & 0.876 & 0.888 & 0.876 & 0.888 \\
-$\beta$ & 4.62 & 4.62 & 1.88 & 4.62 & 1.88 \\
-batch size & 1000 & 1000 & 1000 & 1000 & 1000 \\
+learning rate & 0.00133 & 0.00133 & 0.00548 & 0.00133 & 0.00548 \\ \hline
+latent dimension & 62 & 62 & 50 & 62 & 50 \\ \hline
+$\#$hidden nodes & 79 & 79 & 66 & 79 & 66 \\ \hline
+GRU dimension & 42 & 42 & 64 & 42 & 64 \\ \hline
+$\#$convolution layers & 1 & 1 & 1 & 1 & 1 \\ \hline
+$\#$hidden layers & 1 & 1 & 2 & 1 & 2 \\ \hline
+$\#$GRU layers & 1 & 1 & 1 & 1 & 1 \\ \hline
+$\#$FC layers & 3 & 3 & 2 & 3 & 2 \\ \hline
+embedding dimension & 18 & 18 & 14 & 18 & 14 \\ \hline
+teacher forcing ratio & 0.876 & 0.876 & 0.888 & 0.876 & 0.888 \\ \hline
+$\beta$ & 4.62 & 4.62 & 1.88 & 4.62 & 1.88 \\ \hline
+batch size & 1000 & 1000 & 1000 & 1000 & 1000 \\ \hline
 $\#$epochs & 15 & 15 & 15 & 15 & 15 \\ \hline
 \end{tabular}
 \end{table}
+
+\section{cVAE results}
+
+\begin{table}[H]
+\centering
+\caption{The validity and MAE of the random samples and perturbed samples, obtained as described in \cref{section:cvae_method}.}
+\label{tab:cvae_samples}
+\begin{tabular}{|c|cc|cc|}
+\hline
+ & \multicolumn{2}{c|}{Random samples} & \multicolumn{2}{c|}{Perturbed samples} \\ \hline
+ & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} \\ \hline
+1 & \multicolumn{1}{c|}{0.048} & 1.453 & \multicolumn{1}{c|}{0.049} & 0.742 \\ \hline
+2 & \multicolumn{1}{c|}{0.047} & 1.242 & \multicolumn{1}{c|}{0.018} & 0.975 \\ \hline
+3 & \multicolumn{1}{c|}{0.030} & 3.543 & \multicolumn{1}{c|}{0.042} & 0.609 \\ \hline
+4 & \multicolumn{1}{c|}{0.007} & 3.889 & \multicolumn{1}{c|}{0.058} & 0.736 \\ \hline
+5 & \multicolumn{1}{c|}{0.065} & 1.999 & \multicolumn{1}{c|}{0.042} & 0.943 \\ \hline
+6 & \multicolumn{1}{c|}{0.017} & 3.845 & \multicolumn{1}{c|}{0.025} & 0.434 \\ \hline
+7 & \multicolumn{1}{c|}{0.043} & 1.349 & \multicolumn{1}{c|}{0.055} & 0.695 \\ \hline
+8 & \multicolumn{1}{c|}{0.039} & 3.335 & \multicolumn{1}{c|}{0.060} & 0.712 \\ \hline
+9 & \multicolumn{1}{c|}{0.043} & 2.816 & \multicolumn{1}{c|}{0.036} & 0.946 \\ \hline
+10 & \multicolumn{1}{c|}{0.067} & 1.032 & \multicolumn{1}{c|}{0.051} & 0.424 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.4]{img/genmol1.png}
+  \caption{Starting molecule 1 and four of its perturbed generated molecules from \cref{tab:cvae_samples}.}
+  \label{fig:genmol1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.4]{img/genmol5.png}
+  \caption{Starting molecule 5 and four of its perturbed generated molecules from \cref{tab:cvae_samples}.}
+  \label{fig:genmol5}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.4]{img/genmol10.png}
+  \caption{Starting molecule 10 and four of its perturbed generated molecules from \cref{tab:cvae_samples}.}
+  \label{fig:genmol10}
+\end{figure}
 
 \printbibliography
 \end{document}
