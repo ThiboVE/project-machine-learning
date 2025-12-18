@@ -2587,6 +2587,11 @@
     <bcf:citekey order="22">cho_2014</bcf:citekey>
     <bcf:citekey order="23">beckham_2023</bcf:citekey>
     <bcf:citekey order="24">watanabe_2023</bcf:citekey>
+    <bcf:citekey order="25">hu2021ogblsc</bcf:citekey>
+    <bcf:citekey order="26">choi2022scalabletraininggraphconvolutional</bcf:citekey>
+    <bcf:citekey order="27">Therrien2025</bcf:citekey>
+    <bcf:citekey order="28">NEURIPS2023_cc83e973</bcf:citekey>
+    <bcf:citekey order="29">NEURIPS2023_cc83e973</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">

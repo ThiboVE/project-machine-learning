@@ -518,6 +518,68 @@
       \verb https://pubmed.ncbi.nlm.nih.gov/40929702/
       \endverb
     \endentry
+    \entry{hu2021ogblsc}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=164c7f22cde069c57bf9b80f76441fa9}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Weihua},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2667edba6b12b863d4fc7ec3afba0ede}{%
+           family={Fey},
+           familyi={F\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f136c99c06f10d114554179d4722b864}{%
+           family={Ren},
+           familyi={R\bibinitperiod},
+           given={Hongyu},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=efe317d066ac20e54550bcdb0f9def50}{%
+           family={Nakata},
+           familyi={N\bibinitperiod},
+           given={Maho},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5fd8ccf894ae8131d46d95e71572ffae}{%
+           family={Dong},
+           familyi={D\bibinitperiod},
+           given={Yuxiao},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=900d107125ff0ca84698cb909e4f6c51}{%
+           family={Leskovec},
+           familyi={L\bibinitperiod},
+           given={Jure},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{cad0c39c4cb7349e353b89519c632fc9}
+      \strng{fullhash}{f7eb02986febdeb61605ee315f6206ba}
+      \strng{bibnamehash}{f7eb02986febdeb61605ee315f6206ba}
+      \strng{authorbibnamehash}{f7eb02986febdeb61605ee315f6206ba}
+      \strng{authornamehash}{cad0c39c4cb7349e353b89519c632fc9}
+      \strng{authorfullhash}{f7eb02986febdeb61605ee315f6206ba}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2103.09430}
+      \field{title}{OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs}
+      \field{year}{2021}
+      \verb{urlraw}
+      \verb https://ogb.stanford.edu/docs/lsc/leaderboards/#pcqm4mv2
+      \endverb
+      \verb{url}
+      \verb https://ogb.stanford.edu/docs/lsc/leaderboards/#pcqm4mv2
+      \endverb
+    \endentry
     \entry{kingma_2019}{article}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=b6fbd171848aad4edf3925543f1f1522}{%
