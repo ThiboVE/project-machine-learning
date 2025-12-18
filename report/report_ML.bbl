@@ -189,6 +189,66 @@
       \verb https://arxiv.org/abs/1406.1078
       \endverb
     \endentry
+    \entry{choi2022scalabletraininggraphconvolutional}{misc}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=d6aef4067dace12c91a37371ac0769d9}{%
+           family={Choi},
+           familyi={C\bibinitperiod},
+           given={Jong\bibnamedelima Youl},
+           giveni={J\bibinitperiod\bibinitdelim Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a26a61af8029e8ca2b52ccb5ba439fe8}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Pei},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f1601dde835a0e380b80d8885d81cb9f}{%
+           family={Mehta},
+           familyi={M\bibinitperiod},
+           given={Kshitij},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=781e6e42a4f245fd30e60eb9ece9fefe}{%
+           family={Blanchard},
+           familyi={B\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9463e129e2a913d6363d4e144c1a34b3}{%
+           family={Pasini},
+           familyi={P\bibinitperiod},
+           given={Massimiliano\bibnamedelima Lupo},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4d2c8eaacb15e9269e40a390cb3669b3}
+      \strng{fullhash}{db65f3ce3b75e85af3a99d254feb9528}
+      \strng{bibnamehash}{db65f3ce3b75e85af3a99d254feb9528}
+      \strng{authorbibnamehash}{db65f3ce3b75e85af3a99d254feb9528}
+      \strng{authornamehash}{4d2c8eaacb15e9269e40a390cb3669b3}
+      \strng{authorfullhash}{db65f3ce3b75e85af3a99d254feb9528}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Scalable training of graph convolutional neural networks for fast and accurate predictions of HOMO-LUMO gap in molecules}
+      \field{year}{2022}
+      \verb{eprint}
+      \verb 2207.11333
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2207.11333
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2207.11333
+      \endverb
+    \endentry
     \entry{COSTA201651}{article}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=ce3efbbb1d0d0d835c4400b1bae2877c}{%
@@ -638,6 +698,65 @@
       \verb https://proceedings.mlr.press/v70/kusner17a.html
       \endverb
     \endentry
+    \entry{LI2022103373}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=1e181d320377f5c489b768686bb952ee}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Zhen},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a778ece51472ab9587792afce85933e8}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Mingjian},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b9c9203300a0f1ec2844a9f423ad6b93}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuang},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=68ceba0fe66c341356e62f4066b4a4d8}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Shugang},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{dfca7af71a48767038fd003b5d7ac47a}
+      \strng{fullhash}{f98251f1bd3a6de57c611376829c299a}
+      \strng{bibnamehash}{f98251f1bd3a6de57c611376829c299a}
+      \strng{authorbibnamehash}{f98251f1bd3a6de57c611376829c299a}
+      \strng{authornamehash}{dfca7af71a48767038fd003b5d7ac47a}
+      \strng{authorfullhash}{f98251f1bd3a6de57c611376829c299a}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1359-6446}
+      \field{journaltitle}{Drug Discovery Today}
+      \field{number}{12}
+      \field{title}{Deep learning methods for molecular representation and property prediction}
+      \field{volume}{27}
+      \field{year}{2022}
+      \field{pages}{103373}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.drudis.2022.103373
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S135964462200366X
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S135964462200366X
+      \endverb
+      \keyw{Molecular representation,Deep learning,Self-supervised learning,Drug discovery,Property prediction}
+    \endentry
     \entry{lim_2018}{article}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=2eb70e5ec072f4b7475c8a6e0da9146f}{%
@@ -913,6 +1032,93 @@
       \field{title}{torch\_geometric.datasets.QM9 — PyTorch Geometric Documentation}
       \field{year}{2024}
     \endentry
+    \entry{Therrien2025}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b09cd12e1ef7865074bdc68746fa8d1c}{%
+           family={Therrien},
+           familyi={T\bibinitperiod},
+           given={F{é}lix},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7a05be21c1edf0456217c5585cceb76b}{%
+           family={Sargent},
+           familyi={S\bibinitperiod},
+           given={Edward\bibnamedelima H.},
+           giveni={E\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9066f78415ca71e4526c6b64a40eb8e1}{%
+           family={Voznyy},
+           familyi={V\bibinitperiod},
+           given={Oleksandr},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{46c747a76062a2ab55d985c69abd7390}
+      \strng{fullhash}{5d46fca01b52ccf98059053b09d814b2}
+      \strng{bibnamehash}{5d46fca01b52ccf98059053b09d814b2}
+      \strng{authorbibnamehash}{5d46fca01b52ccf98059053b09d814b2}
+      \strng{authornamehash}{46c747a76062a2ab55d985c69abd7390}
+      \strng{authorfullhash}{5d46fca01b52ccf98059053b09d814b2}
+      \field{sortinit}{T}
+      \field{sortinithash}{51f9faf24c60c62ca764a77f78cf5666}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2041-1723}
+      \field{journaltitle}{Nature Communications}
+      \field{number}{1}
+      \field{title}{Using GNN property predictors as molecule generators}
+      \field{volume}{16}
+      \field{year}{2025}
+      \field{pages}{4301}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41467-025-59439-1
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1038/s41467-025-59439-1
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1038/s41467-025-59439-1
+      \endverb
+    \endentry
+    \entry{ThiboVE_project_machine_learning}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=baf15e729230f605d5c4a2bda3d0daec}{%
+           family={ThiboVE},
+           familyi={T\bibinitperiod},
+           given={MatticeCriel},
+           giveni={M\bibinitperiod},
+           givenun=0,
+           suffix={YarnoDJ2409},
+           suffixi={Y\bibinitperiod},
+           suffixun=0}}%
+      }
+      \strng{namehash}{baf15e729230f605d5c4a2bda3d0daec}
+      \strng{fullhash}{baf15e729230f605d5c4a2bda3d0daec}
+      \strng{bibnamehash}{baf15e729230f605d5c4a2bda3d0daec}
+      \strng{authorbibnamehash}{baf15e729230f605d5c4a2bda3d0daec}
+      \strng{authornamehash}{baf15e729230f605d5c4a2bda3d0daec}
+      \strng{authorfullhash}{baf15e729230f605d5c4a2bda3d0daec}
+      \field{sortinit}{T}
+      \field{sortinithash}{51f9faf24c60c62ca764a77f78cf5666}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{GitHub repository, accessed December 18, 2025}
+      \field{title}{project-machine-learning}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://github.com/ThiboVE/project-machine-learning
+      \endverb
+      \verb{url}
+      \verb https://github.com/ThiboVE/project-machine-learning
+      \endverb
+    \endentry
     \entry{walters_2021}{article}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=4ebda59d8679ec5d2b240a420df63fb5}{%
@@ -995,6 +1201,133 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2304.11127
+      \endverb
+    \endentry
+    \entry{NEURIPS2023_cc83e973}{inproceedings}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=c0f8e04c956c8a9a626cf05658de6a84}{%
+           family={Xia},
+           familyi={X\bibinitperiod},
+           given={Jun},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2b80b05199969bd2c71fdb88118c77d3}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Lecheng},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=04b89bdd49b37ba378f803ba680fe9d2}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Xiao},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4ea6157adaa214ea9a0734bb53dd8492}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ad9d07ff7cf8afcff434785e5605121c}{%
+           family={Gao},
+           familyi={G\bibinitperiod},
+           given={Zhangyang},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=afb956f9fb23ce37c3565a4ba24adec2}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Bozhen},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=56906422363d5503777cc7cd55e5d23b}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Cheng},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a876bee3d2679ab276264adbd9a43779}{%
+           family={Zheng},
+           familyi={Z\bibinitperiod},
+           given={Jiangbin},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28cc92bee9dc2c699ad036750b99883a}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Siyuan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bdcfe781c06e01fe86f42230e738c1b4}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Stan\bibnamedelima Z.},
+           giveni={S\bibinitperiod\bibinitdelim Z\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{6}{}{%
+        {{hash=6d9c5f3daf57997af27b3617ec7d1fe9}{%
+           family={Oh},
+           familyi={O\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=85bc7cefdd5554b76135cee4b8e4ce02}{%
+           family={Naumann},
+           familyi={N\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=fbc410321d4ef88338a144a263d84a52}{%
+           family={Globerson},
+           familyi={G\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b4c13335066154b96f9f6b69c52f1c34}{%
+           family={Saenko},
+           familyi={S\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=d5244a9be1ca0eac9110d23de0146408}{%
+           family={Hardt},
+           familyi={H\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3cd8fe4b36223cabb80a65d5bca613b3}{%
+           family={Levine},
+           familyi={L\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Curran Associates, Inc.}%
+      }
+      \strng{namehash}{862a48fe941fc25bb5aa017a26d3ac0c}
+      \strng{fullhash}{b9ad5c75cf9e15aa7dfa5bb33914ee98}
+      \strng{bibnamehash}{b9ad5c75cf9e15aa7dfa5bb33914ee98}
+      \strng{authorbibnamehash}{b9ad5c75cf9e15aa7dfa5bb33914ee98}
+      \strng{authornamehash}{862a48fe941fc25bb5aa017a26d3ac0c}
+      \strng{authorfullhash}{b9ad5c75cf9e15aa7dfa5bb33914ee98}
+      \strng{editorbibnamehash}{c4805185ea5603cbf8bdc85fe57d1ec3}
+      \strng{editornamehash}{cdfb36351492c4e843cfb87a8549b3ef}
+      \strng{editorfullhash}{c4805185ea5603cbf8bdc85fe57d1ec3}
+      \field{sortinit}{X}
+      \field{sortinithash}{e90038f30fa4b9ce59606fc8347e3cc7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Understanding the Limitations of Deep Models for Molecular property prediction: Insights and Solutions}
+      \field{volume}{36}
+      \field{year}{2023}
+      \field{pages}{64774\bibrangedash 64792}
+      \range{pages}{19}
+      \verb{urlraw}
+      \verb https://proceedings.neurips.cc/paper_files/paper/2023/file/cc83e97320000f4e08cb9e293b12cf7e-Paper-Conference.pdf
+      \endverb
+      \verb{url}
+      \verb https://proceedings.neurips.cc/paper_files/paper/2023/file/cc83e97320000f4e08cb9e293b12cf7e-Paper-Conference.pdf
       \endverb
     \endentry
     \entry{Yoshikai2024}{article}{}
