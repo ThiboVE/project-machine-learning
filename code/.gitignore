@@ -1,4 +1,6 @@
 *.pyc
 
-data/
+data/QM9/
+data/RDKit/
+data/tve_LightGBM/
 **__pycache__**

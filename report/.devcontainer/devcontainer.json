@@ -1,0 +1,13 @@
+
+{
+	"name": "LaTeX container",
+	"image": "ghcr.io/gqcg-oss/latex-docker/latex-docker:master",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "james-yu.latex-workshop", 
+                "streetsidesoftware.code-spell-checker", 
+                "streetsidesoftware.code-spell-checker-dutch"]
+        }
+    }
+}

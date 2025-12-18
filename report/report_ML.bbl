@@ -1,73 +1,879 @@
-\providecommand{\latin}[1]{#1}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
 \makeatletter
-\providecommand{\doi}
-  {\begingroup\let\do\@makeother\dospecials
-  \catcode`\{=1 \catcode`\}=2 \doi@aux}
-\providecommand{\doi@aux}[1]{\endgroup\texttt{#1}}
-\makeatother
-\providecommand*\mcitethebibliography{\thebibliography}
-\csname @ifundefined\endcsname{endmcitethebibliography}
-  {\let\endmcitethebibliography\endthebibliography}{}
-\begin{mcitethebibliography}{5}
-\providecommand*\natexlab[1]{#1}
-\providecommand*\mciteSetBstSublistMode[1]{}
-\providecommand*\mciteSetBstMaxWidthForm[2]{}
-\providecommand*\mciteBstWouldAddEndPuncttrue
-  {\def\EndOfBibitem{\unskip.}}
-\providecommand*\mciteBstWouldAddEndPunctfalse
-  {\let\EndOfBibitem\relax}
-\providecommand*\mciteSetBstMidEndSepPunct[3]{}
-\providecommand*\mciteSetBstSublistLabelBeginEnd[3]{}
-\providecommand*\EndOfBibitem{}
-\mciteSetBstSublistMode{f}
-\mciteSetBstMaxWidthForm{subitem}{(\alph{mcitesubitemcount})}
-\mciteSetBstSublistLabelBeginEnd
-  {\mcitemaxwidthsubitemform\space}
-  {\relax}
-  {\relax}
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
 
-\bibitem[Sworakowski(2018)]{Sworakowski2018}
-Sworakowski,~J. How Accurate Are Energies of HOMO and LUMO Levels in
-  Small-Molecule Organic Semiconductors Determined from Cyclic Voltammetry or
-  Optical Spectroscopy? \emph{Synth. Met.} \textbf{2018}, \emph{235},
-  125--130\relax
-\mciteBstWouldAddEndPuncttrue
-\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
-{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
-\EndOfBibitem
-\bibitem[Costa \latin{et~al.}(2016)Costa, Taveira, Lima, Mendes, and
-  Santos]{COSTA201651}
-Costa,~J.~C.; Taveira,~R.~J.; Lima,~C.~F.; Mendes,~A.; Santos,~L.~M. Optical
-  band gaps of organic semiconductor materials. \emph{Optical Materials}
-  \textbf{2016}, \emph{58}, 51--60\relax
-\mciteBstWouldAddEndPuncttrue
-\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
-{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
-\EndOfBibitem
-\bibitem[Hasan \latin{et~al.}(2025)Hasan, Tarkhaneh, Bungay, Poirier, and
-  Islam]{Hasan2025}
-Hasan,~M.~M.; Tarkhaneh,~O.; Bungay,~S.~D.; Poirier,~R.~A.; Islam,~S.~M.
-  Predicting HOMO-LUMO Gaps Using Hartree-Fock Calculated Data and Machine
-  Learning Models. \emph{J. Chem. Inf. Model.} \textbf{2025}, \emph{65},
-  9497--9515, Epub 2025 Sep 10, PMID: 40929702\relax
-\mciteBstWouldAddEndPuncttrue
-\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
-{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
-\EndOfBibitem
-\bibitem[Team(2024)]{PyG_QM9}
-Team,~P. torch\_geometric.datasets.QM9 — PyTorch Geometric Documentation.
-  \url{https://pytorch-geometric.readthedocs.io/en/2.6.1/generated/torch_geometric.datasets.QM9.html},
-  2024; Accessed: 2025-12-09\relax
-\mciteBstWouldAddEndPuncttrue
-\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
-{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
-\EndOfBibitem
-\bibitem[{RDKit: Open-Source Cheminformatics}(2025)]{rdkit}
-{RDKit: Open-Source Cheminformatics} RDKit Documentation and Python Tutorials.
-  \url{https://www.rdkit.org/docs/GettingStartedInPython.html}, 2025; Accessed
-  December 6, 2025\relax
-\mciteBstWouldAddEndPuncttrue
-\mciteSetBstMidEndSepPunct{\mcitedefaultmidpunct}
-{\mcitedefaultendpunct}{\mcitedefaultseppunct}\relax
-\EndOfBibitem
-\end{mcitethebibliography}
+
+\refsection{0}
+  \datalist[entry]{apa/global//global/global}
+    \entry{beckham_2023}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=432e57cabfa485a4c768d589c838b3a4}{%
+           family={Beckham},
+           familyi={B\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{fullhash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{bibnamehash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{authorbibnamehash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{authornamehash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{authorfullhash}{432e57cabfa485a4c768d589c838b3a4}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://beckham.nz/2023/04/27/conditional-vaes.html}}
+      \field{month}{4}
+      \field{title}{Conditional VAEs}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://beckham.nz/2023/04/27/conditional-vaes.html
+      \endverb
+      \verb{url}
+      \verb https://beckham.nz/2023/04/27/conditional-vaes.html
+      \endverb
+    \endentry
+    \entry{cho_2014}{article}{}
+      \name{author}{7}{}{%
+        {{un=0,uniquepart=base,hash=3da7501a79d9346572c7fd6e41b615df}{%
+           family={Cho},
+           familyi={C\bibinitperiod},
+           given={Kyunghyun},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d27fe3f9898ba01eeca28e3bd205f9ea}{%
+           family={Merrienboer},
+           familyi={M\bibinitperiod},
+           given={Bart},
+           giveni={B\bibinitperiod},
+           givenun=0,
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{un=0,uniquepart=base,hash=2adc0c92c308f233c731321d55efe58f}{%
+           family={Gulcehre},
+           familyi={G\bibinitperiod},
+           given={Caglar},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6d80adec79a13a33e73215c5f46f1605}{%
+           family={Bahdanau},
+           familyi={B\bibinitperiod},
+           given={Dzmitry},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6deedc795e51da1bc7fd6289ab321a48}{%
+           family={Bougares},
+           familyi={B\bibinitperiod},
+           given={Fethi},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=449689e8c1ced50f608244e3a96fe6d3}{%
+           family={Schwenk},
+           familyi={S\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=40a8e4774982146adc2688546f54efb2}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={Yoshua},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{9b1920db887fe0d658725c1e606b61f4}
+      \strng{fullhash}{93de344d8644049cc7e61f1b9095d310}
+      \strng{bibnamehash}{93de344d8644049cc7e61f1b9095d310}
+      \strng{authorbibnamehash}{93de344d8644049cc7e61f1b9095d310}
+      \strng{authornamehash}{9b1920db887fe0d658725c1e606b61f4}
+      \strng{authorfullhash}{93de344d8644049cc7e61f1b9095d310}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1406.1078}
+      \field{title}{Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation}
+      \field{year}{2014}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1406.1078
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1406.1078
+      \endverb
+    \endentry
+    \entry{COSTA201651}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=ce3efbbb1d0d0d835c4400b1bae2877c}{%
+           family={Costa},
+           familyi={C\bibinitperiod},
+           given={José\bibnamedelima C.S.},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2296fa705a42c5d9fe3f2456f432830f}{%
+           family={Taveira},
+           familyi={T\bibinitperiod},
+           given={Ricardo\bibnamedelima J.S.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b48d62e8ffba458c82a5f438c572384e}{%
+           family={Lima},
+           familyi={L\bibinitperiod},
+           given={Carlos\bibnamedelima F.R.A.C.},
+           giveni={C\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9b78e047f41c3e1c66b2bd218e90efc6}{%
+           family={Mendes},
+           familyi={M\bibinitperiod},
+           given={Adélio},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=232b1e869272ef6e2c5da6accd0ac8ed}{%
+           family={Santos},
+           familyi={S\bibinitperiod},
+           given={Luís\bibnamedelima M.N.B.F.},
+           giveni={L\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6248f6064416bf76f36647e2ffabeab3}
+      \strng{fullhash}{d5947145c5fb3e4023e806d4e9bec0f8}
+      \strng{bibnamehash}{d5947145c5fb3e4023e806d4e9bec0f8}
+      \strng{authorbibnamehash}{d5947145c5fb3e4023e806d4e9bec0f8}
+      \strng{authornamehash}{6248f6064416bf76f36647e2ffabeab3}
+      \strng{authorfullhash}{d5947145c5fb3e4023e806d4e9bec0f8}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0925-3467}
+      \field{journaltitle}{Optical Materials}
+      \field{title}{Optical band gaps of organic semiconductor materials}
+      \field{volume}{58}
+      \field{year}{2016}
+      \field{pages}{51\bibrangedash 60}
+      \range{pages}{10}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.optmat.2016.03.041
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0925346716301483
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0925346716301483
+      \endverb
+      \keyw{Organic electronics,OSCs,OLEDs,OPVs,Band gap,UV-Vis}
+    \endentry
+    \entry{deshmukh2023building}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=b42e6552319a5387e6a3765c6da517fa}{%
+           family={Deshmukh},
+           familyi={D\bibinitperiod},
+           given={Gaurav},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {Medium – TDS Archive}%
+      }
+      \strng{namehash}{b42e6552319a5387e6a3765c6da517fa}
+      \strng{fullhash}{b42e6552319a5387e6a3765c6da517fa}
+      \strng{bibnamehash}{b42e6552319a5387e6a3765c6da517fa}
+      \strng{authorbibnamehash}{b42e6552319a5387e6a3765c6da517fa}
+      \strng{authornamehash}{b42e6552319a5387e6a3765c6da517fa}
+      \strng{authorfullhash}{b42e6552319a5387e6a3765c6da517fa}
+      \field{sortinit}{D}
+      \field{sortinithash}{c438b3d5d027251ba63f5ed538d98af5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{note}{Accessed: 2025-12-15}
+      \field{title}{Building a Graph Convolutional Network for Molecular Property Prediction}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://medium.com/data-science/building-a-graph-convolutional-network-for-molecular-property-prediction-978b0ae10ec4
+      \endverb
+      \verb{url}
+      \verb https://medium.com/data-science/building-a-graph-convolutional-network-for-molecular-property-prediction-978b0ae10ec4
+      \endverb
+    \endentry
+    \entry{dwivedi_2025}{inbook}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=5ed48bd32720b793a665dd19b0c40f39}{%
+           family={Dwivedi},
+           familyi={D\bibinitperiod},
+           given={Arun\bibnamedelimb Dev\bibnamedelima Dhar},
+           giveni={A\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d8fc570364d2c58ffb3a004cc2376e7e}{%
+           family={Maji},
+           familyi={M\bibinitperiod},
+           given={Debashis},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=67280081a9aa742fe0f9134d41c7057f}{%
+           family={Chakrabarti},
+           familyi={C\bibinitperiod},
+           given={Parthasarathi},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=5ed48bd32720b793a665dd19b0c40f39}{%
+           family={Dwivedi},
+           familyi={D\bibinitperiod},
+           given={Arun\bibnamedelimb Dev\bibnamedelima Dhar},
+           giveni={A\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=d8fc570364d2c58ffb3a004cc2376e7e}{%
+           family={Maji},
+           familyi={M\bibinitperiod},
+           given={Debashis},
+           giveni={D\bibinitperiod}}}%
+        {{hash=63a6b3e273765ceff75d44aac8e4a58c}{%
+           family={Chakrabarti},
+           familyi={C\bibinitperiod},
+           given={Parthsarathi},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London}%
+      }
+      \list{publisher}{1}{%
+        {IntechOpen}%
+      }
+      \strng{namehash}{0d65079a7703e6a5321becd0945f861b}
+      \strng{fullhash}{a4877b8b8182e6371b8d0550c1cc65fd}
+      \strng{bibnamehash}{a4877b8b8182e6371b8d0550c1cc65fd}
+      \strng{authorbibnamehash}{a4877b8b8182e6371b8d0550c1cc65fd}
+      \strng{authornamehash}{0d65079a7703e6a5321becd0945f861b}
+      \strng{authorfullhash}{a4877b8b8182e6371b8d0550c1cc65fd}
+      \strng{editorbibnamehash}{aa61368cf29b2c4bc3a63ff1176d08fa}
+      \strng{editornamehash}{0d65079a7703e6a5321becd0945f861b}
+      \strng{editorfullhash}{aa61368cf29b2c4bc3a63ff1176d08fa}
+      \field{sortinit}{D}
+      \field{sortinithash}{c438b3d5d027251ba63f5ed538d98af5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Organic {Electronics} - {From} {Fundamentals} to {Applications}}
+      \field{note}{Section: 1}
+      \field{title}{Introductory {Chapter}: {Organic} {Electronics} – {From} {Fundamentals} to {Applications}}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.5772/intechopen.1011119
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.5772/intechopen.1011119
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5772/intechopen.1011119
+      \endverb
+    \endentry
+    \entry{bombarelli_2018}{article}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=a37688f976e048ffbc85a45699635c91}{%
+           family={Gómez-Bombarelli},
+           familyi={G\bibinithyphendelim B\bibinitperiod},
+           given={Rafael},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8ddf752562b01a466863a7cfbec68eee}{%
+           family={Wei},
+           familyi={W\bibinitperiod},
+           given={Jennifer\bibnamedelima N.},
+           giveni={J\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=834f50f5d5a332c21effd10f07daf79e}{%
+           family={Duvenaud},
+           familyi={D\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=48ac403ef8899f30cccb37d29c0c96a7}{%
+           family={Hernández-Lobato},
+           familyi={H\bibinithyphendelim L\bibinitperiod},
+           given={Jos{é}\bibnamedelima Miguel},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a030eefab0eb24c118787aac9c45ff0d}{%
+           family={Sánchez-Lengeling},
+           familyi={S\bibinithyphendelim L\bibinitperiod},
+           given={Benjamín},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9bb1c5a7defe64b1b9a468f677e16937}{%
+           family={Sheberla},
+           familyi={S\bibinitperiod},
+           given={Dennis},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5debbaca3d1169a9867a72e085c3cefd}{%
+           family={Aguilera-Iparraguirre},
+           familyi={A\bibinithyphendelim I\bibinitperiod},
+           given={Jorge},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=24d74bea68cfb85c9da12548d0141d35}{%
+           family={Hirzel},
+           familyi={H\bibinitperiod},
+           given={Timothy\bibnamedelima D.},
+           giveni={T\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1552be0c6aa9c6e0fd91a130a682853}{%
+           family={Adams},
+           familyi={A\bibinitperiod},
+           given={Ryan\bibnamedelima P.},
+           giveni={R\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=083dcdd0db2687433b22fabfb2e55c17}{%
+           family={Aspuru-Guzik},
+           familyi={A\bibinithyphendelim G\bibinitperiod},
+           given={Alán},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4e0c037003563f7fd8f3562cc4d1d703}
+      \strng{fullhash}{5ec80736eac7b30076995115d9580a22}
+      \strng{bibnamehash}{5ec80736eac7b30076995115d9580a22}
+      \strng{authorbibnamehash}{5ec80736eac7b30076995115d9580a22}
+      \strng{authornamehash}{4e0c037003563f7fd8f3562cc4d1d703}
+      \strng{authorfullhash}{5ec80736eac7b30076995115d9580a22}
+      \field{sortinit}{G}
+      \field{sortinithash}{62eb2aa29549e4fdbd3cb154ec5711cb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACS Central Science}
+      \field{note}{PMID: 29532027}
+      \field{number}{2}
+      \field{title}{Automatic Chemical Design Using a Data-Driven Continuous Representation of Molecules}
+      \field{volume}{4}
+      \field{year}{2018}
+      \field{pages}{268\bibrangedash 276}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1021/acscentsci.7b00572
+      \endverb
+      \verb{eprint}
+      \verb https://doi.org/10.1021/acscentsci.7b00572
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1021/acscentsci.7b00572
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1021/acscentsci.7b00572
+      \endverb
+    \endentry
+    \entry{Hasan2025}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=2a9a2740948701c51a6eebe3b23500b5}{%
+           family={Hasan},
+           familyi={H\bibinitperiod},
+           given={M.\bibnamedelimi M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=94e46798569e7226de307b42e026c3ec}{%
+           family={Tarkhaneh},
+           familyi={T\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9446b64d70339dfef9cbdb702ff1c863}{%
+           family={Bungay},
+           familyi={B\bibinitperiod},
+           given={S.\bibnamedelimi D.},
+           giveni={S\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9a9011c4a7250e76789ebe2e5ed5f059}{%
+           family={Poirier},
+           familyi={P\bibinitperiod},
+           given={R.\bibnamedelimi A.},
+           giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=543621e00cab1d52585a42d45d9939bd}{%
+           family={Islam},
+           familyi={I\bibinitperiod},
+           given={S.\bibnamedelimi M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{b8780bff7470ccac3548f8ca6a70555e}
+      \strng{fullhash}{26e4356566aa7728d52d661aefd4b83b}
+      \strng{bibnamehash}{26e4356566aa7728d52d661aefd4b83b}
+      \strng{authorbibnamehash}{26e4356566aa7728d52d661aefd4b83b}
+      \strng{authornamehash}{b8780bff7470ccac3548f8ca6a70555e}
+      \strng{authorfullhash}{26e4356566aa7728d52d661aefd4b83b}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{J. Chem. Inf. Model.}
+      \field{month}{9}
+      \field{note}{Epub 2025 Sep 10, PMID: 40929702}
+      \field{number}{18}
+      \field{title}{Predicting HOMO-LUMO Gaps Using Hartree-Fock Calculated Data and Machine Learning Models}
+      \field{volume}{65}
+      \field{year}{2025}
+      \field{pages}{9497\bibrangedash 9515}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1021/acs.jcim.5c01412
+      \endverb
+      \verb{urlraw}
+      \verb https://pubmed.ncbi.nlm.nih.gov/40929702/
+      \endverb
+      \verb{url}
+      \verb https://pubmed.ncbi.nlm.nih.gov/40929702/
+      \endverb
+    \endentry
+    \entry{kingma_2019}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=b6fbd171848aad4edf3925543f1f1522}{%
+           family={Kingma},
+           familyi={K\bibinitperiod},
+           given={Diederik\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=53d2880ad8047b61cdae2c6b2803e763}{%
+           family={Welling},
+           familyi={W\bibinitperiod},
+           given={Max},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{fullhash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{bibnamehash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{authorbibnamehash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{authornamehash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{authorfullhash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \field{sortinit}{K}
+      \field{sortinithash}{d3edc18d54b9438a72c24c925bfb38f4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{CoRR}
+      \field{title}{An Introduction to Variational Autoencoders}
+      \field{volume}{abs/1906.02691}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1906.02691
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1906.02691
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1906.02691
+      \endverb
+    \endentry
+    \entry{lim_2018}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=2eb70e5ec072f4b7475c8a6e0da9146f}{%
+           family={Lim},
+           familyi={L\bibinitperiod},
+           given={Jaechang},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a959ccc5c5d05bcfa1c7b9c64d1ec01c}{%
+           family={Ryu},
+           familyi={R\bibinitperiod},
+           given={Seongok},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b2191ef213bb80bd80e51ab1957d32a2}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Jin\bibnamedelima Woo},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3e4d5fdb9d58d4506b28bb3858d179d4}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Woo\bibnamedelima Youn},
+           giveni={W\bibinitperiod\bibinitdelim Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ad53358853953386286fbf8fd52d425f}
+      \strng{fullhash}{7e55517aad4e1cc472f08e3d1d95f6e6}
+      \strng{bibnamehash}{7e55517aad4e1cc472f08e3d1d95f6e6}
+      \strng{authorbibnamehash}{7e55517aad4e1cc472f08e3d1d95f6e6}
+      \strng{authornamehash}{ad53358853953386286fbf8fd52d425f}
+      \strng{authorfullhash}{7e55517aad4e1cc472f08e3d1d95f6e6}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1758-2946}
+      \field{journaltitle}{Journal of Cheminformatics}
+      \field{month}{7}
+      \field{number}{1}
+      \field{title}{Molecular generative model based on conditional variational autoencoder for de novo molecular design}
+      \field{volume}{10}
+      \field{year}{2018}
+      \field{pages}{31}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1186/s13321-018-0286-7
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1186/s13321-018-0286-7
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1186/s13321-018-0286-7
+      \endverb
+    \endentry
+    \entry{liu_2015}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=8a56660f1afdc2c3b8594c4645a4ed5c}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Xuxu},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6ab982cecded2740ff0a2770415a96ee}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Huajie},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=79e44924b7aa4060fb14496a9732fd6e}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Songting},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{81498a75b075ea50b9f9e1a38095377d}
+      \strng{fullhash}{cf24341752e81ec313bfe94d99633d1b}
+      \strng{bibnamehash}{cf24341752e81ec313bfe94d99633d1b}
+      \strng{authorbibnamehash}{cf24341752e81ec313bfe94d99633d1b}
+      \strng{authornamehash}{81498a75b075ea50b9f9e1a38095377d}
+      \strng{authorfullhash}{cf24341752e81ec313bfe94d99633d1b}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1364-0321}
+      \field{journaltitle}{Renewable and Sustainable Energy Reviews}
+      \field{month}{12}
+      \field{title}{Overview of high-efficiency organic photovoltaic materials and devices}
+      \field{urlday}{22}
+      \field{urlmonth}{5}
+      \field{urlyear}{2025}
+      \field{volume}{52}
+      \field{year}{2015}
+      \field{urldateera}{ce}
+      \field{pages}{1527\bibrangedash 1538}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1016/j.rser.2015.08.032
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S1364032115008783
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S1364032115008783
+      \endverb
+      \keyw{Bulk-heterojunction,Organic solar cells,Photovoltaic devices,Photovoltaic materials}
+    \endentry
+    \entry{rdkit_chem_docs}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f4b13a73642576392b4f6af82c0ca375}{%
+           family={{RDKit Developers}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {RDKit}%
+      }
+      \strng{namehash}{f4b13a73642576392b4f6af82c0ca375}
+      \strng{fullhash}{f4b13a73642576392b4f6af82c0ca375}
+      \strng{bibnamehash}{f4b13a73642576392b4f6af82c0ca375}
+      \strng{authorbibnamehash}{f4b13a73642576392b4f6af82c0ca375}
+      \strng{authornamehash}{f4b13a73642576392b4f6af82c0ca375}
+      \strng{authorfullhash}{f4b13a73642576392b4f6af82c0ca375}
+      \field{sortinit}{R}
+      \field{sortinithash}{b9c68a358aea118dfa887b6e902414a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: 2025-12-15}
+      \field{title}{rdkit.Chem Module Documentation}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://www.rdkit.org/docs/source/rdkit.Chem.html
+      \endverb
+      \verb{url}
+      \verb https://www.rdkit.org/docs/source/rdkit.Chem.html
+      \endverb
+    \endentry
+    \entry{rdkit}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=257becad16984bcd527c3fa1f0e1e30f}{%
+           family={{RDKit: Open-Source Cheminformatics}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{257becad16984bcd527c3fa1f0e1e30f}
+      \strng{fullhash}{257becad16984bcd527c3fa1f0e1e30f}
+      \strng{bibnamehash}{257becad16984bcd527c3fa1f0e1e30f}
+      \strng{authorbibnamehash}{257becad16984bcd527c3fa1f0e1e30f}
+      \strng{authornamehash}{257becad16984bcd527c3fa1f0e1e30f}
+      \strng{authorfullhash}{257becad16984bcd527c3fa1f0e1e30f}
+      \field{sortinit}{R}
+      \field{sortinithash}{b9c68a358aea118dfa887b6e902414a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.rdkit.org/docs/GettingStartedInPython.html}}
+      \field{note}{Accessed December 6, 2025}
+      \field{title}{RDKit Documentation and Python Tutorials}
+      \field{year}{2025}
+    \endentry
+    \entry{Sworakowski2018}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ff598a2ab1e0a899d22d2a241ba72bbd}{%
+           family={Sworakowski},
+           familyi={S\bibinitperiod},
+           given={Juliusz},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ff598a2ab1e0a899d22d2a241ba72bbd}
+      \strng{fullhash}{ff598a2ab1e0a899d22d2a241ba72bbd}
+      \strng{bibnamehash}{ff598a2ab1e0a899d22d2a241ba72bbd}
+      \strng{authorbibnamehash}{ff598a2ab1e0a899d22d2a241ba72bbd}
+      \strng{authornamehash}{ff598a2ab1e0a899d22d2a241ba72bbd}
+      \strng{authorfullhash}{ff598a2ab1e0a899d22d2a241ba72bbd}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Synth. Met.}
+      \field{title}{How Accurate Are Energies of HOMO and LUMO Levels in Small-Molecule Organic Semiconductors Determined from Cyclic Voltammetry or Optical Spectroscopy?}
+      \field{volume}{235}
+      \field{year}{2018}
+      \field{pages}{125\bibrangedash 130}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1016/j.synthmet.2017.11.013
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0379677917303041
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0379677917303041
+      \endverb
+      \keyw{Organic semiconductor,HOMO and LUMO levels,Cyclic voltammetry,Electrochemical gap,Optical gap}
+    \endentry
+    \entry{PyG_QM9}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a077866c4a5f045822913f6629388625}{%
+           family={Team},
+           familyi={T\bibinitperiod},
+           given={PyG},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a077866c4a5f045822913f6629388625}
+      \strng{fullhash}{a077866c4a5f045822913f6629388625}
+      \strng{bibnamehash}{a077866c4a5f045822913f6629388625}
+      \strng{authorbibnamehash}{a077866c4a5f045822913f6629388625}
+      \strng{authornamehash}{a077866c4a5f045822913f6629388625}
+      \strng{authorfullhash}{a077866c4a5f045822913f6629388625}
+      \field{sortinit}{T}
+      \field{sortinithash}{51f9faf24c60c62ca764a77f78cf5666}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://pytorch-geometric.readthedocs.io/en/2.6.1/generated/torch_geometric.datasets.QM9.html}}
+      \field{note}{Accessed: 2025-12-09}
+      \field{title}{torch\_geometric.datasets.QM9 — PyTorch Geometric Documentation}
+      \field{year}{2024}
+    \endentry
+    \entry{walters_2021}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=4ebda59d8679ec5d2b240a420df63fb5}{%
+           family={Walters},
+           familyi={W\bibinitperiod},
+           given={W.\bibnamedelimi Patrick},
+           giveni={W\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=de391703fb0c2fdf733b3a0095bc32ce}{%
+           family={Barzilay},
+           familyi={B\bibinitperiod},
+           given={Regina},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2299b3d556c36855b399a1bedc905226}
+      \strng{fullhash}{2299b3d556c36855b399a1bedc905226}
+      \strng{bibnamehash}{2299b3d556c36855b399a1bedc905226}
+      \strng{authorbibnamehash}{2299b3d556c36855b399a1bedc905226}
+      \strng{authornamehash}{2299b3d556c36855b399a1bedc905226}
+      \strng{authorfullhash}{2299b3d556c36855b399a1bedc905226}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Accounts of Chemical Research}
+      \field{note}{PMID: 33370107}
+      \field{number}{2}
+      \field{title}{Applications of Deep Learning in Molecule Generation and Molecular Property Prediction}
+      \field{volume}{54}
+      \field{year}{2021}
+      \field{pages}{263\bibrangedash 270}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1021/acs.accounts.0c00699
+      \endverb
+      \verb{eprint}
+      \verb https://doi.org/10.1021/acs.accounts.0c00699
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1021/acs.accounts.0c00699
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1021/acs.accounts.0c00699
+      \endverb
+    \endentry
+    \entry{watanabe_2023}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2f09b1474b3b73e432f8c155c1a70c4c}{%
+           family={Watanabe},
+           familyi={W\bibinitperiod},
+           given={Shuhei},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{fullhash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{bibnamehash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{authorbibnamehash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{authornamehash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{authorfullhash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2304.11127}
+      \field{title}{Tree-Structured Parzen Estimator: Understanding its algorithm components and their roles for better empirical performance}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.48550/arXiv.2304.11127
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2304.11127
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2304.11127
+      \endverb
+    \endentry
+    \entry{yuan_2020}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=7cec3b397835921a7334f6b1b55c49b4}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Qi},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92b133873a8dd8c3a7c0292822fec454}{%
+           family={Santana-Bonilla},
+           familyi={S\bibinithyphendelim B\bibinitperiod},
+           given={Alejandro},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fae0373cdfe721d2225489f58ff01c91}{%
+           family={Zwijnenburg},
+           familyi={Z\bibinitperiod},
+           given={Martijn\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=68e979d356bf7437b5e0b11fbb64604c}{%
+           family={Jelfs},
+           familyi={J\bibinitperiod},
+           given={Kim\bibnamedelima E.},
+           giveni={K\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3450912976198d7ad57336257c32011e}
+      \strng{fullhash}{b672f898419d089a40eb3f744f6b1331}
+      \strng{bibnamehash}{b672f898419d089a40eb3f744f6b1331}
+      \strng{authorbibnamehash}{b672f898419d089a40eb3f744f6b1331}
+      \strng{authornamehash}{3450912976198d7ad57336257c32011e}
+      \strng{authorfullhash}{b672f898419d089a40eb3f744f6b1331}
+      \field{sortinit}{Y}
+      \field{sortinithash}{6ae2ff5458ff901249c2745238c951b7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nanoscale}
+      \field{title}{Molecular generation targeting desired electronic properties via deep generative models}
+      \field{volume}{12}
+      \field{year}{2020}
+      \field{pages}{6744\bibrangedash 6758}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1039/C9NR10687A
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
