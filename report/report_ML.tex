@@ -347,7 +347,7 @@ Mean & 0.852 \\ \hline
 Beyond reconstruction performance, the primary metric of interest is the generative capability of the cVAE. Using the best-performing trained model (outer fold 3), the chemical validity of molecules generated from both randomly sampled latent vectors and perturbed latent vectors is evaluated (\cref{fig:validity} and \cref{tab:cvae_samples}). Across the ten sampled target molecules in each experimental pathway, the average validity is low and comparable between the two sampling strategies, with no clear advantage observed for either method.
 \newline
 \newline
-For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. Despite similar validity levels for both sampling methods, the perturbed latent sampling consistently yields substantially lower MAE values than random latent sampling. Nevertheless, for both approaches, the MAE remains considerably larger than the errors reported for the standalone GCN model, meaning there is a significant difference between the target and generated HOMO-LUMO gap.
+For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. For both sampling methods, the perturbed and random latent sampling methods yield MAE values that are considerably larger than the errors reported for the standalone GCN model, meaning there is a significant difference between the target and generated HOMO-LUMO gap.
 
 \begin{figure}[H]
   \centering
@@ -397,7 +397,7 @@ Despite this reconstruction performance, the chemical validity of both the rando
 In addition, the model struggles to generate molecules closely resembling structures from the dataset (\cref{fig:genmol1,fig:genmol5,fig:genmol10}). Although the model captures certain chemical motifs, such as the ring structures observed in \cref{fig:genmol10}, these patterns are not consistently preserved across the generated samples. This contrasts \textcite{lim_2018} and \textcite{bombarelli_2018}, who reported structurally similar generated molecules. The lack of structural preservation observed here suggests that the learned latent space does not encode fine-grained molecular structure and a deeper analysis of the quality of the latent space is required to find the origin of this issue.
 \newline
 \newline
-Finally, the large mean absolute errors observed for the HOMO-LUMO gaps of generated molecules further indicate limited conditional control (\cref{tab:cvae_samples}). Although perturbed latent sampling reduces the MAE compared to random sampling, errors remain substantially larger than those reported in literature \parencite{bombarelli_2018}, highlighting that the conditional encoding is insufficient to reliably enforce target electronic properties, especially given low chemical validity.
+Finally, the large mean absolute errors observed for the HOMO-LUMO gaps of generated molecules further indicate limited conditional control (\cref{tab:cvae_samples}). The errors are substantially larger than those reported in literature \parencite{bombarelli_2018}, highlighting that the conditional encoding is insufficient to reliably enforce target electronic properties, especially given low chemical validity.
 
 \section{\textcolor{purple}{Conclusion}}
 
@@ -446,16 +446,16 @@ $\#$epochs & 15 & 15 & 15 & 15 & 15 \\ \hline
 \hline
  & \multicolumn{2}{c|}{Random samples} & \multicolumn{2}{c|}{Perturbed samples} \\ \hline
  & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} \\ \hline
-1 & \multicolumn{1}{c|}{0.048} & 1.453 & \multicolumn{1}{c|}{0.049} & 0.742 \\ \hline
-2 & \multicolumn{1}{c|}{0.047} & 1.242 & \multicolumn{1}{c|}{0.018} & 0.975 \\ \hline
-3 & \multicolumn{1}{c|}{0.030} & 3.543 & \multicolumn{1}{c|}{0.042} & 0.609 \\ \hline
-4 & \multicolumn{1}{c|}{0.007} & 3.889 & \multicolumn{1}{c|}{0.058} & 0.736 \\ \hline
-5 & \multicolumn{1}{c|}{0.065} & 1.999 & \multicolumn{1}{c|}{0.042} & 0.943 \\ \hline
-6 & \multicolumn{1}{c|}{0.017} & 3.845 & \multicolumn{1}{c|}{0.025} & 0.434 \\ \hline
-7 & \multicolumn{1}{c|}{0.043} & 1.349 & \multicolumn{1}{c|}{0.055} & 0.695 \\ \hline
-8 & \multicolumn{1}{c|}{0.039} & 3.335 & \multicolumn{1}{c|}{0.060} & 0.712 \\ \hline
-9 & \multicolumn{1}{c|}{0.043} & 2.816 & \multicolumn{1}{c|}{0.036} & 0.946 \\ \hline
-10 & \multicolumn{1}{c|}{0.067} & 1.032 & \multicolumn{1}{c|}{0.051} & 0.424 \\ \hline
+1 & \multicolumn{1}{c|}{0.066} & 0.605 & \multicolumn{1}{c|}{0.042} & 0.918 \\ \hline
+2 & \multicolumn{1}{c|}{0.054} & 0.543 & \multicolumn{1}{c|}{0.018} & 0.926 \\ \hline
+3 & \multicolumn{1}{c|}{0.048} & 0.886 & \multicolumn{1}{c|}{0.045} & 0.620 \\ \hline
+4 & \multicolumn{1}{c|}{0.011} & 1.135 & \multicolumn{1}{c|}{0.045} & 0.748 \\ \hline
+5 & \multicolumn{1}{c|}{0.066} & 0.726 & \multicolumn{1}{c|}{0.049} & 0.796 \\ \hline
+6 & \multicolumn{1}{c|}{0.018} & 0.992 & \multicolumn{1}{c|}{0.034} & 0.609 \\ \hline
+7 & \multicolumn{1}{c|}{0.044} & 0.467 & \multicolumn{1}{c|}{0.055} & 0.806 \\ \hline
+8 & \multicolumn{1}{c|}{0.036} & 0.817 & \multicolumn{1}{c|}{0.061} & 0.707 \\ \hline
+9 & \multicolumn{1}{c|}{0.048} & 0.904 & \multicolumn{1}{c|}{0.026} & 0.890 \\ \hline
+10 & \multicolumn{1}{c|}{0.061} & 0.850 & \multicolumn{1}{c|}{0.042} & 0.369 \\ \hline
 \end{tabular}
 \end{table}
 

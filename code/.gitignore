@@ -1,6 +1,7 @@
 *.pyc
-
 data/QM9/
-data/RDKit/
 data/tve_LightGBM/
+data/RDKit/
+notebooks/stratified_cVAE/
+
 **__pycache__**
