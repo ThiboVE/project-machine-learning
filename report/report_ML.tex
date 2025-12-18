@@ -57,15 +57,14 @@
 % \numberwithin{equation}{section}
 % \numberwithin{table}{section}
 % \numberwithin{figure}{section}
-% \hypersetup{
-%     colorlinks=true,
-%     linkcolor=black,
-%     filecolor=magenta,      
-%     urlcolor=cyan,
-%     pdftitle={play},
-%     pdfpagemode=FullScreen,
-%     citecolor=blue,
-%     }
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={play},
+    citecolor=black,
+    }
 % \bibliographystyle{achemso} 
 
 \firstpageno{1}
@@ -112,6 +111,9 @@ In the context of generative models, variational autoencoders (VAEs) have emerge
 \section{Methodology}
 % In this section, explain in detail what you did. Mention exactly what techniques you used, how you implemented everything, what experiments you performed, \dots This section should contain enough detail so that someone else can completely repeat your research.
 
+The source code for this project is available on Github 
+(\url{https://github.com/ThiboVE/project-machine-learning}).
+
 \subsection{Dataset}
 For all models in this study, we used the QM9 dataset\parencite{PyG_QM9}, a widely adopted quantum chemistry dataset comprising 130,831 small organic molecules with associated properties, including the HOMO--LUMO gap. Only molecules with valid SMILES representations were retained, leaving 129,012 molecules, can be seen in \cref{fig:gap_distribution}. SMILES (Simplified Molecular Input Line Entry System) is a text-based notation that encodes chemical structures as ASCII strings, enabling efficient computational processing; for example, benzene is represented as \texttt{C1=CC=CC=C1}. While SMILES strings can be interpreted by computers, they are not directly suitable as input for most machine learning models, which require numerical representations. Consequently, preprocessing is necessary to transform molecular structures into informative, fixed-length numerical features suitable for model training.
 \begin{figure}[H]
@@ -126,7 +128,7 @@ In this study, we focus on two different models for HOMO-LUMO gap prediction: Li
 \subsubsection{Descriptor-based features for LightGBM}
 Using RDKit, a set of 217 molecular descriptors was generated for each molecule from the SMILES representation\parencite{rdkit}. These descriptors capture various aspects of molecular structure and properties, including molecular size, shape, electronic characteristics, surface area, and the presence of functional groups. Together, they provide a fixed-length numerical representation of each molecule suitable for machine learning models such as LightGBM.
     
-\subsubsection{Graph-based representation for GCN:}  
+\subsubsection{Graph-based representation for GCN and cVAE:}  
 For graph neural networks, molecules are represented as graphs where atoms are nodes and bonds are edges. As the QM9 dataset represents molecules as SMILES, all molecule SMILES were translated to a node and edge matrix using the $Chem$ package of RDKit\parencite{rdkit_chem_docs}. Node features include atomic number, formal charge, hybridization, aromaticity, and whether the atom is in a ring structure. The edge matrix was defined as an adjacency matrix where the diagonal elements were set to 1, indicating a self-connection, which makes the matrix amenable to convolutions\parencite{deshmukh2023building}. The distance of each bond was included in the edge matrix as 1 over the bond distance. The representation of a molecule as a node and edge matrix allows the GCN to learn structural features directly from molecular graphs without relying on precomputed descriptors.
 
 \subsection{Data Splitting}
@@ -158,10 +160,14 @@ The cVAE model performance is evaluated using the average character-level recons
 \end{equation}
 
 \begin{equation}\label{eq:CRA}
-  \overline{CRA} = \frac{1}{N} \sum_{n=1}^{N} \frac{1}{T_n} \sum_{t=1}^{T_n} \mathbf{1} (\hat{x}_{n,t} = x_{m,t})
+  \overline{CRA} = \frac{1}{N} \sum_{n=1}^{N} \frac{1}{T_n} \sum_{t=1}^{T_n} \mathbf{1} (\hat{x}_{n,t} = x_{n,t})
 \end{equation}
 
 with $N$ the total number of test molecules and $T_n$ the number of characters per SMILES string.
+
+\begin{equation}
+  Validity = \frac{1}{n_{trials}} \sum_{i=1}^{n_{trials}} \mathbf{1} (isValid(\hat{x}_{i}))
+\end{equation}
 
 \subsection{LightGBM}
 \noindent
@@ -182,7 +188,7 @@ The implementation of the GCN model was based on a tutorial about creating a sim
 \newline
 \newline
 \noindent
-Starting from the node and edge matrix representations of a graph, the GCN model first applied a graph convolution using multiple convolution layers. Each convolution layer gives a node information about its neighbors using the matrix multiplication shown in \Cref{fig:graph_conv_layer}. After the convolution layers $pooling$ is applied, which turns the 2-dimensional matrix into a 1-dimensional vector that contains the means of every column of the node matrix. This vector can then be passed to the neural network, which is a simple multilayer perceptron (MLP), a fully connected feedforward neural network. For more details on the implementation, see the GitHub repository \textcolor{red}{add ref to repo}.
+Starting from the node and edge matrix representations of a graph, the GCN model first applied a graph convolution using multiple convolution layers. Each convolution layer gives a node information about its neighbors using the matrix multiplication shown in \Cref{fig:graph_conv_layer}. After the convolution layers $pooling$ is applied, which turns the 2-dimensional matrix into a 1-dimensional vector that contains the means of every column of the node matrix. This vector can then be passed to the neural network, which is a simple multilayer perceptron (MLP), a fully connected feedforward neural network.
 
 \begin{figure}[H]
     \centering
@@ -308,9 +314,7 @@ Here I would split intro three paragraphs:
 
 The overall mean character-wise reconstruction accuracy ($\overline{CRA} = 0.852$) demonstrates that the model can recover the original molecular structures in most cases. While no reconstruction accuracies were found for cVAE models with the exact same dataset, \textcite{blaschke_2018} using a standard VAE consisting of a CNN encoder and GRU decoder found a similar reconstruction accuracy of 0.862 with teacher forcing and 0.963 without teacher forcing and \textcite{mollaysa_2024}, an alternative study, using a Transformer VAE obtained a reconstruction accuracy of 0.961. These results indicate that our cVAE model is generally capable of reconstructing molecular SMILES strings with a reasonable degree of accuracy, however, the limited amount of hyperparameter tuning that was able to be done (only 15 trials) suggests that further gains may be achievable with a more extensive optimization strategy. 
 
-Despite this reconstruction performance, the chemical validity of both the randomly sampled and perturbed generated molecules is low and comparable. This is somewhat surprising, as it has already been shown that latent vectors sampled around molecules from the dataset should results in more generated valid SMILES \parencite{lim_2018}. 
-
-A likely contributing factor to the overall low validity is the high teacher forcing ratio employed during training (\cref{tab:cvae_params}). While teacher forcing stabilizes training and improves reconstruction by conditioning the decoder on ground-truth tokens, it limits the decoder's exposure to its own predictions, reducing robustness during molecular generation. Consequently, the model learns to reconstruct known sequences well but struggles to generate valid novel molecules when sampled freely.
+Despite this reconstruction performance, the chemical validity of both the randomly sampled and perturbed generated molecules is low and comparable. This is somewhat surprising, as it has already been shown that latent vectors sampled around molecules from the dataset should results in more generated valid SMILES \parencite{lim_2018}. A likely contributing factor to the overall low validity is the high teacher forcing ratio employed during training (\cref{tab:cvae_params}). While teacher forcing stabilizes training and improves reconstruction by conditioning the decoder on ground-truth tokens, it limits the decoder's exposure to its own predictions, reducing robustness during molecular generation. Consequently, the model learns to reconstruct known sequences well but struggles to generate valid novel molecules when sampled freely.
 
 In addition, the generated molecules do not generally resemble their corresponding source molecules when sampling from perturbed latent vectors (\cref{fig:genmol1,fig:genmol5,fig:genmol10}). This contrasts with the results of \textcite{lim_2018} and \textcite{bombarelli_2018}, who reported smooth latent interpolations yielding structurally similar molecules. The lack of structural preservation observed here suggests that the learned latent space does not encode fine-grained molecular structure and a deeper analysis of the quality of the latent space is required to find the origin of this issue.
 
@@ -320,7 +324,7 @@ Finally, the large mean absolute errors observed for the HOMO-LUMO gaps of gener
 \section{Conclusion}
 % Here, you summarize your research and the conclusions you draw from it. Also mention what shortcomings you see in your research. Perhaps there are still certain experiments you would have liked to have done, but didn't have time to do? Think about what steps someone could take to move your research forward.
 
-In this work, a conditional variational autoencoder was developed to generate molecular SMILES conditioned on the HOMO-LUMO gap. While the model achieved a reasonable reconstruction accuracy of 0.852, the generated molecules exhibited low chemical validity, limited structural similarity to source molecules and large deviations from the target HOMO-LUMO gaps. Future work should focus on performing a more extensive hyperparameter tuning,  
+In this work, a conditional variational autoencoder was developed to generate molecular SMILES conditioned on the HOMO-LUMO gap. While the model achieved a reasonable reconstruction accuracy of 0.852, the generated molecules exhibited low chemical validity, limited structural similarity to source molecules and large deviations from the target HOMO-LUMO gaps. Further improvements should focus on increasing the reconstruction accuracy through more extensive hyperparameter tuning, enhancing generative robustness by, among other factors, more careful handling of the teacher forcing ratio, and systematically assessing the quality of the learned latent space using methods proposed in prior work \parencite{bombarelli_2018,lim_2018}. Future research should also explore improving the encoder architecture and replacing the SMILES-based decoder with a graph-based decoder, which could explicitly address graph isomorphism and prevent the generation of strings that do not correspond to valid molecular graphs \parencite{bombarelli_2018}.
 
 \section{Disclaimers}
 % If you used ChatGPT or other LLMs to do your research and/or write your text, please mention that here. If you used such tools for your research itself, please also mention the prompts you used. Don't be afraid that we will give you a lower grade because you used an LLM. We won't.
