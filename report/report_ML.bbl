@@ -19,6 +19,109 @@
 
 \refsection{0}
   \datalist[entry]{apa/global//global/global}
+    \entry{beckham_2023}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=432e57cabfa485a4c768d589c838b3a4}{%
+           family={Beckham},
+           familyi={B\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{fullhash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{bibnamehash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{authorbibnamehash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{authornamehash}{432e57cabfa485a4c768d589c838b3a4}
+      \strng{authorfullhash}{432e57cabfa485a4c768d589c838b3a4}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://beckham.nz/2023/04/27/conditional-vaes.html}}
+      \field{month}{4}
+      \field{title}{Conditional VAEs}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://beckham.nz/2023/04/27/conditional-vaes.html
+      \endverb
+      \verb{url}
+      \verb https://beckham.nz/2023/04/27/conditional-vaes.html
+      \endverb
+    \endentry
+    \entry{cho_2014}{article}{}
+      \name{author}{7}{}{%
+        {{un=0,uniquepart=base,hash=3da7501a79d9346572c7fd6e41b615df}{%
+           family={Cho},
+           familyi={C\bibinitperiod},
+           given={Kyunghyun},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d27fe3f9898ba01eeca28e3bd205f9ea}{%
+           family={Merrienboer},
+           familyi={M\bibinitperiod},
+           given={Bart},
+           giveni={B\bibinitperiod},
+           givenun=0,
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{un=0,uniquepart=base,hash=2adc0c92c308f233c731321d55efe58f}{%
+           family={Gulcehre},
+           familyi={G\bibinitperiod},
+           given={Caglar},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6d80adec79a13a33e73215c5f46f1605}{%
+           family={Bahdanau},
+           familyi={B\bibinitperiod},
+           given={Dzmitry},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6deedc795e51da1bc7fd6289ab321a48}{%
+           family={Bougares},
+           familyi={B\bibinitperiod},
+           given={Fethi},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=449689e8c1ced50f608244e3a96fe6d3}{%
+           family={Schwenk},
+           familyi={S\bibinitperiod},
+           given={Holger},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=40a8e4774982146adc2688546f54efb2}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={Yoshua},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{9b1920db887fe0d658725c1e606b61f4}
+      \strng{fullhash}{93de344d8644049cc7e61f1b9095d310}
+      \strng{bibnamehash}{93de344d8644049cc7e61f1b9095d310}
+      \strng{authorbibnamehash}{93de344d8644049cc7e61f1b9095d310}
+      \strng{authornamehash}{9b1920db887fe0d658725c1e606b61f4}
+      \strng{authorfullhash}{93de344d8644049cc7e61f1b9095d310}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1406.1078}
+      \field{title}{Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation}
+      \field{year}{2014}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1406.1078
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1406.1078
+      \endverb
+    \endentry
     \entry{COSTA201651}{article}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=ce3efbbb1d0d0d835c4400b1bae2877c}{%
@@ -355,6 +458,49 @@
       \verb https://pubmed.ncbi.nlm.nih.gov/40929702/
       \endverb
     \endentry
+    \entry{kingma_2019}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=b6fbd171848aad4edf3925543f1f1522}{%
+           family={Kingma},
+           familyi={K\bibinitperiod},
+           given={Diederik\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=53d2880ad8047b61cdae2c6b2803e763}{%
+           family={Welling},
+           familyi={W\bibinitperiod},
+           given={Max},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{fullhash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{bibnamehash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{authorbibnamehash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{authornamehash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \strng{authorfullhash}{aabdd5db7a1ed298b1dfb6824d032c66}
+      \field{sortinit}{K}
+      \field{sortinithash}{d3edc18d54b9438a72c24c925bfb38f4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{CoRR}
+      \field{title}{An Introduction to Variational Autoencoders}
+      \field{volume}{abs/1906.02691}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1906.02691
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1906.02691
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1906.02691
+      \endverb
+    \endentry
     \entry{lim_2018}{article}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=2eb70e5ec072f4b7475c8a6e0da9146f}{%
@@ -640,6 +786,91 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.1021/acs.accounts.0c00699
+      \endverb
+    \endentry
+    \entry{watanabe_2023}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2f09b1474b3b73e432f8c155c1a70c4c}{%
+           family={Watanabe},
+           familyi={W\bibinitperiod},
+           given={Shuhei},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{fullhash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{bibnamehash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{authorbibnamehash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{authornamehash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \strng{authorfullhash}{2f09b1474b3b73e432f8c155c1a70c4c}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2304.11127}
+      \field{title}{Tree-Structured Parzen Estimator: Understanding its algorithm components and their roles for better empirical performance}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.48550/arXiv.2304.11127
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2304.11127
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2304.11127
+      \endverb
+    \endentry
+    \entry{yuan_2020}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=7cec3b397835921a7334f6b1b55c49b4}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Qi},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92b133873a8dd8c3a7c0292822fec454}{%
+           family={Santana-Bonilla},
+           familyi={S\bibinithyphendelim B\bibinitperiod},
+           given={Alejandro},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fae0373cdfe721d2225489f58ff01c91}{%
+           family={Zwijnenburg},
+           familyi={Z\bibinitperiod},
+           given={Martijn\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=68e979d356bf7437b5e0b11fbb64604c}{%
+           family={Jelfs},
+           familyi={J\bibinitperiod},
+           given={Kim\bibnamedelima E.},
+           giveni={K\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3450912976198d7ad57336257c32011e}
+      \strng{fullhash}{b672f898419d089a40eb3f744f6b1331}
+      \strng{bibnamehash}{b672f898419d089a40eb3f744f6b1331}
+      \strng{authorbibnamehash}{b672f898419d089a40eb3f744f6b1331}
+      \strng{authornamehash}{3450912976198d7ad57336257c32011e}
+      \strng{authorfullhash}{b672f898419d089a40eb3f744f6b1331}
+      \field{sortinit}{Y}
+      \field{sortinithash}{6ae2ff5458ff901249c2745238c951b7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nanoscale}
+      \field{title}{Molecular generation targeting desired electronic properties via deep generative models}
+      \field{volume}{12}
+      \field{year}{2020}
+      \field{pages}{6744\bibrangedash 6758}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1039/C9NR10687A
       \endverb
     \endentry
   \enddatalist
