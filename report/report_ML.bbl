@@ -423,6 +423,57 @@
       \verb https://doi.org/10.5772/intechopen.1011119
       \endverb
     \endentry
+    \entry{Goh2022LGBStack}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b2882b634b18c7875e7f47b00cd1274a}{%
+           family={Goh},
+           familyi={G\bibinitperiod},
+           given={Kai\bibnamedelima Leong},
+           giveni={K\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dffffdc1c3080addf242633f39d3a91e}{%
+           family={Goto},
+           familyi={G\bibinitperiod},
+           given={Atsushi},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8402edf921849470e1469513686f2a62}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Yunpeng},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{05251f0f87771ec165ab6389cc631b96}
+      \strng{fullhash}{1ec5f599bbf0a0b8fd39b93de766d398}
+      \strng{bibnamehash}{1ec5f599bbf0a0b8fd39b93de766d398}
+      \strng{authorbibnamehash}{1ec5f599bbf0a0b8fd39b93de766d398}
+      \strng{authornamehash}{05251f0f87771ec165ab6389cc631b96}
+      \strng{authorfullhash}{1ec5f599bbf0a0b8fd39b93de766d398}
+      \field{sortinit}{G}
+      \field{sortinithash}{62eb2aa29549e4fdbd3cb154ec5711cb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACS Omega}
+      \field{number}{34}
+      \field{title}{LGB-Stack: Stacked Generalization with LightGBM for Highly Accurate Predictions of Polymer Bandgap}
+      \field{volume}{7}
+      \field{year}{2022}
+      \field{pages}{29787\bibrangedash 29793}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1021/acsomega.2c02554
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1021/acsomega.2c02554
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1021/acsomega.2c02554
+      \endverb
+    \endentry
     \entry{bombarelli_2018}{article}{}
       \name{author}{10}{}{%
         {{un=0,uniquepart=base,hash=a37688f976e048ffbc85a45699635c91}{%
