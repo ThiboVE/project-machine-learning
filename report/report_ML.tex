@@ -82,6 +82,7 @@
 
 \begin{abstract}
   \textcolor{purple}{In the abstract of your paper, briefly summarize your research in about 150 to 250 words. Briefly explain the problem statement, the techniques you used, and your general results. You can't go into deep detail here, of course, but you don't have to. Think of this as a kind of written ``elevator pitch'': explain your research to someone who has 1-2 minutes time to listen.}
+  Accurate prediction and targeted generation of molecular electronic properties such as the HOMO-LUMO gap remain central challenges in computational chemistry and materials discovery. In this work, we investigate three complementary machine learning approaches for HOMO-LUMO gap prediction and conditional molecular generation using the QM9 dataset. First, a descriptor-based LightGBM model is trained with extensive hyperparameter optimization using Optuna and nested cross-validation, achieving a mean absolute error (MAE) of approximately 0.14 eV and demonstrating strong generalization and feature stability. Feature importance analysis highlights the relevance of chemically meaningful descriptors related to electronic and topological structure. Second, a graph convolutional network (GCN) is implemented to directly learn structure-property relationships from molecular graphs. The GCN attains comparable predictive performance with a mean MAE of approximately 0.16 eV and an R$^2$ of 0.97, indicating that graph-based deep learning models can match the accuracy of well-tuned traditional ensemble methods for this task. Finally, a conditional variational autoencoder (cVAE) combining a GCN encoder and a GRU-based SMILES decoder is explored for conditional molecular generation targeting specific HOMO-LUMO gaps. While the cVAE achieves reasonable reconstruction accuracy (mean character-wise reconstruction accuracy of 0.852), the validity and property control of generated molecules remain limited, with large deviations between target and generated HOMO-LUMO gaps. Overall, the results demonstrate that LightGBM and GCN models provide competitive and complementary approaches for HOMO-LUMO gap prediction, while highlighting current challenges in conditional molecular generation and the need for more expressive latent representations and improved training strategies.
 \end{abstract}
 
 \section{Introduction}
@@ -110,11 +111,11 @@ In this study, we pursue two objectives. First, we build predictive models for H
 % In the related work section, you briefly describe which other papers have performed research on the same topic as you. Try to explain what the differences are between your research and theirs. You can cite papers like this: \parencite{chow:68}. If you use the citation
 % in the middle of a sentence, you can do it like this: \textcite{chow:68} showed that \dots
 \noindent
-In recent years, significant progress has been made in predicting HOMO-LUMO gaps using various ML techniques, such as deep learning, ensemble methods, and graph-based models. Early descriptor-based regression models achieved MAEs in the range of about 0.10-0.25 eV using methods such as Random Forests or LightGBM on connectivity/descriptor features \textcolor{red}{references?}.
+In recent years, significant progress has been made in predicting HOMO-LUMO gaps using various machine learning techniques, including deep learning approaches, ensemble methods, and graph-based models. Early descriptor-based regression models achieved mean absolute errors (MAEs) in the range of approximately 0.10-0.25 eV using methods such as Random Forests and LightGBM trained on molecular connectivity and handcrafted descriptor features \parencite{Goh2022LGBStack}. One such example is the work of \textcite{Hasan2025}, where several classical machine learning models are evaluated for HOMO-LUMO gap prediction, and where ensemble combinations of multiple models are shown to further improve predictive performance. In this work, they used a database where the properties of the molecules were calculated with hartree fock therory and pushed the MAE down to 0.116 eV.
 \newline
 \newline
 \noindent
-\textcolor{red}{why use LightGBM}
+In this context, LightGBM is adopted in the present work due to its proven effectiveness for molecular property prediction using descriptor-based representations. As a gradient boosting decision tree algorithm, LightGBM is well suited to modeling complex, non-linear relationships between molecular descriptors and electronic properties while maintaining strong generalization performance on medium-sized datasets. Moreover, LightGBM offers advantages in terms of computational efficiency, robustness to feature scaling, and interpretability through feature importance analysis. These characteristics make it a strong and well-established baseline, enabling fair comparison with prior descriptor-based approaches while providing competitive accuracy without the added complexity of deep or graph-based models.
 \newline
 \newline
 \noindent
@@ -249,13 +250,10 @@ For each experimental pathway, ten molecules with distinct target HOMO-LUMO gaps
 % Here you describe the results you obtained. This is not just a big data dump where you put all the numbers into one big table. Try to point out patterns or striking things in your results. Think about how you can visualize the results so that a reader, who has not conducted your research themselves, can quickly understand what your results mean.
 \subsection{LightGBM}
 \label{sec:lightgbm}
-For the performance of the model we first looked to the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap which are calculated for each outer cross-validation fold. These results are shown in \cref{tab:LightGBM} and \cref{fig:LightGBM_R2}. We see that the values for the different metrics does not change much with each fold which is in line whit the chosen stratified splits. The mean MAE of 0.1418 eV is in line with the 0.1-0.2 eV that can be found in literature \textcolor{red}{references?}. 
+For the performance of the model we first looked to the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap which are calculated for each outer cross-validation fold. These results are shown in \cref{tab:LightGBM} and \cref{fig:LightGBM_R2}. We see that the values for the different metrics does not change much with each fold which is in line whit the chosen stratified splits. The mean MAE of 0.1418 eV is in line with the work of \textcite{Hasan2025}. 
 \newline
 \newline
 \noindent
-\textcolor{red}{maybe drop this paragraph as it states the obvious?}
-Closer inspection of the plot suggests that the largest deviations occur for  a molecule with the  highest HOMO-LUMO gaps. This trend is expected given that extreme values are less frequently represented in the dataset, and gradient-boosted models may underperform slightly on sparse regions of the target distribution. Nonetheless, the scatter remains tightly clustered around the parity line for the bulk of the molecules, confirming robust generalization across the typical gap range.
-
 
 \begin{table}[H]
 \caption{LightGBM : mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO-LUMO gaps per outer fold. Mean values across all five folds are also reported.}
@@ -375,8 +373,11 @@ To further explore the perturbed latent space vectors, we visualize the generate
 
 
 \subsection{LightGBM and GCN have similar performances}
-
-\textcolor{red}{Interpretation of LightGBM results and how it relates to literature}
+The LightGBM model achieves a mean absolute error (MAE) of 0.14 eV and an $R^2$ of 0.97 for HOMO-LUMO gap prediction across all cross-validation folds (\Cref{tab:LightGBM}). The consistency of these metrics across folds indicates that the stratified cross-validation splits are well balanced. Our results can be directly compared to those of \textcite{Hasan2025}, as they employ the same descriptor-based approach using RDKit-generated molecular descriptors as input to their machine learning models. In their study, a LightGBM model achieved a MAE of 0.175 eV, which is higher than the error obtained in the present work. One likely contributing factor is the hyperparameter optimization strategy: while \textcite{Hasan2025} rely on a grid search, we employ Optuna, a Bayesian optimization framework that enables more efficient exploration of the hyperparameter space.
+\newline
+\newline
+\noindent
+Feature importance analysis further reveals that approximately 50 descriptors contribute meaningfully to the prediction of the HOMO-LUMO gap, with around 20 descriptors exhibiting particularly strong influence, while the remaining features provide only minor refinements to the predictions. The most influential descriptors predominantly capture topological and electronic properties of the molecules, whereas atom-level features are less important. This observation is expected, as variations in atomic composition are implicitly reflected in global electronic and topological descriptors. Overall, these results demonstrate that machine learning models, when trained on sufficiently large datasets, can reliably predict the HOMO-LUMO gaps of small organic molecules using chemically informed descriptor representations.
 \newline
 \newline
 \noindent
@@ -402,7 +403,9 @@ Finally, the large mean absolute errors observed for the HOMO-LUMO gaps of gener
 \section{\textcolor{purple}{Conclusion}}
 
 % Here, you summarize your research and the conclusions you draw from it. Also mention what shortcomings you see in your research. Perhaps there are still certain experiments you would have liked to have done, but didn't have time to do? Think about what steps someone could take to move your research forward.
-
+From a predictive modeling perspective, the LightGBM approach demonstrated strong and reliable performance for HOMO--LUMO gap estimation. By leveraging RDKit-based molecular descriptors and Bayesian hyperparameter optimization with Optuna, the model achieved a mean absolute error of 0.14~eV and an $R^2$ of 0.97, which is competitive with, and in some cases superior to, recent literature results \parencite{Hasan2025}. The stability of the performance across cross-validation folds and the consistency of feature importance rankings indicate that the model captures robust structure-property relationships rather than overfitting to specific subsets of the data. Furthermore, the dominance of topological and electronic descriptors among the most influential features highlights the physical relevance of the learned mappings. These results confirm that well-tuned, descriptor-based ensemble models such as LightGBM remain highly effective baselines for molecular electronic property prediction, particularly when large, high-quality datasets are available.
+\newline
+\newline
 In this work, a conditional variational autoencoder was developed to generate molecular SMILES conditioned on the HOMO-LUMO gap. While the model achieved a reasonable reconstruction accuracy of 0.852, the generated molecules exhibited low chemical validity, limited structural similarity to source molecules and large deviations from the target HOMO-LUMO gaps. Further improvements should focus on increasing the reconstruction accuracy through more extensive hyperparameter tuning, enhancing generative robustness by, among other factors, more careful handling of the teacher forcing ratio, and systematically assessing the quality of the learned latent space using methods proposed in prior work \parencite{bombarelli_2018,lim_2018}. Future research should also explore improving the encoder architecture and replacing the SMILES-based decoder with a graph-based decoder, which could explicitly address graph isomorphism and prevent the generation of strings that do not correspond to valid molecular graphs \parencite{bombarelli_2018}.
 
 \section{Disclaimers}
