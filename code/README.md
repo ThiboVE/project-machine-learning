@@ -1,1 +1,1 @@
-Directly add python files in this directory, not the .devcontainer dir.
+This directory contains the code used for the project.

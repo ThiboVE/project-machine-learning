@@ -1,13 +1,13 @@
 from library.cVAE import GCN_Encoder, GRU_Decoder, cVAE
+from library.cVAE_loss_function import loss_function
 from sklearn.model_selection import StratifiedKFold
 from torch.utils.data import  Subset
 from library.GCN import GraphData
 from library.cVAE_helper import (
     make_stratified_bins,
     get_dataloader,
-    loss_function,
-    train_model,
-    test_model,
+    cVAE_train_model,
+    cVAE_test_model,
     get_vocab,
 
 )
@@ -44,14 +44,14 @@ PARAMS = {
         'n_fc_layers': {'type': 'int', 'low': 2, 'high': 3},
         'embedding_dim': {'type': 'int', 'low': 8, 'high': 24},
         # Low
-        # 'n_epochs': {'type': 'int', 'low': 3, 'high': 15},  # Low for inner, full for final
         'teacher_forcing_ratio': {'type': 'float', 'low': 0.1, 'high': 0.9},
         'beta': {'type': 'float', 'low': 0.1, 'high': 10, 'log': True},
     },
-    'n_trials': 15,  # Adjust: 20-50 for prototyping
+    'n_trials': 15,
     'direction': 'minimize',
 }
 
+# Parameters of the first point I want to explore in the Bayesian optimization algorithm.
 INIT_PARAMS = {
             "lr": 0.0013292918943162175,
             "latent_dim": 62,
@@ -80,7 +80,6 @@ DATA_PATH = Path.cwd().parents[0] / "data"
 def create_model(trial=None, init_params=None, fixed_params=None):
     """
     Create cVAE model based on Optuna trial suggestions for the current phase.
-    fixed_params: Dict of previously tuned params to fix (e.g., from prior phases).
     """
 
     if init_params is not None:
@@ -152,7 +151,7 @@ def create_model(trial=None, init_params=None, fixed_params=None):
 # ---------------------------------------------------------------
 
 def inner_cv_objective(trial, outer_train_dataset, n_inner_folds=5):
-    """10 inner folds on outer_train_indices for one trial."""
+    """Inner folds on outer_train_indices for one trial."""
     inner_cv = StratifiedKFold(n_splits=n_inner_folds, shuffle=True, random_state=INNER_SEED)
 
     y_inner_gaps = np.array([outer_train_dataset[i][1].squeeze(-1).item() for i in range(len(outer_train_dataset))])
@@ -175,7 +174,7 @@ def inner_cv_objective(trial, outer_train_dataset, n_inner_folds=5):
         
         inner_epochs = FIXED_PARAMS['n_epochs']
         for epoch in range(inner_epochs):
-            inner_train_loss, inner_train_acc = train_model(
+            inner_train_loss, inner_train_acc = cVAE_train_model(
                 epoch, model, train_loader, optimizer,
                 lambda m, l, t, b: loss_function(m, l, t, b, beta=trial_params['beta']),
                 FIXED_PARAMS['use_GPU'], DEVICE, FIXED_PARAMS['max_atoms'], FIXED_PARAMS['node_vec_len'], token2idx
@@ -183,7 +182,7 @@ def inner_cv_objective(trial, outer_train_dataset, n_inner_folds=5):
 
             logger.info(f"Inner Train Loss: [{inner_train_loss:.2f}]\tReconstruction accuracy: [{inner_train_acc}]")
         
-        val_loss, val_acc = test_model(
+        val_loss, val_acc = cVAE_test_model(
             model, val_loader,
             lambda m, l, t, b: loss_function(m, l, t, b, beta=trial_params['beta']),
             FIXED_PARAMS['use_GPU'], DEVICE, FIXED_PARAMS['max_atoms'], FIXED_PARAMS['node_vec_len'], token2idx
@@ -203,7 +202,9 @@ def inner_cv_objective(trial, outer_train_dataset, n_inner_folds=5):
 
 def run_tuning_per_fold(outer_train_dataset):
     """Single-phase tuning on outer_train; final train/eval."""
+    
     logger.info("Starting Single-Phase Tuning...")
+
     def obj(trial):
         return inner_cv_objective(trial, outer_train_dataset)
     
@@ -212,8 +213,9 @@ def run_tuning_per_fold(outer_train_dataset):
         sampler=optuna.samplers.TPESampler(seed=42),
         pruner=optuna.pruners.HyperbandPruner(min_resource=1, max_resource=10),  # Prune early
     )
-    study.enqueue_trial(INIT_PARAMS)
-    study.optimize(obj, n_trials=PARAMS['n_trials'], n_jobs=1)  # n_jobs>1 for multi-GPU if setup
+
+    study.enqueue_trial(INIT_PARAMS) # Define an inital trial I want the study to run
+    study.optimize(obj, n_trials=PARAMS['n_trials'], n_jobs=1)
     
     best_params = study.best_params
     logger.info(f"Best Params: {best_params}")
@@ -223,6 +225,7 @@ def run_tuning_per_fold(outer_train_dataset):
 
 
 def save_fold(fold, train_idx, test_idx, vocab_size, fold_type):
+    """Save the data of an outer fold"""
     output_dir = DATA_PATH / "cvae_folds"
     output_dir.mkdir(exist_ok=True)
 
@@ -234,13 +237,17 @@ def save_fold(fold, train_idx, test_idx, vocab_size, fold_type):
         'n_samples_test': len(test_idx),
         'vocab_size': vocab_size,  # For consistency
     }
+
     fold_file = output_dir / f'fold_{fold}_{fold_type}_data.json'
+
     with open(fold_file, 'w') as f:
         json.dump(fold_data, f)
     logger.info(f"Saved fold {fold} to {fold_file}")
 
 
 def save_fold_result(fold, train_losses, train_accs, test_loss, test_acc, best_params, fold_type='stratified'):
+    """Save the results of an outer fold"""
+
     output_dir = DATA_PATH / "results"
     output_dir.mkdir(exist_ok=True)
 
@@ -252,13 +259,16 @@ def save_fold_result(fold, train_losses, train_accs, test_loss, test_acc, best_p
         'test_acc': test_acc,
         **best_params
     }
+
     fold_file = output_dir / f'fold_{fold}_{fold_type}_results.json'
+
     with open(fold_file, 'w') as f:
         json.dump(fold_data, f)
     logger.info(f"Saved results of fold {fold} to {fold_file}")
 
 
 def save_model(state_dict, fold, fold_type='stratified'):
+    """Save the weights of a model after its final training in an outer fold"""
     output_dir = DATA_PATH / "models" 
     output_dir.mkdir(exist_ok=True)
 
@@ -325,6 +335,7 @@ def main():
 
     for fold, (outer_train_idx, outer_test_idx) in enumerate(outer_cv.split(dataset_indices, outer_binned_gaps)):
         logger.info(f"\n=== OUTER FOLD {fold+1}/{n_outer_folds} ===")
+
         # Save fold information in json file
         save_fold(fold, outer_train_idx, outer_test_idx, FIXED_PARAMS['vocab_size'], 'stratified')
 
@@ -333,6 +344,8 @@ def main():
         outer_train_dataset = Subset(dataset, outer_train_indices)
 
         best_params = run_tuning_per_fold(outer_train_dataset)
+
+        # Already save the best parameters of the outer fold
         save_fold_result(fold, 0, 0, 0, 0,  best_params)
 
         # Final train on full outer_train
@@ -347,7 +360,7 @@ def main():
         
         train_losses, train_accs = [], []
         for epoch in range(n_epochs):
-            train_loss, train_acc = train_model(
+            train_loss, train_acc = cVAE_train_model(
                 epoch, model, train_loader, optimizer,
                 lambda m, l, t, b: loss_function(m, l, t, b, beta=best_params['beta']),
                 FIXED_PARAMS['use_GPU'], DEVICE, FIXED_PARAMS['max_atoms'], FIXED_PARAMS['node_vec_len'], token2idx
@@ -358,16 +371,17 @@ def main():
 
             logger.info(f"Outer Epoch: [{epoch}]\tTraining Loss: [{train_loss:.2f}]\tReconstruction accuracy: [{train_acc}]")
         
-        # Outer eval
+        # Outer test
         logger.info("  Evaluating on Outer Test...")
-        test_loss, test_acc = test_model(
+        test_loss, test_acc = cVAE_test_model(
             model, test_loader,
             lambda m, l, t, b: loss_function(m, l, t, b, beta=best_params['beta']),
             FIXED_PARAMS['use_GPU'], DEVICE, FIXED_PARAMS['max_atoms'], FIXED_PARAMS['node_vec_len'], token2idx
         )
 
+        # Save the results of the outer fold
         save_fold_result(fold, train_losses, train_accs, test_loss, test_acc, best_params)
-
+        # Save the weights of the model
         save_model(model.state_dict(), fold)
         
         logger.info(f"  Outer Test Loss: {test_loss:.4f}, Acc: {test_acc:.4f}")

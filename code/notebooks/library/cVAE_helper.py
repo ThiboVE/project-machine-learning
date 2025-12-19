@@ -1,7 +1,7 @@
 from torch.utils.data import DataLoader,SubsetRandomSampler, Subset
+from library.GCN import GraphData, collate_graph_dataset
 from library.cVAE import GCN_Encoder, GRU_Decoder, cVAE
 from sklearn.model_selection import StratifiedKFold
-from library.GCN import GraphData, collate_graph_dataset
 from typing import Iterable
 from pathlib import Path
 import torch.nn as nn
@@ -9,16 +9,6 @@ import pandas as pd
 import numpy as np
 import torch
 import json
-
-
-def loss_function(model, logits, targets, batch_size, beta=1):
-    recon_loss_fn = nn.CrossEntropyLoss(ignore_index=0)
-    loss_recon = recon_loss_fn(logits, targets)
-    
-    kl_loss = -0.5 * torch.sum(1 + model.z_logvar - model.z_mean.pow(2) - model.z_logvar.exp()) / batch_size
-    loss = loss_recon + beta * kl_loss
-
-    return loss
 
 
 def padding(smiles, token2idx, device):
@@ -81,7 +71,7 @@ def smiles_level_accuracy(logits, targets, pad_idx=None):
     return avg_acc.item(), per_smiles_acc
 
 
-def VAE_train_model(
+def cVAE_train_model(
     epoch,
     model,
     training_dataloader,
@@ -163,7 +153,7 @@ def VAE_train_model(
     return avg_loss, epoch_smiles_accuracy
 
 
-def VAE_test_model(
+def cVAE_test_model(
     model,
     test_dataloader,
     loss_fn,
