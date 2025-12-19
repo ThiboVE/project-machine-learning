@@ -170,28 +170,6 @@ Since both the LightGBM and GCN models are used to predict HOMO-LUMO gaps and ar
 
 The cVAE model performance is evaluated using the average character-level reconstruction accuracy ($\overline{CRA}$, \cref{eq:CRA}), the chemical validity of newly generated SMILES strings using RDKit (\cref{eq:validity}), and the agreement between the target HOMO-LUMO gap and the GCN-predicted gap of the generated molecules, quantified using MAE. Each metric is calculated as
 
-\begin{equation}\label{eq:MAE}
-  MAE = \frac{1}{N}\sum^{N}\vert y_{pred}-y_{true} \vert
-\end{equation}
-
-\begin{equation}\label{eq:RMSE}
-  RMSE = \sqrt{\frac{1}{N}\sum^{N} (y_{pred}-y_{true})^{2}}
-\end{equation}
-
-\begin{equation}\label{eq:R2}
-  R^2 = 1 - \frac{\sum^{N} (y_{true}-y_{pred})^{2}}{\sum^{N} (y_{true}-\bar{y})^{2}}
-\end{equation}
-
-\begin{equation}\label{eq:CRA}
-  \overline{CRA} = \frac{1}{N} \sum_{n=1}^{N} \frac{1}{T_n} \sum_{t=1}^{T_n} \mathbf{1} (\hat{x}_{n,t} = x_{n,t})
-\end{equation}
-
-with $N$ the total number of test molecules and $T_n$ the number of characters per SMILES string.
-
-\begin{equation}\label{eq:validity}
-  Validity = \frac{1}{n_{trials}} \sum_{i=1}^{n_{trials}} \mathbf{1} (isValid(\hat{x}_{i}))
-\end{equation}
-
 \subsection{LightGBM}
 \noindent
 LightGBM is a gradient-boosted decision tree algorithm optimized for speed and high-dimensional data. It grows trees in a leaf-wise rather than level-wise manner, allowing it to capture complex, non-linear relationships more efficiently than many traditional boosting methods. This makes it well-suited for tabular molecular descriptor data, as it is robust to feature scaling, multicollinearity, and missing values.
@@ -257,116 +235,24 @@ For the performance of the model we first looked to the mean absolute error (MAE
 \newline
 \newline
 \noindent
-
-\begin{table}[H]
-\caption{LightGBM : mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO-LUMO gaps per outer fold. Mean values across all five folds are also reported.}
-\label{tab:LightGBM}
-\centering
-\small
-\setlength{\tabcolsep}{16pt}   % column padding
-\renewcommand{\arraystretch}{1.5} % row height
-\begin{tabular}{|l|c|c|c|}
-\hline
- & MAE (eV) & RMSE (eV) & $R^2$ \\ \hline
-Outer Fold 1 & 0.1417 & 0.2160 & 0.9715\\ \hline
-Outer Fold 2 & 0.1408 & 0.2122 & 0.9727 \\ \hline
-Outer Fold 3 & 0.1411 & 0.2200 & 0.9705 \\ \hline
-Outer Fold 4 & 0.1430 & 0.2183 & 0.9709 \\ \hline
-Outer Fold 5 & 0.1423 & 0.2227 & 0.9696 \\ \hline
-Mean & 0.14 & 0.22 & 0.97 \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{img/LightGBM_R2.png}
-    \caption{Predicted vs true HOMO-LUMO gap for all 5 outer folds together of the LigthGBM model.}
-    \label{fig:LightGBM_R2}
-\end{figure}
-
 The feature importance stability plot (\cref{fig:LightGBM_features}) summarizes the mean and standard deviation of LightGBM feature importances across the five outer cross-validation folds for the top 20 descriptors. Points indicate the average importance of each descriptor, while error bars reflect variability across folds, providing insight into both feature relevance and robustness. Several descriptors consistently dominate the model, most notably MinAbsEStateIndex, BCUT2D$_{\text{MWLOW}}$, and BCUT2D$_{\text{MRHI}}$, which exhibit high mean importance with low variability. This indicates that these features are both highly informative and stable predictors of the HOMO--LUMO gap.
 \newline
 \newline
 \noindent
 Overall, feature importance shows a gradual decay, with approximately the top ten descriptors accounting for most of the predictive power. The low standard deviations observed for the most important features suggest that the model relies on a robust core of chemically meaningful descriptors that remain consistent across different training subsets.These results highlight the relevance of descriptors capturing electronic and topological properties, such as BCUT metrics and EState indices, for accurate HOMO-LUMO gap prediction, while lower-importance features appear to contribute only marginally to overall performance.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{img/LightGBM_features.png}
-    \caption{The top 20 most important features across the 5 outer folds where the error bar reflect variability across folds.}
-    \label{fig:LightGBM_features}
-\end{figure}
+
 \subsection{GCN}
 
 Just as for the LightGBM model, the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap were determined for the GCN model. All evaluation metrics of the GCN model (\Cref{tab:GCN}) have slightly higher values than those of the LightGBM model (\Cref{tab:LightGBM}). The consistent appearance of the same group of outliers across all outer folds (upper left half of each $R^2$ plot in \Cref{fig:GCN_R2}) indicates that the stratified outer cross-validation split was balanced.
-
-\begin{table}[H]
-\caption{GCN: Mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO-LUMO gaps per outer fold. Mean values across all five folds are also reported.}
-\label{tab:GCN}
-\centering
-\small
-\setlength{\tabcolsep}{16pt}   % column padding
-\renewcommand{\arraystretch}{1.5} % row height
-\begin{tabular}{|l|c|c|c|}
-\hline
- & MAE (eV) & RMSE (eV) & $R^2$ \\ \hline
-Outer Fold 1 & 0.1677 & 0.2403 & 0.9646 \\ \hline
-Outer Fold 2 & 0.1585 & 0.2280 & 0.9682 \\ \hline
-Outer Fold 3 & 0.1567 & 0.2255 & 0.9690 \\ \hline
-Outer Fold 4 & 0.1586 & 0.2231 & 0.9697 \\ \hline
-Outer Fold 5 & 0.1587 & 0.2299 & 0.9679 \\ \hline
-Mean & 0.16 & 0.23 & 0.97 \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/GCN_R2.png}
-    \caption{Predicted vs true HOMO-LUMO gap for all 5 outer folds of the GCN model.}
-    \label{fig:GCN_R2}
-\end{figure}
 
 \subsection{cVAE}
 
 The reconstruction performance of the cVAE model, quantified by the average character-wise reconstruction accuracy $\overline{CRA}$, across the five outer cross-validation folds is reported in \cref{tab:CRA}. The model achieves an overall mean reconstruction accuracy of 0.852, indicating that it is generally capable of accurately reconstructing individual molecules. Notably, outer folds three and five exhibit substantially higher reconstruction accuracies than the remaining folds. This improvement can be attributed to more favorable hyperparameter configurations identified during their respective tuning procedures (\cref{tab:cvae_params}), in particular a higher learning rate, a larger GRU hidden dimension, and a lower $\beta$ parameter.
 
-\begin{table}[H]
-\centering
-\caption{The average character-wise reconstruction accuracy, as calculated by \cref{eq:CRA}, of the test set per outer fold of the cross-validation.}
-\label{tab:CRA}
-\begin{tabular}{|c|c|}
-\hline
- & $\overline{CRA}$ \\ \hline
-Outer fold 1 & 0.842 \\ \hline
-Outer fold 2 & 0.840 \\ \hline
-Outer fold 3 & 0.871 \\ \hline
-Outer fold 4 & 0.846 \\ \hline
-Outer fold 5 & 0.863 \\ \hline
-Mean & 0.852 \\ \hline
-\end{tabular}
-\end{table}
-
 Beyond reconstruction performance, the primary metric of interest is the generative capability of the cVAE. Using the best-performing trained model (outer fold 3), the chemical validity of molecules generated from both randomly sampled latent vectors and perturbed latent vectors is evaluated (\cref{fig:validity} and \cref{tab:cvae_samples}). Across the ten sampled target molecules in each experimental pathway, the average validity is low and comparable between the two sampling strategies, with no clear advantage observed for either method.
 \newline
 \newline
 For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{fig:cvae_maes,tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. For both sampling methods, the perturbed and random latent sampling methods yield MAE values that are considerably larger than the errors reported for the standalone GCN model, meaning there is a significant difference between the target and generated HOMO-LUMO gap.
-
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}{0.4\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{img/avg_validity.png}
-    \caption{The average validity for both 10 randomly sampled latent vectors and 10 perturbed latent vectors with their respective 95\% confidence intervals.}
-    \label{fig:validity}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}{0.4\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{img/cvae_maes.png}
-    \caption{The MAEs of the valid generated molecules for each of the 10 random and 10 perturbed samples.}
-    \label{fig:cvae_maes}
-  \end{subfigure}
-  \caption{A visual representation of the data from \cref{tab:cvae_samples}.}
-\end{figure}
 
 To further explore the perturbed latent space vectors, we visualize the generated chemical structures to assess how effectively the cVAE can produce molecules with the same HOMO-LUMO gap while exhibiting slight structural variations. \Cref{fig:genmol1,fig:genmol5,fig:genmol10} present three starting molecules alongside four of their respective perturbed generated molecules.
 
@@ -385,11 +271,11 @@ Feature importance analysis further reveals that approximately 50 descriptors co
 \newline
 \newline
 \noindent
-The GCN model achieves a mean MAE of approximately 0.16 eV for HOMO–LUMO gap prediction, with a consistently high $R^2$ of about 0.97 across all cross-validation folds (\Cref{tab:GCN}), indicating a balanced split. This performance improves upon a very recent GCN result reported for the PCQM4Mv2 dataset, where a MAE of around 0.20 eV was observed\parencite{hu2021ogblsc}, and is competitive with other GCN based approaches reporting MAEs of 0.14 eV\parencite{choi2022scalabletraininggraphconvolutional} and 0.12 eV\parencite{Therrien2025}. Although the present model does not surpass the best-performing architectures in the literature, the relatively small performance gap suggests that a standard 2D GCN can capture most of the relevant structure–property relationships governing the HOMO–LUMO gap. Overall, these results reinforce the effectiveness of graph convolutional networks for molecular electronic property prediction while highlighting that further gains likely require more expressive models or additional structural information.
+The GCN model achieves a mean MAE of approximately 0.16 eV for HOMO-LUMO gap prediction, with a consistently high $R^2$ of about 0.97 across all cross-validation folds (\Cref{tab:GCN}), indicating a balanced split. This performance improves upon a very recent GCN result reported for the PCQM4Mv2 dataset, where a MAE of around 0.20 eV was observed\parencite{hu2021ogblsc}, and is competitive with other GCN based approaches reporting MAEs of 0.14 eV\parencite{choi2022scalabletraininggraphconvolutional} and 0.12 eV\parencite{Therrien2025}. Although the present model does not surpass the best-performing architectures in the literature, the relatively small performance gap suggests that a standard 2D GCN can capture most of the relevant structure–property relationships governing the HOMO–LUMO gap. Overall, these results reinforce the effectiveness of graph convolutional networks for molecular electronic property prediction while highlighting that further gains likely require more expressive models or additional structural information.
 \newline
 \newline
 \noindent
-Although prior work has shown that deep-learning models do not consistently outperform non-deep models for molecular property prediction\parencite{NEURIPS2023_cc83e973}, our results show that the GCN attains comparable accuracy to that of the LightGBM model. While the GCN model learns chemically meaningful structural relationships through a graph, the LightGBM model uses descriptors of the molecule to learn mappings between these features and the target property. Rather than clearly favoring one approach over the other, our findings suggest that deep-learning and traditional models address the the prediction of HOMO-LUMO gap from complementary perspectives while achieving similar overall performance. A more comprehensive comparison across a wider range of models and datasets, similar to the analysis in \textcite{NEURIPS2023_cc83e973} but focused specifically on HOMO–LUMO gap prediction, would help clarify the relative advantages of traditional versus deep-learning approaches for this specific task.
+Although prior work has shown that deep-learning models do not consistently outperform non-deep models for molecular property prediction\parencite{NEURIPS2023_cc83e973}, our results show that the GCN attains comparable accuracy to that of the LightGBM model. While the GCN model learns chemically meaningful structural relationships through a graph, the LightGBM model uses descriptors of the molecule to learn mappings between these features and the target property. Rather than clearly favoring one approach over the other, our findings suggest that deep-learning and traditional models address the the prediction of HOMO-LUMO gap from complementary perspectives while achieving similar overall performance. A more comprehensive comparison across a wider range of models and datasets, similar to the analysis in \textcite{NEURIPS2023_cc83e973} but focused specifically on HOMO-LUMO gap prediction, would help clarify the relative advantages of traditional versus deep-learning approaches for this specific task.
 
 \subsection{Molecular Generation with cVAE}
 
@@ -419,7 +305,97 @@ In this work, a conditional variational autoencoder was developed to generate mo
 
 \appendix
 
-\section{cVAE Hyperparameters}
+\section{Evaluation metrics}
+
+\begin{equation}\label{eq:MAE}
+  MAE = \frac{1}{N}\sum^{N}\vert y_{pred}-y_{true} \vert
+\end{equation}
+
+\begin{equation}\label{eq:RMSE}
+  RMSE = \sqrt{\frac{1}{N}\sum^{N} (y_{pred}-y_{true})^{2}}
+\end{equation}
+
+\begin{equation}\label{eq:R2}
+  R^2 = 1 - \frac{\sum^{N} (y_{true}-y_{pred})^{2}}{\sum^{N} (y_{true}-\bar{y})^{2}}
+\end{equation}
+
+\begin{equation}\label{eq:CRA}
+  \overline{CRA} = \frac{1}{N} \sum_{n=1}^{N} \frac{1}{T_n} \sum_{t=1}^{T_n} \mathbf{1} (\hat{x}_{n,t} = x_{n,t})
+\end{equation}
+
+with $N$ the total number of test molecules and $T_n$ the number of characters per SMILES string.
+
+\begin{equation}\label{eq:validity}
+  Validity = \frac{1}{n_{trials}} \sum_{i=1}^{n_{trials}} \mathbf{1} (isValid(\hat{x}_{i}))
+\end{equation}
+
+
+\section{LightGBM}
+
+\begin{table}[H]
+\caption{LightGBM : mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO-LUMO gaps per outer fold. Mean values across all five folds are also reported.}
+\label{tab:LightGBM}
+\centering
+\small
+\setlength{\tabcolsep}{16pt}   % column padding
+\renewcommand{\arraystretch}{1.5} % row height
+\begin{tabular}{|l|c|c|c|}
+\hline
+ & MAE (eV) & RMSE (eV) & $R^2$ \\ \hline
+Outer Fold 1 & 0.1417 & 0.2160 & 0.9715\\ \hline
+Outer Fold 2 & 0.1408 & 0.2122 & 0.9727 \\ \hline
+Outer Fold 3 & 0.1411 & 0.2200 & 0.9705 \\ \hline
+Outer Fold 4 & 0.1430 & 0.2183 & 0.9709 \\ \hline
+Outer Fold 5 & 0.1423 & 0.2227 & 0.9696 \\ \hline
+Mean & 0.14 & 0.22 & 0.97 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/LightGBM_R2.png}
+    \caption{Predicted vs true HOMO-LUMO gap for all 5 outer folds together of the LigthGBM model.}
+    \label{fig:LightGBM_R2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/LightGBM_features.png}
+    \caption{The top 20 most important features across the 5 outer folds where the error bar reflect variability across folds.}
+    \label{fig:LightGBM_features}
+\end{figure}
+
+\section{GCN}
+
+\begin{table}[H]
+\caption{GCN: Mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between predicted and target HOMO-LUMO gaps per outer fold. Mean values across all five folds are also reported.}
+\label{tab:GCN}
+\centering
+\small
+\setlength{\tabcolsep}{16pt}   % column padding
+\renewcommand{\arraystretch}{1.5} % row height
+\begin{tabular}{|l|c|c|c|}
+\hline
+ & MAE (eV) & RMSE (eV) & $R^2$ \\ \hline
+Outer Fold 1 & 0.1677 & 0.2403 & 0.9646 \\ \hline
+Outer Fold 2 & 0.1585 & 0.2280 & 0.9682 \\ \hline
+Outer Fold 3 & 0.1567 & 0.2255 & 0.9690 \\ \hline
+Outer Fold 4 & 0.1586 & 0.2231 & 0.9697 \\ \hline
+Outer Fold 5 & 0.1587 & 0.2299 & 0.9679 \\ \hline
+Mean & 0.16 & 0.23 & 0.97 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/GCN_R2.png}
+    \caption{Predicted vs true HOMO-LUMO gap for all 5 outer folds of the GCN model.}
+    \label{fig:GCN_R2}
+\end{figure}
+
+\section{cVAE}
+
+\subsection{Hyperparameters}
 
 \begin{table}[H]
 \centering
@@ -444,7 +420,23 @@ $\#$epochs & 15 & 15 & 15 & 15 & 15 \\ \hline
 \end{tabular}
 \end{table}
 
-\section{cVAE results}
+\subsection{Results}
+
+\begin{table}[H]
+\centering
+\caption{The average character-wise reconstruction accuracy, as calculated by \cref{eq:CRA}, of the test set per outer fold of the cross-validation.}
+\label{tab:CRA}
+\begin{tabular}{|c|c|}
+\hline
+ & $\overline{CRA}$ \\ \hline
+Outer fold 1 & 0.842 \\ \hline
+Outer fold 2 & 0.840 \\ \hline
+Outer fold 3 & 0.871 \\ \hline
+Outer fold 4 & 0.846 \\ \hline
+Outer fold 5 & 0.863 \\ \hline
+Mean & 0.852 \\ \hline
+\end{tabular}
+\end{table}
 
 \begin{table}[H]
 \centering
@@ -466,6 +458,24 @@ Molecule & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap MAE\\ 
 10 & \multicolumn{1}{c|}{0.061} & 0.850 & \multicolumn{1}{c|}{0.042} & 0.369 \\ \hline
 \end{tabular}
 \end{table}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/avg_validity.png}
+    \caption{The average validity for both 10 randomly sampled latent vectors and 10 perturbed latent vectors with their respective 95\% confidence intervals.}
+    \label{fig:validity}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/cvae_maes.png}
+    \caption{The MAEs of the valid generated molecules for each of the 10 random and 10 perturbed samples.}
+    \label{fig:cvae_maes}
+  \end{subfigure}
+  \caption{A visual representation of the data from \cref{tab:cvae_samples}.}
+\end{figure}
 
 \begin{figure}[H]
   \centering
