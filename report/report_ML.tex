@@ -104,13 +104,11 @@ Experimentally, HOMO-LUMO gaps are typically estimated using optical spectroscop
 \newline
 \newline
 \noindent
-Machine learning provides an efficient alternative by enabling rapid prediction of electronic properties\parencite{Hasan2025}. Crucially, large-scale quantum-chemical datasets like QM9, contain extensive information about molecular structures and properties of organic molecules, enabling the development and benchmarking of ML models with the data volume required for robust learning. Beyond property prediction, ML also enables generative molecular design, allowing in silico exploration and optimization of hypothetical molecules, thereby reducing experimental cost and accelerating molecular discovery.
+Machine learning provides an efficient alternative by enabling rapid prediction of electronic properties\parencite{Hasan2025}. Crucially, large-scale quantum-chemical datasets like QM9, contain extensive information about molecular structures and properties of organic molecules, enabling the development and benchmarking of ML models with the data volume required for robust learning. Beyond property prediction, machine learning also enables generative molecular design, allowing in silico exploration and optimization of hypothetical molecules, thereby reducing experimental cost and accelerating molecular discovery.
 \newline
 \newline
 \noindent
-In this study, we pursue two objectives. First, we build predictive models for HOMO-LUMO gap estimation using both Light Gradient Boosting Model (LightGBM), a high-performance gradient boosting framework and a graph convolutional network (GCN) that learns molecular representations directly from graph topology. Second, we integrate the GCN into a conditional variational autoencoder (cVAE) to generate novel molecular structures with user-specified target HOMO-LUMO gaps. This combined framework enables both accurate property prediction and inverse molecular design.
-
-\textcolor{purple}{NEED TO ADD A PART ABOUT OUR RESULTS}
+In this work, we develop a unified framework for HOMO-LUMO gap prediction and inverse molecular design. We first construct predictive models using a descriptor-based LightGBM approach and a graph convolutional network (GCN) that learns directly from molecular graph topology, achieving comparable accuracy and demonstrating the complementary strengths of traditional ensemble methods and graph-based deep learning. Building on the GCN, we further explore conditional molecular generation by integrating it into a conditional variational autoencoder (cVAE) to generate molecules targeting specified HOMO-LUMO gaps. While the predictive models demonstrate strong performance and generalization, the generative results highlight persistent challenges in achieving reliable property control and valid molecular generation, underscoring the need for improved training strategies, more expressive latent representations, and more effective decoding mechanisms.
 
 \section{Related work}
 % In the related work section, you briefly describe which other papers have performed research on the same topic as you. Try to explain what the differences are between your research and theirs. You can cite papers like this: \parencite{chow:68}. If you use the citation
@@ -350,7 +348,7 @@ Mean & 0.852 \\ \hline
 Beyond reconstruction performance, the primary metric of interest is the generative capability of the cVAE. Using the best-performing trained model (outer fold 3), the chemical validity of molecules generated from both randomly sampled latent vectors and perturbed latent vectors is evaluated (\cref{fig:validity} and \cref{tab:cvae_samples}). Across the ten sampled target molecules in each experimental pathway, the average validity is low and comparable between the two sampling strategies, with no clear advantage observed for either method.
 \newline
 \newline
-For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. For both sampling methods, the perturbed and random latent sampling methods yield MAE values that are considerably larger than the errors reported for the standalone GCN model, meaning there is a significant difference between the target and generated HOMO-LUMO gap.
+For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{fig:cvae_maes,tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. For both sampling methods, the perturbed and random latent sampling methods yield MAE values that are considerably larger than the errors reported for the standalone GCN model, meaning there is a significant difference between the target and generated HOMO-LUMO gap.
 
 \begin{figure}[H]
   \centering
@@ -455,7 +453,7 @@ $\#$epochs & 15 & 15 & 15 & 15 & 15 \\ \hline
 \begin{tabular}{|c|cc|cc|}
 \hline
  & \multicolumn{2}{c|}{Random samples} & \multicolumn{2}{c|}{Perturbed samples} \\ \hline
- & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap\\ MAE\end{tabular} \\ \hline
+ & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap MAE\\ (eV)\end{tabular} & \multicolumn{1}{c|}{Validity} & \begin{tabular}[c]{@{}c@{}}gap MAE\\ (eV)\end{tabular} \\ \hline
 1 & \multicolumn{1}{c|}{0.066} & 0.605 & \multicolumn{1}{c|}{0.042} & 0.918 \\ \hline
 2 & \multicolumn{1}{c|}{0.054} & 0.543 & \multicolumn{1}{c|}{0.018} & 0.926 \\ \hline
 3 & \multicolumn{1}{c|}{0.048} & 0.886 & \multicolumn{1}{c|}{0.045} & 0.620 \\ \hline
