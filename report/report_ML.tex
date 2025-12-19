@@ -28,7 +28,7 @@
 \usepackage{wrapfig}
 % \usepackage[numbers, super, sort&compress]{natbib}
 \usepackage[capitalise]{cleveref}
-\usepackage[table,xcdraw]{xcolor} % Voor kleurgebruik in tabelle
+\usepackage[table,xcdraw]{xcolor} % Voor kleurgebruik in tabellen
 \usepackage{siunitx}
 \usepackage{url}
 \usepackage{pdfpages}
@@ -81,13 +81,7 @@
 \maketitle
 
 \begin{abstract}
-  Accurate predictions of molecular electronic properties such as the HOMO–LUMO gap and inverse design of molecules based on such properties are critical for materials discovery and molecular engineering, but remain costly and time consuming with experimental methods and computationally expensive with quantum-chemical methods. While machine learning has gained increased relevance in such applications as a less expensive alternative, modern models still fail to reliably produce chemically viable results. In this study, we benchmark a LightGBM model against a GCN model for property prediction and a VAE-based model for molecular design. Our results show that the LightGBM and GCN model achieve comparable HOMO-LUMO gap prediction performance, while the VAE model shows good reconstruction capabilities, but limited chemical validity and property control for the generation of new molecules.
-  \textcolor{purple}{Only need to add one sentence for \textbf{Outlook}Rewrite abstract to only contain 5 sentences:}
-  \textbf{Context:}
-  \textbf{Problem:}
-  \textbf{Solution:}
-  \textbf{Results:}
-  \textbf{Outlook:}
+  Accurate predictions of molecular electronic properties such as the HOMO–LUMO gap and inverse design of molecules based on such properties are critical for materials discovery and molecular engineering, but remain costly and time consuming for experimental methods and computationally expensive for quantum-chemical methods. While machine learning has gained increased relevance in such applications as a less expensive alternative, modern models still fail to reliably produce chemically viable results. In this study, we benchmark a LightGBM model against a GCN model for property prediction and a VAE-based model for molecular design. Our results show that the LightGBM and GCN model achieve comparable HOMO-LUMO gap prediction performance, while the VAE model shows good reconstruction capabilities, but limited chemical validity and property control for the generation of new molecules. A more extensive comparison between traditional and deep-learning approaches for HOMO–LUMO gap prediction could better identify the most effective architecture, while further refinements of the cVAE model are necessary to reliably generate molecules from target HOMO–LUMO gaps.
 \end{abstract}
 
 \section{Introduction}
@@ -108,7 +102,7 @@ Machine learning provides an efficient alternative by enabling rapid prediction 
 \newline
 \newline
 \noindent
-In this work, we develop a unified framework for HOMO-LUMO gap prediction and inverse molecular design. We first construct predictive models using a descriptor-based LightGBM approach and a graph convolutional network (GCN) that learns directly from molecular graph topology, achieving comparable accuracy and demonstrating the complementary strengths of traditional ensemble methods and graph-based deep learning. Building on the GCN, we further explore conditional molecular generation by integrating it into a conditional variational autoencoder (cVAE) to generate molecules targeting specified HOMO-LUMO gaps. While the predictive models demonstrate strong performance and generalization, the generative results highlight persistent challenges in achieving reliable property control and valid molecular generation, underscoring the need for improved training strategies, more expressive latent representations, and more effective decoding mechanisms.
+In this work, we develop a unified framework for HOMO-LUMO gap prediction and inverse molecular design. We first construct predictive models using a descriptor-based LightGBM approach and a graph convolutional network (GCN) that learns directly from molecular graph topology, achieving comparable accuracy and demonstrating the complementary strengths of traditional ensemble methods and graph-based deep learning. Building on the GCN, we further explore conditional molecular generation by integrating it into a conditional variational autoencoder (cVAE) to generate molecules targeting specified HOMO-LUMO gaps. The predictive models demonstrate similar performances, indicating towards the need for a more extensive comparison of traditional versus deep-learning models. The generative results highlight persistent challenges in achieving reliable property control and valid molecular generation, underscoring the need for improved training strategies, more expressive latent representations, and more effective decoding mechanisms.
 
 \section{Related work}
 % In the related work section, you briefly describe which other papers have performed research on the same topic as you. Try to explain what the differences are between your research and theirs. You can cite papers like this: \parencite{chow:68}. If you use the citation
@@ -122,7 +116,7 @@ In this context, LightGBM is adopted in the present work due to its proven effec
 \newline
 \newline
 \noindent
-Graph neural networks (GNNs) have emerged as a powerful tool to predict molecular properties from graph representations of molecular structures. As  there is still a lack of 3D graph-based and 3D grid-based methods for molecular property prediction\parencite{LI2022103373}, we will focus on a 2D graph-based model. One such model that is common for molecular property predicted, but also specifically for HOMO-LUMO prediction, is the graph convolutional network (GCN)\parencite{NEURIPS2023_cc83e973,choi2022scalabletraininggraphconvolutional,Therrien2025}.
+Graph neural networks (GNNs) have emerged as a powerful tool to predict molecular properties from graph representations of molecular structures. As  there is still a lack of 3D graph-based and 3D grid-based methods for molecular property prediction\parencite{LI2022103373}, we will focus on a 2D graph-based model. One such model that is common for molecular property predicted, but also specifically for HOMO-LUMO gap prediction, is the graph convolutional network (GCN)\parencite{NEURIPS2023_cc83e973,choi2022scalabletraininggraphconvolutional,Therrien2025}.
 \newline
 \newline
 \noindent
@@ -130,7 +124,7 @@ Graph neural networks (GNNs) have emerged as a powerful tool to predict molecula
 \newline
 \newline
 \noindent
-In the context of generative models, variational autoencoders (VAEs) have emerged as a standard framework for de novo molecular design\parencite{walters_2021}. One of the more recent influential works is done by \textcite{bombarelli_2018} applied VAEs to construct a continuous and differentiable latent space from SMILES representations of molecules, enabling gradient-based optimization of molecular properties using a Gaussian process. This approach has inspired numerous subsequent studies \parencite{blaschke_2018,Yoshikai2024,kusner_2017}. Notably, \textcite{lim_2018} introduced a conditional VAE framework for property-controlled molecular generation, demonstrating the advantages of incorporating molecular property information into the encoding process and manipulating it during decoding. However, many studies have highlighted limitations of SMILES-based representations, suggesting that graph-based encoders and decoders better capture molecular structure and improve the validity of generated molecules. These findings motivate the graph-based generative approach adopted in our work.
+In the context of generative models, variational autoencoders (VAEs) have emerged as a standard framework for de novo molecular design\parencite{walters_2021}. \textcite{bombarelli_2018} applied VAEs to construct a continuous and differentiable latent space from SMILES representations of molecules, enabling gradient-based optimization of molecular properties using a Gaussian process. This approach has inspired numerous subsequent studies \parencite{blaschke_2018,Yoshikai2024,kusner_2017}. Notably, \textcite{lim_2018} introduced a conditional VAE framework for property-controlled molecular generation, demonstrating the advantages of incorporating molecular property information into the encoding process and manipulating it during decoding. However, many studies have highlighted limitations of SMILES-based representations, suggesting that graph-based encoders and decoders better capture molecular structure and improve the validity of generated molecules. These findings motivate the graph-based generative approach adopted in our work.
 
 \section{Methodology}
 % In this section, explain in detail what you did. Mention exactly what techniques you used, how you implemented everything, what experiments you performed, \dots This section should contain enough detail so that someone else can completely repeat your research.
@@ -138,7 +132,7 @@ In the context of generative models, variational autoencoders (VAEs) have emerge
 The source code for this project is available on Github\parencite{ThiboVE_project_machine_learning}.
 
 \subsection{Dataset}
-For all models in this study, we used the QM9 dataset\parencite{PyG_QM9}, a widely adopted quantum chemistry dataset comprising 130,831 small organic molecules with associated properties, including the HOMO--LUMO gap. Only molecules with valid SMILES representations were retained, leaving 129,012 molecules, can be seen in \cref{fig:gap_distribution}. SMILES (Simplified Molecular Input Line Entry System) is a text-based notation that encodes chemical structures as ASCII strings, enabling efficient computational processing; for example, benzene is represented as \texttt{C1=CC=CC=C1}. While SMILES strings can be interpreted by computers, they are not directly suitable as input for most machine learning models, which require numerical representations. Consequently, preprocessing is necessary to transform molecular structures into informative, fixed-length numerical features suitable for model training.
+For all models in this study, we used the QM9 dataset\parencite{PyG_QM9}, a widely adopted quantum chemistry dataset comprising 130,831 small organic molecules with associated properties, including the HOMO--LUMO gap. Only molecules with valid SMILES representations were retained, leaving 129,012 molecules, as can be seen in \cref{fig:gap_distribution}. SMILES (Simplified Molecular Input Line Entry System) is a text-based notation that encodes chemical structures as ASCII strings, enabling efficient computational processing; for example, benzene is represented as \texttt{C1=CC=CC=C1}. While SMILES strings can be interpreted by computers, they are not directly suitable as input for most machine learning models, which require numerical representations. Consequently, preprocessing is necessary to transform molecular structures into informative, fixed-length numerical features suitable for model training.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{img/bandgap_distribution_dataset.png}
@@ -167,7 +161,9 @@ The splits were stratified based on the distribution of the HOMO-LUMO gap values
 \subsection{Evaluation metrics}\label{sec:evalmetrics}
 
 Since both the LightGBM and GCN models are used to predict HOMO-LUMO gaps and are directly compared, the same evaluation metrics are applied to both. Commonly used metrics for HOMO-LUMO gap prediction include the mean absolute error (MAE, \cref{eq:MAE}), root mean squared error (RMSE, \cref{eq:RMSE}), and the coefficient of determination ($R^2$, \cref{eq:R2}) between the predicted and true HOMO-LUMO gaps.
-
+\newline
+\newline
+\noindent
 The cVAE model performance is evaluated using the average character-level reconstruction accuracy ($\overline{CRA}$, \cref{eq:CRA}), the chemical validity of newly generated SMILES strings using RDKit (\cref{eq:validity}), and the agreement between the target HOMO-LUMO gap and the GCN-predicted gap of the generated molecules, quantified using MAE. Each metric is calculated as
 
 \subsection{LightGBM}
@@ -229,8 +225,8 @@ For each experimental pathway, ten molecules with distinct target HOMO-LUMO gaps
 
 \section{Results}
 % Here you describe the results you obtained. This is not just a big data dump where you put all the numbers into one big table. Try to point out patterns or striking things in your results. Think about how you can visualize the results so that a reader, who has not conducted your research themselves, can quickly understand what your results mean.
-\subsection{LightGBM}
-\label{sec:lightgbm}
+\subsection{LightGBM}\label{sec:lightgbm}
+\noindent
 For the performance of the model we first looked to the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap which are calculated for each outer cross-validation fold. These results are shown in \cref{tab:LightGBM} and \cref{fig:LightGBM_R2}. We see that the values for the different metrics does not change much with each fold which is in line whit the chosen stratified splits. The mean MAE of 0.1418 eV is in line with the work of \textcite{Hasan2025}. 
 \newline
 \newline
@@ -243,17 +239,22 @@ Overall, feature importance shows a gradual decay, with approximately the top te
 
 \subsection{GCN}
 
-Just as for the LightGBM model, the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap were determined for the GCN model. All evaluation metrics of the GCN model (\Cref{tab:GCN}) have slightly higher values than those of the LightGBM model (\Cref{tab:LightGBM}). The consistent appearance of the same group of outliers across all outer folds (upper left half of each $R^2$ plot in \Cref{fig:GCN_R2}) indicates that the stratified outer cross-validation split was balanced.
+Just as for the LightGBM model, the mean absolute error (MAE), root mean square error (RMSE), and $R^2$ between the predicted and true HOMO-LUMO gap were determined for the GCN model. The RMSE of 0.23 eV indicates that he model can still make large errors relative to the MAE of 0.16 eV (\Cref{tab:GCN}). All evaluation metrics of the GCN model have slightly higher values than those of the LightGBM model (\Cref{tab:LightGBM}). The consistent appearance of the same group of outliers across all outer folds (upper left half of each $R^2$ plot in \Cref{fig:GCN_R2}) indicates that the stratified outer cross-validation split was balanced.
 
 \subsection{cVAE}
 
 The reconstruction performance of the cVAE model, quantified by the average character-wise reconstruction accuracy $\overline{CRA}$, across the five outer cross-validation folds is reported in \cref{tab:CRA}. The model achieves an overall mean reconstruction accuracy of 0.852, indicating that it is generally capable of accurately reconstructing individual molecules. Notably, outer folds three and five exhibit substantially higher reconstruction accuracies than the remaining folds. This improvement can be attributed to more favorable hyperparameter configurations identified during their respective tuning procedures (\cref{tab:cvae_params}), in particular a higher learning rate, a larger GRU hidden dimension, and a lower $\beta$ parameter.
-
+\newline
+\newline
+\noindent
 Beyond reconstruction performance, the primary metric of interest is the generative capability of the cVAE. Using the best-performing trained model (outer fold 3), the chemical validity of molecules generated from both randomly sampled latent vectors and perturbed latent vectors is evaluated (\cref{fig:validity} and \cref{tab:cvae_samples}). Across the ten randomly sampled target molecules, validities are obtained between $1.1\%$ and $6.6\%$ with an average of $4.5\%$ while for the perturbed samples, equally low validities are obtained between $1.8\%$ and $6.1\%$ with an average of $4.2\%$.
 \newline
 \newline
+\noindent
 For each target molecule, the mean absolute error (MAE) between the HOMO-LUMO gaps predicted by the GCN model and the corresponding target gaps used to condition the cVAE (\cref{section:cvae_method}) is computed and reported in \cref{fig:cvae_maes,tab:cvae_samples}. It is important to note that this MAE is calculated per molecule and depends on the number of valid generations, as only valid molecules contribute to the error calculation. Consequently, the validity indirectly influences the MAE. The perturbed and random latent sampling methods yield MAEs averaging on 0.739 eV and 0.763 eV respectively. For both methods, that is considerably larger than the errors reported for the standalone GCN model, meaning there is a significant difference between the target and generated HOMO-LUMO gap.
-
+\newline
+\newline
+\noindent
 To further explore the perturbed latent space vectors, we visualize the generated chemical structures to assess how effectively the cVAE can produce molecules with the same HOMO-LUMO gap while exhibiting slight structural variations. \Cref{fig:genmol1,fig:genmol5,fig:genmol10} present three starting molecules alongside four of their respective perturbed generated molecules.
 
 
@@ -275,29 +276,28 @@ The GCN model achieves a mean MAE of approximately 0.16 eV for HOMO-LUMO gap pre
 \newline
 \newline
 \noindent
-Although prior work has shown that deep-learning models do not consistently outperform non-deep models for molecular property prediction\parencite{NEURIPS2023_cc83e973}, our results show that the GCN attains comparable accuracy to that of the LightGBM model. While the GCN model learns chemically meaningful structural relationships through a graph, the LightGBM model uses descriptors of the molecule to learn mappings between these features and the target property. Rather than clearly favoring one approach over the other, our findings suggest that deep-learning and traditional models address the the prediction of HOMO-LUMO gap from complementary perspectives while achieving similar overall performance. A more comprehensive comparison across a wider range of models and datasets, similar to the analysis in \textcite{NEURIPS2023_cc83e973} but focused specifically on HOMO-LUMO gap prediction, would help clarify the relative advantages of traditional versus deep-learning approaches for this specific task.
+Although prior work has shown that deep-learning models do not consistently outperform non-deep models for molecular property prediction\parencite{NEURIPS2023_cc83e973}, our results show that the GCN attains comparable accuracy to that of the LightGBM model. While the GCN model learns chemically meaningful structural relationships through a graph, the LightGBM model uses descriptors of the molecule to learn mappings between these features and the target property. Rather than clearly favoring one approach over the other, our findings suggest that deep-learning and traditional models address the the prediction of HOMO-LUMO gap from different perspectives while achieving similar overall performance. A more comprehensive comparison across a wider range of models and datasets, similar to the analysis in \textcite{NEURIPS2023_cc83e973} but focused specifically on HOMO-LUMO gap prediction, would help clarify the relative advantages of traditional versus deep-learning approaches for this specific task.
 
 \subsection{Molecular Generation with cVAE}
 
 The cVAE model achieves a mean character-wise reconstruction accuracy of $\overline{CRA} = 0.852$ (\cref{tab:CRA}). While reconstruction accuracies for cVAEs on the exact same dataset are not available, \textcite{blaschke_2018} report 0.862 with teacher forcing (0.963 without) for a standard VAE, and \textcite{mollaysa_2024} achieved 0.961 with a Transformer VAE. These results show that our cVAE performs just below literature standard, however, our limited hyperparameter tuning suggests further improvements are possible.
 \newline
 \newline
+\noindent
 Despite this reconstruction performance, the chemical validity of both the randomly sampled and perturbed generated molecules is low and comparable (\cref{fig:validity}), which is surprising given prior work showing that local latent sampling often increases validity \parencite{lim_2018}. A likely contributing factor to the overall low validity is the high teacher forcing ratio employed during training (\cref{tab:cvae_params}), which improves reconstruction by conditioning the decoder on ground-truth tokens but reduces its robustness during free generation. Consequently, the model learns to reconstruct known sequences well but struggles to generate valid novel molecules when sampled freely.
 \newline
 \newline
+\noindent
 In addition, the model struggles to generate molecules closely resembling structures from the dataset (\cref{fig:genmol1,fig:genmol5,fig:genmol10}). Although the model captures certain chemical motifs, such as the ring structures observed in \cref{fig:genmol10}, these patterns are not consistently preserved across the generated samples. This contrasts \textcite{lim_2018} and \textcite{bombarelli_2018}, who reported structurally similar generated molecules. The lack of structural preservation observed here suggests that the learned latent space does not encode fine-grained molecular structure and a deeper analysis of the quality of the latent space is required to find the origin of this issue.
 \newline
 \newline
+\noindent
 Finally, the large mean absolute errors observed for the HOMO-LUMO gaps of generated molecules further indicate limited conditional control (\cref{tab:cvae_samples,fig:cvae_maes}). The errors are substantially larger than those reported in literature \parencite{bombarelli_2018}, highlighting that the conditional encoding is insufficient to reliably enforce target electronic properties, especially given low chemical validity.
 
-\section{\textcolor{purple}{Conclusion}}
-
+\section{Conclusion}
 % Here, you summarize your research and the conclusions you draw from it. Also mention what shortcomings you see in your research. Perhaps there are still certain experiments you would have liked to have done, but didn't have time to do? Think about what steps someone could take to move your research forward.
-\noindent
-From a predictive modeling perspective, the LightGBM approach demonstrated strong and reliable performance for HOMO--LUMO gap estimation. By leveraging RDKit-based molecular descriptors and Bayesian hyperparameter optimization with Optuna, the model achieved a mean absolute error of 0.14~eV and an $R^2$ of 0.97, which is competitive with, and in some cases superior to, recent literature results \parencite{Hasan2025}. The stability of the performance across cross-validation folds and the consistency of feature importance rankings indicate that the model captures robust structure-property relationships rather than overfitting to specific subsets of the data. Furthermore, the dominance of topological and electronic descriptors among the most influential features highlights the physical relevance of the learned mappings. These results confirm that well-tuned, descriptor-based ensemble models such as LightGBM remain highly effective baselines for molecular electronic property prediction, particularly when large, high-quality datasets are available.
-\newline
-\newline
-In this work, a conditional variational autoencoder was developed to generate molecular SMILES conditioned on the HOMO-LUMO gap. While the model achieved a reasonable reconstruction accuracy of 0.852, the generated molecules exhibited low chemical validity, limited structural similarity to source molecules and large deviations from the target HOMO-LUMO gaps. Further improvements should focus on increasing the reconstruction accuracy through more extensive hyperparameter tuning, enhancing generative robustness by, among other factors, more careful handling of the teacher forcing ratio, and systematically assessing the quality of the learned latent space using methods proposed in prior work \parencite{bombarelli_2018,lim_2018}. Future research should also explore improving the encoder architecture and replacing the SMILES-based decoder with a graph-based decoder, which could explicitly address graph isomorphism and prevent the generation of strings that do not correspond to valid molecular graphs \parencite{bombarelli_2018}.
+
+The LightGBM model achieved the best predictive performance with a mean MAE of about 0.14 eV and an $R^2$ of 0.97, while the GCN reached a slightly higher MAE of roughly 0.16 eV but an equally strong $R^2$ of 0.97, indicating that both models reliably capture the HOMO–LUMO gap with comparable accuracy. The close agreement between LightGBM and GCN highlights that descriptor-based gradient boosting and graph-based deep learning offer distinct yet similarly effective predictions of the HOMO-LUMO gap. The cVAE demonstrated solid reconstruction performance (CRA = 0.85), but its generative results revealed low chemical validity and large errors in conditioned HOMO–LUMO gaps, pointing to limited control over property-targeted molecular generation. These findings suggest that while the cVAE learns coarse molecular patterns, its latent space does not yet encode sufficiently detailed structural and electronic information to support reliable conditional generation. Improving generative validity and conditional accuracy will likely require refined training strategies, richer molecular representations, and more expressive architectures, while predictive modeling could benefit from broader benchmarking across different datasets and models.
 
 \section{Disclaimers}
 % If you used ChatGPT or other LLMs to do your research and/or write your text, please mention that here. If you used such tools for your research itself, please also mention the prompts you used. Don't be afraid that we will give you a lower grade because you used an LLM. We won't.
